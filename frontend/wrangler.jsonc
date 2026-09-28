@@ -1,0 +1,14 @@
+{
+	// Cloudflare Pages now runs on the Workers static-assets runtime, which auto-strips
+	// .html/index from URLs — that made the classic `_redirects` SPA catch-all
+	// (`/* /index.html 200`) get flagged as an infinite loop and ignored. This is the
+	// current supported way to get the same behaviour: serve index.html with a 200 for
+	// any route Angular's client-side router owns (e.g. a direct reload of
+	// /practice/fretboard-trainer) instead of a 404.
+	"name": "fretlab-frontend",
+	"compatibility_date": "2026-09-28",
+	"assets": {
+		"directory": "./dist/fretlab-frontend/browser",
+		"not_found_handling": "single-page-application"
+	}
+}

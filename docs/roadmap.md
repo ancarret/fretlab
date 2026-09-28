@@ -295,9 +295,14 @@ trusting general knowledge, which is worth recording since it reversed real deci
   which removes the need for Angular's `baseHref` override entirely. It also has native GitHub
   integration that builds and deploys on every push by itself, so the custom
   `deploy-pages.yml` GitHub Actions workflow built for GitHub Pages was deleted rather than kept
-  unused. SPA routing fallback is a one-line `_redirects` file
-  (`frontend/public/_redirects` → `/* /index.html 200`) instead of GitHub Pages' `404.html` copy
-  trick.
+  unused. SPA routing fallback started as a one-line `_redirects` file
+  (`/* /index.html 200`), the standard approach for years — but Cloudflare Pages now runs on the
+  Workers static-assets runtime, which auto-strips `.html`/`index` from URLs and flags that rule as
+  an infinite loop, silently ignoring it (a real deploy log said so: "Found invalid redirect
+  lines... Infinite loop detected... has been ignored"). The current supported mechanism is
+  [`wrangler.jsonc`](../frontend/wrangler.jsonc) with `assets.not_found_handling:
+  "single-page-application"` instead — no `_redirects` file needed, and no custom Worker script
+  either, it stays assets-only.
 
 This is still a real architectural change from the Docker Compose deployment, not just "upload it
 somewhere": Compose puts nginx and Spring Boot behind one origin, so the backend's CORS allow-list
