@@ -60,12 +60,11 @@
                 }
               ]
             },
-            "github-pages": {
-              "baseHref": "/fretlab/",
+            "cloudflare-pages": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.github-pages.ts"
+                  "with": "src/environments/environment.cloudflare-pages.ts"
                 }
               ]
             }

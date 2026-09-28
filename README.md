@@ -27,47 +27,57 @@ lets you build the chord yourself, and tells you whether you got it right.
 
 ## Try it online
 
-**Not live yet.** The code, CI and deployment config are all ready and verified — what's left is
-three account-creation steps that only a human can do (no card needed for any of them):
+**Not live yet.** The code and deployment config are all ready and verified — what's left is three
+account-creation steps that only a human can do. Two need no card at all; Render (the backend) will
+likely ask for one as a fraud-verification hold, not an actual charge — that's an industry-wide
+pattern in 2026, not something specific to this project.
 
-- [x] Code pushed to GitHub, CI running on every push
-- [ ] GitHub Pages enabled (repo → **Settings → Pages → Source → GitHub Actions**)
-- [ ] Free PostgreSQL database created on [Supabase](https://supabase.com/) or [Neon](https://neon.tech/)
+- [x] Code pushed to GitHub
+- [ ] Frontend deployed on [Cloudflare Pages](https://pages.cloudflare.com/) (connected directly to
+      this repo, no card)
+- [ ] Free PostgreSQL database created on [Neon](https://neon.tech/) (no card)
 - [ ] Backend deployed on [Render](https://render.com/) (free web service, built from
-      [`render.yaml`](render.yaml))
+      [`render.yaml`](render.yaml); likely asks for a card as a refundable verification hold)
 
-The reasoning behind this exact three-way split — why not one host, why not Render's own free
-Postgres — is in
+The reasoning behind this exact three-way split, and why Neon specifically rather than Supabase
+(Supabase's direct connection — which Flyway needs — is IPv6-only unless you pay; Render has no
+outbound IPv6), is in
 [docs/roadmap.md#phase-15](docs/roadmap.md#phase-15--prepared-awaiting-accounts-only-the-user-can-create).
 
 | Service | Host | Note |
 | --- | --- | --- |
-| Frontend | GitHub Pages | Free, no time limit, no cold start |
+| Frontend | Cloudflare Pages | Free, unlimited bandwidth, no card, no cold start |
 | Backend | Render (free web service) | Sleeps after ~15 min idle; first request after that takes 30–50s |
-| Database | Supabase or Neon | Render's own free Postgres is deleted after 90 days — these aren't |
+| Database | Neon | Free Postgres with an IPv4-reachable direct connection (needed for Flyway) |
 
 **Setup, in order:**
 
-1. **Repository → Settings → Pages → Source → GitHub Actions.** The only manual step Pages needs;
-   [`deploy-pages.yml`](.github/workflows/deploy-pages.yml) already builds and publishes on every
-   push to `main` — check the **Actions** tab, it likely already ran once (on the first push) and
-   failed at the deploy step simply because Pages wasn't enabled yet. Once you flip this setting,
-   either push anything or re-run that failed job from the Actions tab.
-2. **Create a free Postgres database** on Supabase or Neon. Keep its connection URL, username and
-   password handy.
+1. **Create a free Postgres database on [Neon](https://neon.tech/).** Sign up (GitHub login works,
+   no card), create a project. Click **Connect**, choose **Java** from the connection-string
+   dropdown, and make sure **Connection pooling is OFF** — Flyway needs the direct connection, not
+   the pooled one. You'll get something like
+   `jdbc:postgresql://ep-xxxx.us-east-2.aws.neon.tech:5432/neondb?user=xxxx&password=xxxx`; split it
+   into the URL (without the `user`/`password` query params), the username, and the password —
+   you'll need those three separately in step 3.
+2. **Create a Cloudflare account → Workers & Pages → Create application → Pages → Connect to Git**,
+   authorize GitHub and pick this repository. Set the build command to
+   `npm run build:cloudflare-pages` (run from the `frontend` directory — set that as the root
+   directory in the project settings) and the build output directory to
+   `dist/fretlab-frontend/browser`. Cloudflare assigns a `https://fretlab.pages.dev`-style URL and
+   rebuilds automatically on every push — no GitHub Actions workflow needed for this part.
 3. **Create a Render account → New → Blueprint**, point it at this repository. Render reads
    [`render.yaml`](render.yaml) and creates the backend web service. When prompted, fill in:
-   - `FRETLAB_DB_URL` / `FRETLAB_DB_USERNAME` / `FRETLAB_DB_PASSWORD` — from step 2
-   - `FRETLAB_CORS_ALLOWED_ORIGINS` — `https://ancarret.github.io`
+   - `FRETLAB_DB_URL` / `FRETLAB_DB_USERNAME` / `FRETLAB_DB_PASSWORD` — from step 1
+   - `FRETLAB_CORS_ALLOWED_ORIGINS` — the exact `https://fretlab.pages.dev`-style URL Cloudflare
+     assigned in step 2
    - `FRETLAB_JWT_SECRET` — Render generates this automatically
 4. **If Render assigns a URL other than `fretlab-backend.onrender.com`** (that name is global and
    may already be taken), update it in
-   [environment.github-pages.ts](frontend/src/environments/environment.github-pages.ts) and push —
-   `deploy-pages.yml` rebuilds automatically.
+   [environment.cloudflare-pages.ts](frontend/src/environments/environment.cloudflare-pages.ts) and
+   push — Cloudflare rebuilds automatically.
 
-Once all three checkboxes above are ticked, the app is live at
-**`https://ancarret.github.io/fretlab/`** — that URL is fixed by the GitHub username and repo name,
-it doesn't change per step.
+Once all three checkboxes above are ticked, the app is live at whatever `https://*.pages.dev` URL
+Cloudflare assigned in step 2.
 
 ## The idea
 
@@ -125,8 +135,8 @@ Testcontainers.
 tokens, Vitest.
 
 **Infrastructure** — Locally: Docker Compose (nginx serving the Angular build and reverse-proxying
-`/api`, Spring Boot, PostgreSQL). Live: GitHub Pages, Render and a managed Postgres (Supabase or
-Neon) instead of the container — see [Try it online](#try-it-online).
+`/api`, Spring Boot, PostgreSQL). Live: Cloudflare Pages, Render and Neon (managed Postgres) instead
+of the container — see [Try it online](#try-it-online).
 
 ## Architecture
 

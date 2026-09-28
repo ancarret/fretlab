@@ -262,38 +262,56 @@ workflow file present will trigger it automatically.
 
 ## Phase 15 — prepared, awaiting accounts only the user can create
 
-**The constraint driving every choice here: free, indefinitely, no card required.** That rules out
-a single all-in-one host, because this is three services with different hosting needs — a static
-bundle, a long-running JVM process, and a stateful database — and the free tier that fits one of
-those rarely fits the other two.
+**The constraint driving every choice here: free, indefinitely, with as little friction as
+possible.** That rules out a single all-in-one host, because this is three services with different
+hosting needs — a static bundle, a long-running JVM process, and a stateful database — and the free
+tier that fits one of those rarely fits the other two. A same-cost VPS alternative was also priced
+out and rejected: checked directly against Contabo's and Netcup's current pricing pages rather than
+assumed, the cheapest reputable option lands around €5.50–8/month, not the €3 hoped for, and it
+trades zero recurring cost for real recurring cost plus server maintenance — not worth it against a
+free split that, once the choices below were corrected, has no cold-start-free-tier trap worth
+paying to avoid.
 
-**The split chosen:**
+**The split chosen, and what changed getting here:**
 
 | Service | Host | Why this one |
 | --- | --- | --- |
-| Frontend (static Angular build) | **GitHub Pages** | Free with no time limit and no cold start — it's just files |
+| Frontend (static Angular build) | **Cloudflare Pages** | Free, unlimited bandwidth, no card, no cold start, serves from the domain root |
 | Backend (long-running Spring Boot process) | **Render** (free web service) | Builds straight from the existing `backend/Dockerfile`, redeploys on every push |
-| Database (stateful PostgreSQL) | **Supabase or Neon** (free Postgres) | Render's own free Postgres is deleted after 90 days; these are not |
+| Database (stateful PostgreSQL) | **Neon** (free Postgres) | Direct connection is IPv4-reachable, which matters — see below |
 
-This is a real architectural change from the Docker Compose deployment, not just "upload it
+GitHub Pages was the original choice for the frontend and Supabase-or-Neon the original choice for
+the database; both changed after verifying claims against current provider documentation instead of
+trusting general knowledge, which is worth recording since it reversed real decisions:
+
+- **Neon over Supabase, not "either one."** Flyway (which runs the schema migrations at startup)
+  needs a direct, non-pooled connection — both providers' own docs say so, since a transaction-mode
+  pooler doesn't reliably support the session-level operations migrations depend on. Supabase's
+  direct connection is IPv6-only unless you pay for its IPv4 add-on, and Render has no outbound
+  IPv6 — that combination would have made migrations fail on first deploy. Neon's direct connection
+  is IPv4-reachable by default, so it was switched to before any Supabase-specific code existed.
+- **Cloudflare Pages over GitHub Pages.** Functionally similar, but Cloudflare serves from the
+  project's own root domain (`fretlab.pages.dev`) rather than a `username.github.io/repo/` subpath,
+  which removes the need for Angular's `baseHref` override entirely. It also has native GitHub
+  integration that builds and deploys on every push by itself, so the custom
+  `deploy-pages.yml` GitHub Actions workflow built for GitHub Pages was deleted rather than kept
+  unused. SPA routing fallback is a one-line `_redirects` file
+  (`frontend/public/_redirects` → `/* /index.html 200`) instead of GitHub Pages' `404.html` copy
+  trick.
+
+This is still a real architectural change from the Docker Compose deployment, not just "upload it
 somewhere": Compose puts nginx and Spring Boot behind one origin, so the backend's CORS allow-list
 stays empty (ADR-6) and the frontend calls a relative `/api` path. Split across three hosts, the
 frontend and backend are different origins, so both sides of that same-origin trick had to be
 undone:
 
 - **`FRETLAB_CORS_ALLOWED_ORIGINS`** — already an environment variable, so no code changed; it just
-  gets set to the GitHub Pages origin when the Render service is configured.
+  gets set to the Cloudflare Pages origin when the Render service is configured.
 - **API base URL** — [environment.ts](../frontend/src/environments/environment.ts) hardcodes the
   relative `/api` path the Compose deployment relies on. A third environment,
-  [environment.github-pages.ts](../frontend/src/environments/environment.github-pages.ts), supplies
-  the Render service's absolute URL instead, wired to a matching `github-pages` build configuration
-  in `angular.json` and a `build:github-pages` npm script.
-- **SPA routing without a reverse proxy** — nginx rewrites any unmatched path to `index.html`, which
-  is how a direct reload of a deep route like `/practice/fretboard-trainer` works in the Docker
-  deployment. GitHub Pages has no equivalent rewrite rule, so
-  [`deploy-pages.yml`](../.github/workflows/deploy-pages.yml) copies `index.html` to `404.html` in
-  the published output — GitHub Pages serves that for any unmatched path, and the Angular router
-  takes over from there.
+  [environment.cloudflare-pages.ts](../frontend/src/environments/environment.cloudflare-pages.ts),
+  supplies the Render service's absolute URL instead, wired to a matching `cloudflare-pages` build
+  configuration in `angular.json` and a `build:cloudflare-pages` npm script.
 - **Dynamic port binding** — `server.port: ${PORT:8080}` was added to `application.yml`; Render
   assigns its free-tier services a port at runtime via `$PORT` rather than letting the container
   choose one, unlike the Docker Compose deployment where 8080 is fixed.
@@ -302,21 +320,24 @@ undone:
 "New Blueprint Instance" action instead of manual dashboard clicking. It deliberately leaves the
 database credentials and the CORS origin as `sync: false` (entered by hand in Render's dashboard)
 rather than committing them — those values depend on accounts that don't exist until the user
-creates them, and the CORS origin in particular is only known once GitHub Pages is enabled and its
-exact URL is visible.
+creates them, and the CORS origin in particular is only known once the Cloudflare Pages project
+exists and its exact URL is visible.
 
-**The trade-off, stated plainly rather than glossed over:** Render's free web services sleep after
+**The trade-offs, stated plainly rather than glossed over:** Render's free web services sleep after
 roughly 15 minutes without traffic; the first request afterward pays a 30–50 second cold start
-while the container restarts. For a portfolio demo checked occasionally rather than a product under
-load, that's an acceptable trade for zero recurring cost — but it is a real trade, not a footnote.
+while the container restarts. Render also appears to require a card at signup as a fraud-prevention
+hold (refunded, not an actual charge) — checked against current community reports rather than
+assumed, and found to be an industry-wide pattern in 2026 (Koyeb's equivalent hold is $29), not
+something specific to Render or avoidable by picking a different host in the same category. For a
+portfolio demo checked occasionally rather than a product under load, both are acceptable trades for
+zero recurring cost — but they are real trades, not footnotes.
 
-**What still requires the user, and cannot be done from here:** creating the GitHub repository and
-pushing to it, creating a Render account and connecting it to that repository, and creating a
-Supabase (or Neon) account and database. Everything on the code side — the environment split, the
-build configuration, the two GitHub Actions workflows (CI in `ci.yml`, Pages deployment in
-`deploy-pages.yml`), and the Render Blueprint — was prepared and build-verified locally ahead of
-that, the same way Phase 14's CI workflow was written and individually verified before ever running
-on real GitHub infrastructure.
+**What still requires the user, and cannot be done from here:** creating a Neon account and
+database, creating a Cloudflare account and connecting it to the repository, and creating a Render
+account and connecting it to the repository via the Blueprint. Everything on the code side — the
+environment split, the build configuration, and the Render Blueprint — was prepared and
+build-verified locally ahead of that, the same way Phase 14's CI workflow was written and
+individually verified before ever running on real GitHub infrastructure.
 
 ## Later, and deliberately not yet
 
