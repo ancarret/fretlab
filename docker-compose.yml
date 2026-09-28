@@ -1,0 +1,61 @@
+services:
+  db:
+    image: postgres:18-alpine
+    container_name: fretlab-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-fretlab}
+      POSTGRES_USER: ${POSTGRES_USER:-fretlab}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-fretlab}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      # PostgreSQL 18 images keep their data in a version-scoped directory
+      # (/var/lib/postgresql/18/docker), so the parent is what has to be persisted.
+      - fretlab-db-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-fretlab} -d ${POSTGRES_DB:-fretlab}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    container_name: fretlab-backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      FRETLAB_DB_URL: jdbc:postgresql://db:5432/${POSTGRES_DB:-fretlab}
+      FRETLAB_DB_USERNAME: ${POSTGRES_USER:-fretlab}
+      FRETLAB_DB_PASSWORD: ${POSTGRES_PASSWORD:-fretlab}
+      # Empty on purpose: the frontend container reaches the API through nginx's same-origin
+      # reverse proxy (see frontend/nginx.conf), not a cross-origin browser request, so there is
+      # nothing for CORS to allow — the same "empty list disables CORS" rule ADR-6 documents.
+      FRETLAB_CORS_ALLOWED_ORIGINS:
+      FRETLAB_JWT_SECRET: ${FRETLAB_JWT_SECRET:-local-development-only-secret-change-me-before-deploying-anywhere}
+      FRETLAB_JWT_EXPIRATION_MINUTES: ${FRETLAB_JWT_EXPIRATION_MINUTES:-60}
+    ports:
+      - "8080:8080"
+    healthcheck:
+      # No curl/wget in the minimal JRE runtime image; a bare TCP connect is enough to know the
+      # embedded Tomcat is accepting requests, without adding a package just to probe ourselves.
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/127.0.0.1/8080 && exec 3<&-'"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  frontend:
+    build: ./frontend
+    container_name: fretlab-frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "4200:80"
+
+volumes:
+  fretlab-db-data:
