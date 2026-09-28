@@ -1,0 +1,53 @@
+<a class="skip-link" href="#main-content">{{ 'skipLink' | translate }}</a>
+
+<header class="masthead">
+  <div class="masthead__inner">
+    <a class="brand" routerLink="/dashboard" aria-label="FretLab home">
+      <svg class="brand__mark" viewBox="0 0 28 28" aria-hidden="true">
+        <rect x="1" y="1" width="26" height="26" rx="5" class="brand__plate" />
+        <path d="M6 9h16M6 12.5h16M6 16h16M6 19.5h16" class="brand__strings" />
+        <path d="M10.5 6v16" class="brand__nut" />
+        <rect x="14.25" y="13.25" width="5.5" height="5.5" rx="1" class="brand__dot" />
+      </svg>
+      <span class="brand__word">Fret<em>Lab</em></span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+      <ol class="nav__list">
+        @for (item of navItems; track item.path) {
+          <li>
+            <a
+              class="nav__link"
+              [routerLink]="item.path"
+              routerLinkActive="nav__link--active"
+              ariaCurrentWhenActive="page"
+            >{{ item.labelKey | translate }}</a>
+          </li>
+        }
+      </ol>
+    </nav>
+
+    <div class="masthead__tools">
+      @if (auth.isAuthenticated()) {
+        <button type="button" class="session-link" (click)="auth.logout()">
+          {{ 'auth.signOut' | translate }}
+        </button>
+      } @else {
+        <a class="session-link" routerLink="/login">{{ 'auth.signIn' | translate }}</a>
+      }
+      <app-language-switch />
+      <app-api-status />
+    </div>
+  </div>
+</header>
+
+<main id="main-content" class="content" tabindex="-1">
+  <router-outlet />
+</main>
+
+<footer class="colophon">
+  <p>
+    <span class="colophon__word">Fret<em>Lab</em></span>
+    {{ 'brand.tagline' | translate }}
+  </p>
+</footer>

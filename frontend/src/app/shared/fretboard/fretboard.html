@@ -1,0 +1,118 @@
+<div class="board">
+  <svg
+    class="board__svg"
+    [attr.viewBox]="viewBox()"
+    [style.min-width.px]="width()"
+    role="group"
+    aria-label="Guitar fretboard, string 1 at the top"
+  >
+    @let face = surface();
+
+    <defs>
+      <!-- Rosewood: darker at the edges of the neck, a touch warmer through the middle. -->
+      <linearGradient [attr.id]="woodGradientId" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" style="stop-color: var(--fl-wood-edge)" />
+        <stop offset="0.18" style="stop-color: var(--fl-wood)" />
+        <stop offset="0.5" style="stop-color: var(--fl-wood-grain)" />
+        <stop offset="0.82" style="stop-color: var(--fl-wood)" />
+        <stop offset="1" style="stop-color: var(--fl-wood-edge)" />
+      </linearGradient>
+    </defs>
+
+    <rect
+      class="board__face"
+      [attr.x]="face.x"
+      [attr.y]="face.y"
+      [attr.width]="face.width"
+      [attr.height]="face.height"
+      [attr.fill]="'url(#' + woodGradientId + ')'"
+      rx="2"
+    />
+
+    @for (inlay of inlays(); track inlay.id) {
+      <circle class="board__inlay" [attr.cx]="inlay.x" [attr.cy]="inlay.y" r="5.5" />
+    }
+
+    @for (fret of frets(); track fret.number) {
+      <line
+        class="board__fret"
+        [attr.x1]="fret.x"
+        [attr.y1]="face.y"
+        [attr.x2]="fret.x"
+        [attr.y2]="face.y + face.height"
+      />
+    }
+
+    <rect
+      class="board__nut"
+      [attr.x]="boardX - 5"
+      [attr.y]="face.y - 1"
+      width="6"
+      [attr.height]="face.height + 2"
+      rx="1.5"
+    />
+
+    @for (string of strings(); track string.number) {
+      <line
+        class="board__string"
+        [class.board__string--wound]="string.wound"
+        [attr.x1]="stringStartX"
+        [attr.y1]="string.y"
+        [attr.x2]="boardEndX()"
+        [attr.y2]="string.y"
+        [attr.stroke-width]="string.thickness"
+      />
+    }
+
+    <text class="board__fret-number" [attr.x]="openLabelX" [attr.y]="fretLabelY">open</text>
+    @for (fret of frets(); track fret.number) {
+      <text
+        class="board__fret-number"
+        [class.board__fret-number--marked]="fret.marked"
+        [attr.x]="fret.labelX"
+        [attr.y]="fretLabelY"
+      >
+        {{ fret.number }}
+      </text>
+    }
+
+    @for (marker of placedMarkers(); track marker.id) {
+      <!-- The root is drawn square, so it stays distinguishable without relying on colour. -->
+      <g class="marker" [class]="'marker--' + marker.role + ' marker--' + marker.emphasis">
+        @if (marker.role === 'root' && marker.emphasis === 'primary') {
+          <rect
+            class="marker__shape"
+            [attr.x]="marker.x - markerRadius"
+            [attr.y]="marker.y - markerRadius"
+            [attr.width]="markerRadius * 2"
+            [attr.height]="markerRadius * 2"
+            rx="4"
+          />
+        } @else {
+          <circle class="marker__shape" [attr.cx]="marker.x" [attr.cy]="marker.y" [attr.r]="markerRadius" />
+        }
+        @if (marker.label) {
+          <text [attr.x]="marker.x" [attr.y]="marker.y">{{ marker.label }}</text>
+        }
+      </g>
+    }
+
+    @if (interactive()) {
+      @for (cell of cells(); track cell.id) {
+        <rect
+          class="cell"
+          [attr.x]="cell.x"
+          [attr.y]="cell.y"
+          [attr.width]="cell.width"
+          [attr.height]="cell.height"
+          tabindex="0"
+          role="button"
+          [attr.aria-label]="cell.label"
+          (click)="select(cell.position)"
+          (keydown.enter)="select(cell.position)"
+          (keydown.space)="select(cell.position); $event.preventDefault()"
+        />
+      }
+    }
+  </svg>
+</div>

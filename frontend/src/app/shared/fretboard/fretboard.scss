@@ -1,0 +1,144 @@
+:host {
+  display: block;
+}
+
+.board {
+  overflow-x: auto;
+  padding-bottom: var(--fl-space-2);
+  scrollbar-color: var(--fl-border-strong) transparent;
+}
+
+.board__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* ---------- The instrument ---------- */
+
+.board__face {
+  filter: drop-shadow(0 6px 10px rgba(28, 18, 10, 0.28));
+}
+
+.board__inlay {
+  fill: var(--fl-inlay);
+  opacity: 0.85;
+}
+
+.board__fret {
+  stroke: var(--fl-fret-wire);
+  stroke-width: 2.5;
+}
+
+.board__nut {
+  fill: var(--fl-nut);
+}
+
+.board__string {
+  stroke: var(--fl-string);
+  stroke-linecap: round;
+}
+
+.board__string--wound {
+  stroke: var(--fl-string-wound);
+}
+
+.board__fret-number {
+  fill: var(--fl-text-faint);
+  font-family: var(--fl-font-mono);
+  font-size: 10px;
+  text-anchor: middle;
+}
+
+.board__fret-number--marked {
+  fill: var(--fl-text-muted);
+  font-weight: 600;
+}
+
+/* ---------- Note markers ---------- */
+
+.marker {
+  pointer-events: none;
+  animation: marker-in 0.22s cubic-bezier(0.2, 0.8, 0.3, 1.2) both;
+  transform-box: fill-box;
+  transform-origin: center;
+
+  .marker__shape {
+    stroke: var(--fl-wood-edge);
+    stroke-width: 2;
+  }
+
+  text {
+    fill: var(--fl-on-role);
+    font-family: var(--fl-font-sans);
+    font-size: 11px;
+    font-weight: 700;
+    text-anchor: middle;
+    dominant-baseline: central;
+  }
+}
+
+.marker--root .marker__shape {
+  fill: var(--fl-role-root);
+}
+
+.marker--third .marker__shape {
+  fill: var(--fl-role-third);
+}
+
+.marker--fifth .marker__shape {
+  fill: var(--fl-role-fifth);
+}
+
+.marker--seventh .marker__shape {
+  fill: var(--fl-role-seventh);
+}
+
+.marker--other .marker__shape {
+  fill: var(--fl-role-other);
+}
+
+/*
+ * The reference layer: notes that are on the neck but are not the point of the current exercise.
+ * Drawn as quiet ink on the wood so the highlighted notes read as figure against it.
+ */
+.marker--secondary {
+  animation: none;
+
+  .marker__shape {
+    fill: var(--fl-board-reference);
+    stroke: none;
+  }
+
+  text {
+    fill: var(--fl-board-muted);
+    font-weight: 500;
+    font-size: 10px;
+  }
+}
+
+@keyframes marker-in {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+
+/* ---------- Interaction layer ---------- */
+
+.cell {
+  fill: transparent;
+  cursor: pointer;
+  transition: fill 0.12s ease;
+
+  &:hover {
+    fill: var(--fl-board-hover);
+  }
+
+  &:focus-visible {
+    fill: var(--fl-board-hover);
+    outline: 2px solid var(--fl-accent);
+    outline-offset: -2px;
+  }
+}

@@ -1,0 +1,138 @@
+/**
+ * FretLab design tokens.
+ *
+ * Every colour, space and radius used by a component must come from this file. Components never
+ * hardcode raw values, so theming is a token swap rather than a rewrite — the dark theme below is
+ * exactly that.
+ *
+ * Visual direction: a luthier's notebook. Warm paper, ink-black type, a serif with character for
+ * headings, and a fretboard drawn as the instrument it is — rosewood, bone nut, nickel frets —
+ * rather than as a chart. One accent (vermilion), used sparingly, so it keeps its meaning.
+ */
+:root {
+  color-scheme: light;
+
+  /* Surfaces — paper tones, from page to raised card */
+  --fl-bg: #f3eee4;
+  --fl-surface: #faf7f1;
+  --fl-surface-raised: #ffffff;
+  --fl-surface-hover: #ece5d7;
+  --fl-surface-sunken: #e9e2d4;
+  --fl-border: #ddd4c3;
+  --fl-border-strong: #bfb39c;
+  --fl-rule: #1c1a17;
+
+  /* Ink */
+  --fl-text: #1c1a17;
+  --fl-text-muted: #5f5849;
+  --fl-text-faint: #8a8170;
+
+  /* Accent — vermilion, the colour of a luthier's marking pencil */
+  --fl-accent: #b93a1f;
+  --fl-accent-hover: #9c2f17;
+  --fl-accent-soft: rgba(185, 58, 31, 0.1);
+  --fl-on-accent: #fff8f2;
+
+  /* Status */
+  --fl-success: #2f7a4f;
+  --fl-warning: #a86b00;
+  --fl-danger: #b3261e;
+
+  /*
+   * Musical roles. These stay consistent across every screen: a root is always this colour,
+   * on the fretboard and in a lesson alike. Colour is never the only cue — markers also differ
+   * in shape (the root is drawn as a square) and always carry a text label.
+   */
+  --fl-role-root: #d9482b;
+  --fl-role-third: #e0a526;
+  --fl-role-fifth: #3a9d8f;
+  --fl-role-seventh: #8c6bb8;
+  --fl-role-other: #c9bfae;
+  --fl-on-role: #1a1410;
+
+  /* The instrument. Deliberately theme-independent: rosewood is rosewood in any light. */
+  --fl-wood: #3b2418;
+  --fl-wood-grain: #4a2e1f;
+  --fl-wood-edge: #24160e;
+  --fl-fret-wire: #b9b4aa;
+  --fl-nut: #efe6d2;
+  --fl-string: #d8d2c4;
+  --fl-string-wound: #b8a888;
+  --fl-inlay: #e8e0cf;
+  --fl-board-ink: #f3ecdd;
+  --fl-board-muted: rgba(243, 236, 221, 0.55);
+  --fl-board-reference: rgba(20, 12, 8, 0.55);
+  --fl-board-hover: rgba(243, 236, 221, 0.14);
+
+  /* Spacing scale (4px base) */
+  --fl-space-1: 0.25rem;
+  --fl-space-2: 0.5rem;
+  --fl-space-3: 0.75rem;
+  --fl-space-4: 1rem;
+  --fl-space-5: 1.5rem;
+  --fl-space-6: 2rem;
+  --fl-space-7: 3rem;
+  --fl-space-8: 4.5rem;
+
+  /* Radius — small and deliberate; paper does not have pill-shaped corners */
+  --fl-radius-sm: 3px;
+  --fl-radius-md: 6px;
+  --fl-radius-lg: 10px;
+  --fl-radius-pill: 999px;
+
+  /* Elevation — used almost nowhere; hierarchy comes from rules and type, not shadows */
+  --fl-shadow-sm: 0 1px 0 rgba(28, 26, 23, 0.06);
+  --fl-shadow-md: 0 1px 2px rgba(28, 26, 23, 0.08), 0 12px 32px -12px rgba(28, 26, 23, 0.18);
+
+  /* Typography */
+  --fl-font-display: 'Fraunces', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --fl-font-sans: 'Instrument Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --fl-font-mono: 'JetBrains Mono', 'Cascadia Code', ui-monospace, Consolas, monospace;
+
+  --fl-text-xs: 0.75rem;
+  --fl-text-sm: 0.875rem;
+  --fl-text-md: 1rem;
+  --fl-text-lg: 1.25rem;
+  --fl-text-xl: 1.75rem;
+  --fl-text-2xl: 2.5rem;
+  --fl-text-3xl: 3.5rem;
+
+  /* Layout */
+  --fl-content-max: 1120px;
+  --fl-gutter: clamp(1rem, 4vw, 2.5rem);
+}
+
+/* Ebony: the same notebook read by lamplight. Only surface and ink tokens change. */
+@mixin dark-tokens {
+  color-scheme: dark;
+
+  --fl-bg: #16130f;
+  --fl-surface: #1d1914;
+  --fl-surface-raised: #241f19;
+  --fl-surface-hover: #2c261f;
+  --fl-surface-sunken: #120f0c;
+  --fl-border: #362f26;
+  --fl-border-strong: #54493a;
+  --fl-rule: #ece4d4;
+
+  --fl-text: #ece4d4;
+  --fl-text-muted: #b1a693;
+  --fl-text-faint: #837968;
+
+  --fl-accent: #ec6a4c;
+  --fl-accent-hover: #f5866c;
+  --fl-accent-soft: rgba(236, 106, 76, 0.14);
+  --fl-on-accent: #1a0d08;
+
+  --fl-success: #6cc091;
+  --fl-warning: #e0a526;
+  --fl-danger: #ef7a70;
+
+  --fl-role-other: #8d826f;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    @include dark-tokens;
+  }
+}

@@ -1,0 +1,223 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.skip-link {
+  position: absolute;
+  top: var(--fl-space-2);
+  left: var(--fl-space-2);
+  z-index: 10;
+  padding: var(--fl-space-2) var(--fl-space-4);
+  background: var(--fl-text);
+  color: var(--fl-bg);
+  border-radius: var(--fl-radius-sm);
+  font-weight: 600;
+  transform: translateY(-200%);
+
+  &:focus-visible {
+    transform: none;
+  }
+}
+
+/* ---------- Masthead ---------- */
+
+.masthead {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: color-mix(in srgb, var(--fl-bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--fl-border);
+}
+
+.masthead__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--fl-space-6);
+  max-width: var(--fl-content-max);
+  margin: 0 auto;
+  padding: var(--fl-space-3) var(--fl-gutter);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--fl-space-3);
+  flex: none;
+}
+
+.brand__mark {
+  width: 28px;
+  height: 28px;
+}
+
+.brand__plate {
+  fill: var(--fl-wood);
+}
+
+.brand__strings {
+  stroke: var(--fl-string);
+  stroke-width: 1;
+}
+
+.brand__nut {
+  stroke: var(--fl-nut);
+  stroke-width: 2;
+}
+
+.brand__dot {
+  fill: var(--fl-role-root);
+}
+
+.brand__word,
+.colophon__word {
+  font-family: var(--fl-font-display);
+  font-size: 1.375rem;
+  font-weight: 500;
+  font-variation-settings: 'opsz' 72;
+  letter-spacing: -0.02em;
+
+  em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--fl-accent);
+  }
+}
+
+/* Numbered like the sections of a method book; the numbers are decoration, so CSS draws them. */
+.nav__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: var(--fl-space-1);
+  counter-reset: nav;
+}
+
+.nav__link {
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4em;
+  padding: var(--fl-space-2) var(--fl-space-3);
+  color: var(--fl-text-muted);
+  font-size: var(--fl-text-sm);
+  font-weight: 500;
+  white-space: nowrap;
+  transition: color 0.15s ease;
+  counter-increment: nav;
+
+  &::before {
+    content: counter(nav, decimal-leading-zero);
+    font-family: var(--fl-font-mono);
+    font-size: 0.6875rem;
+    color: var(--fl-text-faint);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: var(--fl-space-3);
+    right: var(--fl-space-3);
+    bottom: 0;
+    height: 2px;
+    background: var(--fl-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.2s ease;
+  }
+
+  &:hover {
+    color: var(--fl-text);
+  }
+}
+
+.nav__link--active {
+  color: var(--fl-text);
+
+  &::before {
+    color: var(--fl-accent);
+  }
+
+  &::after {
+    transform: scaleX(1);
+  }
+}
+
+.masthead__tools {
+  display: flex;
+  align-items: center;
+  gap: var(--fl-space-4);
+  margin-left: auto;
+}
+
+.session-link {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--fl-text-muted);
+  font-size: var(--fl-text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: var(--fl-text);
+  }
+}
+
+/* ---------- Content ---------- */
+
+.content {
+  flex: 1;
+  width: 100%;
+  max-width: var(--fl-content-max);
+  margin: 0 auto;
+  padding: var(--fl-space-7) var(--fl-gutter) var(--fl-space-8);
+  outline: none;
+}
+
+.colophon {
+  border-top: 1px solid var(--fl-border);
+
+  p {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--fl-space-3);
+    max-width: var(--fl-content-max);
+    margin: 0 auto;
+    padding: var(--fl-space-5) var(--fl-gutter);
+    color: var(--fl-text-faint);
+    font-size: var(--fl-text-sm);
+  }
+}
+
+.colophon__word {
+  font-size: var(--fl-text-md);
+  color: var(--fl-text-muted);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 860px) {
+  .masthead__inner {
+    flex-wrap: wrap;
+    gap: var(--fl-space-2) var(--fl-space-4);
+  }
+
+  .nav {
+    order: 3;
+    width: 100%;
+    margin: 0 calc(-1 * var(--fl-gutter));
+    padding: 0 var(--fl-gutter);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .content {
+    padding-top: var(--fl-space-6);
+  }
+}
