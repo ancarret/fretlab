@@ -1,0 +1,49 @@
+<app-page-header
+  eyebrowKey="progress.header.eyebrow"
+  titleKey="progress.header.title"
+  leadKey="progress.header.lead"
+/>
+
+@if (!auth.isAuthenticated()) {
+  <section class="empty">
+    <h2 class="empty__title">{{ 'progress.empty.title' | translate }}</h2>
+    <p class="fl-muted">{{ 'progress.signInHint' | translate }}</p>
+    <a class="fl-button fl-button--primary" routerLink="/login">{{ 'auth.signIn' | translate }}</a>
+  </section>
+} @else if (summary.isLoading()) {
+  <p class="state">{{ 'progress.loading' | translate }}</p>
+} @else if (summary.error()) {
+  <p class="state state--error">{{ 'progress.error' | translate }}</p>
+} @else if (summary.value(); as data) {
+  @if (data.totalAttempts === 0) {
+    <section class="empty">
+      <h2 class="empty__title">{{ 'progress.empty.title' | translate }}</h2>
+      <p class="fl-muted">{{ 'progress.empty.body' | translate }}</p>
+    </section>
+  } @else {
+    <section class="ledger">
+      <p class="fl-muted">{{ 'progress.totalAttempts' | translate: { n: data.totalAttempts } }}</p>
+      <ul class="ledger__list">
+        @for (entry of data.mastery; track entry.exerciseType) {
+          <li class="ledger__row">
+            <span class="ledger__name">{{ nameKeyFor(entry.exerciseType) | translate }}</span>
+            <span
+              class="meter"
+              role="progressbar"
+              [attr.aria-valuenow]="entry.accuracyPercent"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              [attr.aria-label]="nameKeyFor(entry.exerciseType) | translate"
+            >
+              @for (segment of meterSegments; track segment) {
+                <span class="meter__segment" [class.meter__segment--on]="segment < entry.accuracyPercent / 10"></span>
+              }
+            </span>
+            <span class="ledger__value">{{ entry.accuracyPercent }}%</span>
+            <span class="ledger__count">{{ 'progress.attemptsCount' | translate: { n: entry.attempts } }}</span>
+          </li>
+        }
+      </ul>
+    </section>
+  }
+}

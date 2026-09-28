@@ -1,0 +1,55 @@
+<section class="auth">
+  <app-page-header
+    eyebrowKey="auth.register.eyebrow"
+    titleKey="auth.register.title"
+    leadKey="auth.register.lead"
+  />
+
+  <form class="auth-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <label class="auth-form__field">
+      <span class="auth-form__label">{{ 'auth.email' | translate }}</span>
+      <input
+        class="auth-form__input"
+        type="email"
+        formControlName="email"
+        autocomplete="email"
+        [attr.aria-invalid]="form.controls.email.invalid && form.controls.email.touched"
+      />
+      @if (form.controls.email.touched && form.controls.email.hasError('required')) {
+        <span class="auth-form__error">{{ 'auth.email.required' | translate }}</span>
+      }
+      @if (form.controls.email.touched && form.controls.email.hasError('email')) {
+        <span class="auth-form__error">{{ 'auth.email.invalid' | translate }}</span>
+      }
+    </label>
+
+    <label class="auth-form__field">
+      <span class="auth-form__label">{{ 'auth.password' | translate }}</span>
+      <input
+        class="auth-form__input"
+        type="password"
+        formControlName="password"
+        autocomplete="new-password"
+        [attr.aria-invalid]="form.controls.password.invalid && form.controls.password.touched"
+      />
+      @if (form.controls.password.touched && form.controls.password.hasError('required')) {
+        <span class="auth-form__error">{{ 'auth.password.required' | translate }}</span>
+      }
+      @if (form.controls.password.touched && form.controls.password.hasError('minlength')) {
+        <span class="auth-form__error">{{ 'auth.password.tooShort' | translate }}</span>
+      }
+    </label>
+
+    @if (errorKey(); as key) {
+      <p class="auth-form__banner" role="alert">{{ key | translate }}</p>
+    }
+
+    <button type="submit" class="fl-button fl-button--primary auth-form__submit" [disabled]="submitting()">
+      {{ (submitting() ? 'auth.register.submitting' : 'auth.register.submit') | translate }}
+    </button>
+  </form>
+
+  <p class="auth-form__switch">
+    {{ 'auth.register.switch' | translate }} <a routerLink="/login">{{ 'auth.register.switchLink' | translate }}</a>
+  </p>
+</section>

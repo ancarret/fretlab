@@ -1,0 +1,79 @@
+/** Shared by Register and Login — one visual language for both sides of the same form. */
+
+.auth {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fl-space-6);
+  max-width: 26rem;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fl-space-5);
+  padding: var(--fl-space-6);
+  border: 1px solid var(--fl-border);
+  border-radius: var(--fl-radius-lg);
+  background: var(--fl-surface);
+}
+
+.auth-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fl-space-2);
+}
+
+.auth-form__label {
+  color: var(--fl-text-muted);
+  font-size: var(--fl-text-sm);
+  font-weight: 600;
+}
+
+.auth-form__input {
+  padding: var(--fl-space-3) var(--fl-space-4);
+  border: 1px solid var(--fl-border-strong);
+  border-radius: var(--fl-radius-md);
+  background: var(--fl-surface-raised);
+  color: var(--fl-text);
+  font: inherit;
+  font-size: var(--fl-text-md);
+
+  &:focus-visible {
+    outline: 2px solid var(--fl-accent);
+    outline-offset: 1px;
+  }
+
+  &[aria-invalid='true'] {
+    border-color: var(--fl-danger);
+  }
+}
+
+.auth-form__error {
+  color: var(--fl-danger);
+  font-size: var(--fl-text-sm);
+}
+
+.auth-form__banner {
+  padding: var(--fl-space-3) var(--fl-space-4);
+  border: 1px solid var(--fl-danger);
+  border-radius: var(--fl-radius-md);
+  background: color-mix(in srgb, var(--fl-danger) 10%, transparent);
+  color: var(--fl-danger);
+  font-size: var(--fl-text-sm);
+}
+
+.auth-form__submit {
+  margin-top: var(--fl-space-2);
+}
+
+.auth-form__switch {
+  color: var(--fl-text-muted);
+  font-size: var(--fl-text-sm);
+
+  a {
+    color: var(--fl-accent);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
