@@ -1,0 +1,76 @@
+<app-page-header
+  eyebrowKey="fretboardTrainer.header.eyebrow"
+  titleKey="fretboardTrainer.header.title"
+  leadKey="fretboardTrainer.header.lead"
+/>
+
+<section class="rig">
+  <div class="rig__levels">
+    <span class="fl-eyebrow" id="level-label">{{ 'fretboardTrainer.level' | translate }}</span>
+    <div class="fl-segmented" role="group" aria-labelledby="level-label">
+      @for (option of levelOptions; track option.value) {
+        <button
+          type="button"
+          [attr.aria-pressed]="level() === option.value"
+          [attr.title]="option.hintKey | translate"
+          (click)="setLevel(option.value)"
+        >{{ option.label }}</button>
+      }
+    </div>
+    @if (activeLevelOption(); as option) {
+      <span class="rig__hint">{{ option.hintKey | translate }}</span>
+    }
+  </div>
+
+  <div class="rig__score" aria-live="polite">
+    @if (challenge.value()?.timed) {
+      <span class="rig__stat">{{ 'fretboardTrainer.elapsed' | translate: { n: elapsedSeconds() } }}</span>
+    }
+    @if (accuracy(); as pct) {
+      <span class="rig__stat">{{ 'fretboardTrainer.accuracy' | translate: { pct } }}</span>
+    }
+    <span class="rig__stat">{{ 'fretboardTrainer.found' | translate: { n: correctCount() } }}</span>
+  </div>
+</section>
+
+<section class="target">
+  @if (challenge.value(); as active) {
+    <p class="target__prompt">
+      {{ 'fretboardTrainer.findEvery' | translate }}
+      <span class="target__note">{{ active.target.name | noteName }}</span>
+      @if (remaining() > 0) {
+        <span class="fl-muted">— {{ 'fretboardTrainer.left' | translate: { n: remaining() } }}</span>
+      } @else if (isComplete()) {
+        <span class="target__done">— {{ 'fretboardTrainer.allFound' | translate }}</span>
+      }
+    </p>
+  }
+
+  @if (feedback(); as message) {
+    <p class="target__feedback" [class.target__feedback--wrong]="message.kind === 'wrong'">
+      {{ message.key | translate: message.params }}
+    </p>
+  }
+</section>
+
+<section class="stage">
+  @if (board.isLoading() || challenge.isLoading()) {
+    <p class="state">{{ 'fretboardTrainer.settingUp' | translate }}</p>
+  } @else if (board.error() || challenge.error()) {
+    <p class="state state--error">{{ 'fretboardTrainer.error' | translate }}</p>
+  } @else {
+    <app-fretboard
+      [fretCount]="12"
+      [markers]="markers()"
+      (positionSelected)="handlePositionClick($event)"
+    />
+
+    @if (isComplete()) {
+      <div class="stage__next">
+        <button type="button" class="fl-button fl-button--primary" (click)="nextChallenge()">
+          {{ 'fretboardTrainer.nextNote' | translate }}
+        </button>
+      </div>
+    }
+  }
+</section>

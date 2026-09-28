@@ -1,0 +1,279 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fl-space-7);
+}
+
+/* ---------- Stage: controls + neck ---------- */
+
+.stage {
+  border: 1px solid var(--fl-border);
+  border-radius: var(--fl-radius-lg);
+  background: var(--fl-surface);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--fl-space-4) var(--fl-space-6);
+  padding: var(--fl-space-4) var(--fl-space-5);
+  border-bottom: 1px solid var(--fl-border);
+}
+
+.toolbar__group {
+  display: flex;
+  align-items: center;
+  gap: var(--fl-space-3);
+}
+
+.stage__neck {
+  padding: var(--fl-space-6) var(--fl-space-5) var(--fl-space-4);
+}
+
+.state {
+  padding: var(--fl-space-7) 0;
+  text-align: center;
+  color: var(--fl-text-muted);
+  font-family: var(--fl-font-display);
+  font-style: italic;
+  font-size: var(--fl-text-lg);
+}
+
+.state--error {
+  color: var(--fl-danger);
+}
+
+/* A two-state toggle; aria-pressed is the single source of truth for its look. */
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--fl-space-2);
+  margin-left: auto;
+  padding: var(--fl-space-1) 0;
+  border: none;
+  background: none;
+  color: var(--fl-text-muted);
+  font-size: var(--fl-text-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.switch__track {
+  position: relative;
+  width: 30px;
+  height: 18px;
+  border-radius: var(--fl-radius-pill);
+  background: var(--fl-border-strong);
+  transition: background-color 0.15s ease;
+}
+
+.switch__thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--fl-surface-raised);
+  transition: transform 0.15s ease;
+}
+
+.switch[aria-pressed='true'] {
+  color: var(--fl-text);
+
+  .switch__track {
+    background: var(--fl-text);
+  }
+
+  .switch__thumb {
+    transform: translateX(12px);
+  }
+}
+
+/* ---------- Note finder ---------- */
+
+.finder {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) 2fr;
+  gap: var(--fl-space-7);
+  padding-top: var(--fl-space-6);
+  border-top: 1px solid var(--fl-rule);
+}
+
+.finder__intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fl-space-3);
+}
+
+.finder__title {
+  font-size: var(--fl-text-xl);
+}
+
+.notes {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: var(--fl-space-2);
+}
+
+.note-chip {
+  aspect-ratio: 1.15;
+  border: 1px solid var(--fl-border);
+  border-radius: var(--fl-radius-md);
+  background: var(--fl-surface-raised);
+  font-family: var(--fl-font-display);
+  font-size: 1.375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease,
+    transform 0.15s ease;
+
+  &:hover {
+    border-color: var(--fl-text-muted);
+    transform: translateY(-1px);
+  }
+}
+
+/* Accidentals sit on a darker "key", echoing a piano keyboard's black keys. */
+.note-chip--accidental {
+  background: var(--fl-surface-sunken);
+  color: var(--fl-text-muted);
+}
+
+.note-chip--active,
+.note-chip--active.note-chip--accidental {
+  background: var(--fl-role-root);
+  border-color: var(--fl-role-root);
+  color: var(--fl-on-role);
+}
+
+.summary {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.35em;
+  margin-top: var(--fl-space-5);
+  color: var(--fl-text-muted);
+}
+
+.summary strong {
+  color: var(--fl-text);
+}
+
+.summary__note {
+  font-family: var(--fl-font-display);
+  font-size: var(--fl-text-xl);
+  line-height: 1;
+  color: var(--fl-role-root);
+}
+
+.summary--empty {
+  font-style: italic;
+}
+
+.summary__clear {
+  margin-left: var(--fl-space-3);
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--fl-accent);
+  font-size: var(--fl-text-sm);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+/* ---------- Chords mode ---------- */
+
+.chord-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--fl-space-4) var(--fl-space-6);
+  padding: var(--fl-space-4) var(--fl-space-5);
+  border-bottom: 1px solid var(--fl-border);
+  background: var(--fl-surface-sunken);
+}
+
+.chord-picker__roots button {
+  font-family: var(--fl-font-display);
+  font-size: var(--fl-text-md);
+}
+
+.inversions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--fl-space-2);
+}
+
+.inversion-chip {
+  padding: var(--fl-space-2) var(--fl-space-4);
+  border: 1px solid var(--fl-border);
+  border-radius: var(--fl-radius-pill);
+  background: var(--fl-surface-raised);
+  font-size: var(--fl-text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    border-color: var(--fl-text-muted);
+  }
+}
+
+.inversion-chip--active {
+  background: var(--fl-text);
+  border-color: var(--fl-text);
+  color: var(--fl-bg);
+}
+
+.notes-in-order {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--fl-space-2);
+  font-family: var(--fl-font-display);
+  font-size: var(--fl-text-xl);
+}
+
+.notes-in-order__note {
+  color: var(--fl-text-muted);
+
+  &::after {
+    content: '·';
+    margin-left: var(--fl-space-2);
+    color: var(--fl-border-strong);
+  }
+
+  &:last-child::after {
+    content: '';
+  }
+}
+
+.notes-in-order__note--bass {
+  color: var(--fl-role-root);
+  font-weight: 500;
+}
+
+@media (max-width: 760px) {
+  .finder {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--fl-space-5);
+  }
+
+  .notes {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .switch {
+    margin-left: 0;
+  }
+
+  .stage__neck {
+    padding-inline: var(--fl-space-3);
+  }
+
+  .chord-picker {
+    padding-inline: var(--fl-space-3);
+  }
+}

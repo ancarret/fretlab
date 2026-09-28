@@ -1,0 +1,301 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fl-space-7);
+}
+
+.section-meta,
+.resume__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--fl-space-3);
+  margin-bottom: var(--fl-space-2);
+}
+
+.section-title {
+  font-size: var(--fl-text-xl);
+  margin-bottom: var(--fl-space-4);
+}
+
+/* ---------- Continue learning ---------- */
+
+.resume {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--fl-space-6);
+  align-items: start;
+  padding: var(--fl-space-6);
+  border: 1px solid var(--fl-border);
+  border-radius: var(--fl-radius-lg);
+  background: var(--fl-surface);
+}
+
+/* A chapter number set large, the way a method book opens a new section. */
+.resume__number {
+  font-family: var(--fl-font-display);
+  font-size: 6rem;
+  font-weight: 300;
+  font-variation-settings: 'opsz' 144, 'SOFT' 100;
+  line-height: 0.8;
+  color: var(--fl-accent);
+  letter-spacing: -0.04em;
+}
+
+.resume__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fl-space-2);
+}
+
+.resume__title {
+  font-size: var(--fl-text-2xl);
+  font-weight: 400;
+}
+
+.resume__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--fl-space-3);
+  margin-top: var(--fl-space-4);
+}
+
+/* ---------- Key study (live data) ---------- */
+
+.study__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--fl-space-4);
+  padding-bottom: var(--fl-space-4);
+  border-bottom: 1px solid var(--fl-rule);
+}
+
+.study__title {
+  font-size: var(--fl-text-2xl);
+  font-weight: 400;
+  margin-top: var(--fl-space-2);
+}
+
+.study__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--fl-space-3);
+}
+
+.study__state {
+  padding: var(--fl-space-7) 0;
+  color: var(--fl-text-muted);
+  font-family: var(--fl-font-display);
+  font-style: italic;
+}
+
+.study__state--error {
+  color: var(--fl-danger);
+}
+
+.degrees {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  transition: opacity 0.15s ease;
+}
+
+.degrees--loading {
+  opacity: 0.5;
+}
+
+.degree {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fl-space-1);
+  padding: var(--fl-space-5) var(--fl-space-3) var(--fl-space-4);
+  border-right: 1px solid var(--fl-border);
+  border-top: 3px solid transparent;
+
+  &:last-child {
+    border-right: none;
+  }
+
+  /* The tonic chord is home; it gets the one accent on the strip. */
+  &:first-child .degree__numeral {
+    color: var(--fl-accent);
+  }
+}
+
+/*
+ * Chord quality is shown by the numeral's case and the written quality name; the top rule adds a
+ * third, non-colour cue — solid for major, thin for minor, dashed for diminished.
+ */
+.degree--major {
+  border-top-color: var(--fl-text);
+}
+
+.degree--minor {
+  border-top: 1px solid var(--fl-text-muted);
+  padding-top: calc(var(--fl-space-5) + 2px);
+}
+
+.degree--diminished {
+  border-top: 2px dashed var(--fl-text-muted);
+  padding-top: calc(var(--fl-space-5) + 1px);
+}
+
+.degree--augmented {
+  border-top: 3px double var(--fl-text);
+}
+
+.degree__numeral {
+  font-family: var(--fl-font-display);
+  font-size: var(--fl-text-2xl);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.degree__symbol {
+  margin-top: var(--fl-space-2);
+  font-size: var(--fl-text-lg);
+  font-weight: 700;
+}
+
+.degree__notes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4em;
+  color: var(--fl-text-muted);
+  font-family: var(--fl-font-mono);
+  font-size: var(--fl-text-xs);
+}
+
+.degree__quality {
+  margin-top: var(--fl-space-2);
+  color: var(--fl-text-faint);
+  font-size: var(--fl-text-xs);
+}
+
+.study__caption {
+  max-width: 70ch;
+  margin-top: var(--fl-space-4);
+  color: var(--fl-text-faint);
+  font-size: var(--fl-text-sm);
+}
+
+/* ---------- Mastery + today ---------- */
+
+.columns {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: var(--fl-space-7);
+}
+
+.ledger__list,
+.today__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ledger__row {
+  display: grid;
+  grid-template-columns: 8.5rem minmax(0, 1fr) 3rem;
+  align-items: center;
+  gap: var(--fl-space-4);
+  padding: var(--fl-space-3) 0;
+  border-bottom: 1px solid var(--fl-border);
+  font-size: var(--fl-text-sm);
+}
+
+/* Ten segments, like ten frets — mastery reads as how far up the neck you have got. */
+.meter {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 3px;
+}
+
+.meter__segment {
+  height: 10px;
+  border-radius: 1px;
+  background: var(--fl-surface-sunken);
+  border: 1px solid var(--fl-border);
+}
+
+.meter__segment--on {
+  background: var(--fl-text);
+  border-color: var(--fl-text);
+}
+
+.ledger__value {
+  text-align: right;
+  font-family: var(--fl-font-mono);
+  font-size: var(--fl-text-xs);
+  color: var(--fl-text-muted);
+}
+
+.today__list {
+  margin-top: var(--fl-space-5);
+
+  li {
+    display: flex;
+    align-items: baseline;
+    gap: var(--fl-space-3);
+    padding: var(--fl-space-3) 0;
+    border-bottom: 1px solid var(--fl-border);
+    font-size: var(--fl-text-sm);
+  }
+}
+
+.today__time {
+  flex: none;
+  width: 3.5rem;
+  color: var(--fl-accent);
+  font-family: var(--fl-font-mono);
+  font-size: var(--fl-text-xs);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 900px) {
+  .columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .degrees {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    row-gap: var(--fl-space-2);
+  }
+
+  .degree:nth-child(4n) {
+    border-right: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .resume {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--fl-space-3);
+  }
+
+  .resume__number {
+    font-size: 4rem;
+  }
+
+  .degrees {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .degree:nth-child(odd) {
+    border-right: 1px solid var(--fl-border);
+  }
+
+  .degree:nth-child(even) {
+    border-right: none;
+  }
+
+  .ledger__row {
+    grid-template-columns: 6.5rem minmax(0, 1fr) 2.5rem;
+    gap: var(--fl-space-3);
+  }
+}

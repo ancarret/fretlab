@@ -1,0 +1,53 @@
+<app-page-header
+  eyebrowKey="intervalTrainer.header.eyebrow"
+  titleKey="intervalTrainer.header.title"
+  leadKey="intervalTrainer.header.lead"
+/>
+
+<section class="target">
+  @if (challenge.value()) {
+    <p class="target__prompt">
+      {{ promptText() }}
+      @if (remaining() > 0) {
+        <span class="fl-muted">— {{ 'intervalTrainer.left' | translate: { n: remaining() } }}</span>
+      } @else if (isComplete()) {
+        <span class="target__done">— {{ completionText() }}</span>
+      }
+    </p>
+  }
+
+  @if (feedback(); as message) {
+    <p class="target__feedback" [class.target__feedback--wrong]="message.kind === 'wrong'">
+      {{ message.key | translate: message.params }}
+    </p>
+  }
+
+  <div class="target__score" aria-live="polite">
+    @if (accuracy(); as pct) {
+      <span class="target__stat">{{ 'intervalTrainer.accuracy' | translate: { pct } }}</span>
+    }
+    <span class="target__stat">{{ 'intervalTrainer.found' | translate: { n: correctCount() } }}</span>
+  </div>
+</section>
+
+<section class="stage">
+  @if (board.isLoading() || challenge.isLoading()) {
+    <p class="state">{{ 'intervalTrainer.settingUp' | translate }}</p>
+  } @else if (board.error() || challenge.error()) {
+    <p class="state state--error">{{ 'intervalTrainer.error' | translate }}</p>
+  } @else {
+    <app-fretboard
+      [fretCount]="12"
+      [markers]="markers()"
+      (positionSelected)="handlePositionClick($event)"
+    />
+
+    @if (isComplete()) {
+      <div class="stage__next">
+        <button type="button" class="fl-button fl-button--primary" (click)="nextChallenge()">
+          {{ 'intervalTrainer.nextInterval' | translate }}
+        </button>
+      </div>
+    }
+  }
+</section>

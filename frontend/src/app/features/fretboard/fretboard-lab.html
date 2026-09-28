@@ -1,0 +1,223 @@
+<app-page-header
+  eyebrowKey="fretboardLab.header.eyebrow"
+  titleKey="fretboardLab.header.title"
+  leadKey="fretboardLab.header.lead"
+/>
+
+<section class="stage" aria-label="Fretboard">
+  <div class="toolbar">
+    <div class="toolbar__group">
+      <span class="fl-eyebrow" id="mode-label">{{ 'fretboardLab.explore' | translate }}</span>
+      <div class="fl-segmented" role="group" aria-labelledby="mode-label">
+        @for (option of modeOptions; track option.value) {
+          <button
+            type="button"
+            [attr.aria-pressed]="mode() === option.value"
+            (click)="setMode(option.value)"
+          >{{ option.labelKey | translate }}</button>
+        }
+      </div>
+    </div>
+
+    <div class="toolbar__group">
+      <span class="fl-eyebrow" id="frets-label">{{ 'fretboardLab.frets' | translate }}</span>
+      <div class="fl-segmented" role="group" aria-labelledby="frets-label">
+        @for (option of fretCountOptions; track option) {
+          <button
+            type="button"
+            [attr.aria-pressed]="fretCount() === option"
+            (click)="setFretCount(option)"
+          >{{ option }}</button>
+        }
+      </div>
+    </div>
+
+    <div class="toolbar__group">
+      <span class="fl-eyebrow" id="spelling-label">{{ 'fretboardLab.spelling' | translate }}</span>
+      <div class="fl-segmented" role="group" aria-labelledby="spelling-label">
+        @for (option of spellingOptions; track option.value) {
+          <button
+            type="button"
+            [attr.aria-pressed]="spelling() === option.value"
+            (click)="setSpelling(option.value)"
+          >{{ option.labelKey | translate }}</button>
+        }
+      </div>
+    </div>
+
+    @if (mode() === 'notes') {
+      <button
+        type="button"
+        class="switch"
+        [attr.aria-pressed]="showReferenceNotes()"
+        (click)="toggleReferenceNotes()"
+      >
+        <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+        {{ 'fretboardLab.otherNotes' | translate }}
+      </button>
+    }
+  </div>
+
+  @if (mode() === 'chords') {
+    <div class="chord-picker">
+      <div class="toolbar__group">
+        <span class="fl-eyebrow" id="root-label">{{ 'fretboardLab.root' | translate }}</span>
+        <div class="fl-segmented chord-picker__roots" role="group" aria-labelledby="root-label">
+          @for (option of noteOptions(); track option.pitchClass) {
+            <button
+              type="button"
+              [attr.aria-pressed]="chordRoot() === option.name"
+              (click)="setChordRoot(option.name)"
+            >{{ option.name | noteName }}</button>
+          }
+        </div>
+      </div>
+
+      <div class="toolbar__group">
+        <span class="fl-eyebrow" id="type-label">{{ 'fretboardLab.chord' | translate }}</span>
+        <div class="fl-segmented chord-picker__types" role="group" aria-labelledby="type-label">
+          @for (type of chordTypes.value(); track type.id) {
+            <button
+              type="button"
+              [attr.aria-pressed]="chordTypeId() === type.id"
+              (click)="setChordType(type.id)"
+            >{{ 'chordType.' + type.id | translate }}</button>
+          }
+        </div>
+      </div>
+    </div>
+  } @else if (mode() === 'scales') {
+    <div class="chord-picker">
+      <div class="toolbar__group">
+        <span class="fl-eyebrow" id="tonic-label">{{ 'fretboardLab.tonic' | translate }}</span>
+        <div class="fl-segmented chord-picker__roots" role="group" aria-labelledby="tonic-label">
+          @for (option of noteOptions(); track option.pitchClass) {
+            <button
+              type="button"
+              [attr.aria-pressed]="scaleTonic() === option.name"
+              (click)="setScaleTonic(option.name)"
+            >{{ option.name | noteName }}</button>
+          }
+        </div>
+      </div>
+
+      <div class="toolbar__group">
+        <span class="fl-eyebrow" id="scale-type-label">{{ 'fretboardLab.scale' | translate }}</span>
+        <div class="fl-segmented chord-picker__types" role="group" aria-labelledby="scale-type-label">
+          @for (type of scaleTypes.value(); track type.id) {
+            <button
+              type="button"
+              [attr.aria-pressed]="scaleTypeId() === type.id"
+              (click)="setScaleType(type.id)"
+            >{{ 'scaleType.' + type.id | translate }}</button>
+          }
+        </div>
+      </div>
+    </div>
+  }
+
+  <div class="stage__neck">
+    @if (board.isLoading()) {
+      <p class="state">{{ 'fretboardLab.loading' | translate }}</p>
+    } @else if (board.error()) {
+      <p class="state state--error">{{ 'fretboardLab.error' | translate }}</p>
+    } @else {
+      <app-fretboard
+        [fretCount]="fretCount()"
+        [markers]="activeMarkers()"
+        (positionSelected)="selectPositionNote($event)"
+      />
+    }
+  </div>
+</section>
+
+@if (mode() === 'notes') {
+  <section class="finder">
+    <div class="finder__intro">
+      <span class="fl-eyebrow">{{ 'fretboardLab.findANote' | translate }}</span>
+      <h2 class="finder__title">{{ 'fretboardLab.whereDoesItLive' | translate }}</h2>
+      <p class="fl-muted">{{ 'fretboardLab.enharmonicHint' | translate }}</p>
+    </div>
+
+    <div class="finder__body">
+      <div class="notes" role="group" [attr.aria-label]="'fretboardLab.mode.notes' | translate">
+        @for (option of noteOptions(); track option.pitchClass) {
+          <button
+            type="button"
+            class="note-chip"
+            [class.note-chip--accidental]="option.name.length > 1"
+            [class.note-chip--active]="selectedPitchClass() === option.pitchClass"
+            [attr.aria-pressed]="selectedPitchClass() === option.pitchClass"
+            (click)="selectPitchClass(option.pitchClass)"
+          >{{ option.name | noteName }}</button>
+        }
+      </div>
+
+      @if (selectedNoteName(); as note) {
+        <p class="summary" aria-live="polite">
+          <span class="summary__note">{{ note | noteName }}</span>
+          {{ 'fretboardLab.appearsAt' | translate: { count: matchCount(), frets: fretCount() } }}
+          <button type="button" class="summary__clear" (click)="clearSelection()">
+            {{ 'fretboardLab.clear' | translate }}
+          </button>
+        </p>
+      } @else {
+        <p class="summary summary--empty" aria-live="polite">{{ 'fretboardLab.noNoteSelected' | translate }}</p>
+      }
+    </div>
+  </section>
+} @else if (mode() === 'scales') {
+  @if (scale.value(); as active) {
+    <section class="finder">
+      <div class="finder__intro">
+        <span class="fl-eyebrow">{{ active.tonic.name | noteName }} {{ 'scaleType.' + active.type.id | translate }}</span>
+        <h2 class="finder__title">{{ 'fretboardLab.scaleNoteCount' | translate: { n: active.type.degreeCount } }}</h2>
+        <p class="fl-muted">{{ 'fretboardLab.scaleColourHint' | translate }}</p>
+      </div>
+
+      <div class="finder__body">
+        <p class="summary">
+          <span class="notes-in-order">
+            @for (note of active.notes; track $index) {
+              <span class="notes-in-order__note" [class.notes-in-order__note--bass]="$index === 0">
+                {{ note.name | noteName }}
+              </span>
+            }
+          </span>
+        </p>
+      </div>
+    </section>
+  }
+} @else if (chord.value(); as active) {
+  <section class="finder">
+    <div class="finder__intro">
+      <span class="fl-eyebrow">{{ active.symbol }}</span>
+      <h2 class="finder__title">{{ 'chordType.' + active.type.id | translate }} {{ 'fretboardLab.chordSuffix' | translate }}</h2>
+      <p class="fl-muted">{{ 'fretboardLab.chordColourHint' | translate }}</p>
+    </div>
+
+    <div class="finder__body">
+      <div class="inversions" role="group" [attr.aria-label]="'fretboardLab.inversion.0' | translate">
+        @for (option of inversionOptions(); track option.value) {
+          <button
+            type="button"
+            class="inversion-chip"
+            [class.inversion-chip--active]="inversion() === option.value"
+            [attr.aria-pressed]="inversion() === option.value"
+            (click)="setInversion(option.value)"
+          >{{ option.labelKey | translate }}</button>
+        }
+      </div>
+
+      <p class="summary">
+        <span class="notes-in-order">
+          @for (note of notesInInversion(); track $index) {
+            <span class="notes-in-order__note" [class.notes-in-order__note--bass]="$index === 0">
+              {{ note.name | noteName }}
+            </span>
+          }
+        </span>
+      </p>
+    </div>
+  </section>
+}

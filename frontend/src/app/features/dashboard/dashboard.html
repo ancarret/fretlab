@@ -1,0 +1,122 @@
+<app-page-header
+  eyebrowKey="dashboard.header.eyebrow"
+  titleKey="dashboard.header.title"
+  leadKey="dashboard.header.lead"
+/>
+
+<section class="resume">
+  <div class="resume__number" aria-hidden="true">01</div>
+  <div class="resume__body">
+    <div class="resume__meta">
+      <span class="fl-eyebrow">{{ 'dashboard.resume.eyebrow' | translate }}</span>
+      <span class="fl-mock">{{ 'placeholder.badge' | translate }}</span>
+    </div>
+    <h2 class="resume__title">{{ 'dashboard.resume.title' | translate }}</h2>
+    <p class="fl-muted">{{ 'dashboard.resume.body' | translate }}</p>
+    <div class="resume__actions">
+      <button type="button" class="fl-button fl-button--primary" disabled>
+        {{ 'dashboard.resume.resumeLesson' | translate }}
+      </button>
+      <a class="fl-button" routerLink="/fretboard">{{ 'dashboard.resume.openLab' | translate }}</a>
+    </div>
+  </div>
+</section>
+
+<section class="study" aria-labelledby="study-title">
+  <header class="study__header">
+    <div>
+      <span class="fl-eyebrow">{{ 'dashboard.study.eyebrow' | translate }}</span>
+      <h2 class="study__title" id="study-title">
+        {{ 'dashboard.study.title' | translate: { tonic: (tonic() | noteName), scale: (scalePhraseKey() | translate) } }}
+      </h2>
+    </div>
+
+    <div class="study__controls">
+      <div class="fl-segmented" role="group" [attr.aria-label]="'dashboard.study.keyGroup' | translate">
+        @for (option of tonicOptions; track option) {
+          <button
+            type="button"
+            [attr.aria-pressed]="tonic() === option"
+            (click)="tonic.set(option)"
+          >{{ option | noteName }}</button>
+        }
+      </div>
+      <div class="fl-segmented" role="group" [attr.aria-label]="'dashboard.study.scaleGroup' | translate">
+        @for (option of scaleOptions; track option.value) {
+          <button
+            type="button"
+            [attr.aria-pressed]="scale() === option.value"
+            (click)="scale.set(option.value)"
+          >{{ option.labelKey | translate }}</button>
+        }
+      </div>
+    </div>
+  </header>
+
+  @if (harmony.error()) {
+    <p class="study__state study__state--error">{{ 'dashboard.study.error' | translate }}</p>
+  } @else if (harmony.value(); as data) {
+    <ol class="degrees" [class.degrees--loading]="harmony.isLoading()">
+      @for (entry of data.degrees; track entry.degree) {
+        <li class="degree" [class]="'degree--' + entry.chord.type.id.toLowerCase()">
+          <span class="degree__numeral">{{ entry.romanNumeral }}</span>
+          <span class="degree__symbol">{{ entry.chord.symbol | noteName }}</span>
+          <span class="degree__notes">
+            @for (note of entry.chord.notes; track $index) {
+              <span>{{ note.name | noteName }}</span>
+            }
+          </span>
+          <span class="degree__quality">{{ 'chordType.' + entry.chord.type.id | translate }}</span>
+        </li>
+      }
+    </ol>
+    <p class="study__caption">{{ 'dashboard.study.caption' | translate }}</p>
+  } @else {
+    <p class="study__state">{{ 'dashboard.study.loading' | translate }}</p>
+  }
+</section>
+
+<div class="columns">
+  <section class="ledger" aria-labelledby="mastery-title">
+    <div class="section-meta">
+      <span class="fl-eyebrow">{{ 'dashboard.mastery.eyebrow' | translate }}</span>
+      <span class="fl-mock">{{ 'placeholder.badge' | translate }}</span>
+    </div>
+    <h2 class="section-title" id="mastery-title">{{ 'dashboard.mastery.title' | translate }}</h2>
+
+    <ul class="ledger__list">
+      @for (topic of mastery; track topic.nameKey) {
+        <li class="ledger__row">
+          <span class="ledger__name">{{ topic.nameKey | translate }}</span>
+          <span
+            class="meter"
+            role="progressbar"
+            [attr.aria-valuenow]="topic.percentage"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            [attr.aria-label]="topic.nameKey | translate"
+          >
+            @for (segment of meterSegments; track segment) {
+              <span class="meter__segment" [class.meter__segment--on]="segment < topic.percentage / 10"></span>
+            }
+          </span>
+          <span class="ledger__value">{{ topic.percentage }}%</span>
+        </li>
+      }
+    </ul>
+  </section>
+
+  <section class="today" aria-labelledby="today-title">
+    <div class="section-meta">
+      <span class="fl-eyebrow">{{ 'dashboard.today.eyebrow' | translate }}</span>
+      <span class="fl-mock">{{ 'placeholder.badge' | translate }}</span>
+    </div>
+    <h2 class="section-title" id="today-title">{{ 'dashboard.today.title' | translate }}</h2>
+    <p class="fl-muted">{{ 'dashboard.today.body' | translate }}</p>
+    <ul class="today__list">
+      <li><span class="today__time">{{ 'dashboard.today.minutes' | translate: { n: 5 } }}</span> {{ 'dashboard.today.task1' | translate }}</li>
+      <li><span class="today__time">{{ 'dashboard.today.minutes' | translate: { n: 5 } }}</span> {{ 'dashboard.today.task2' | translate }}</li>
+      <li><span class="today__time">{{ 'dashboard.today.minutes' | translate: { n: 3 } }}</span> {{ 'dashboard.today.task3' | translate }}</li>
+    </ul>
+  </section>
+</div>
