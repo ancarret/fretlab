@@ -74,6 +74,36 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'learn.header.lead': 'The path from note names to functional harmony, every step anchored to the guitar neck.',
     'learn.module': 'Module {n}: ',
     'learn.comingSoon': 'Coming soon',
+    'learn.startLesson': 'Start lesson',
+
+    // ---------- Learn — Lesson 1: Music foundations ----------
+    'learn.foundations.header.eyebrow': 'Module 1',
+    'learn.foundations.header.title': 'Music foundations',
+    'learn.foundations.header.lead':
+      'Note names, the twelve pitch classes, semitones and enharmonics — the vocabulary everything else in FretLab is written in.',
+    'learn.foundations.intro.title': 'Twelve notes, then it repeats',
+    'learn.foundations.intro.body':
+      'Pitch does not go on forever in new names — after twelve steps it starts over, an octave higher, with the same name. Those twelve steps are called pitch classes, and they are the entire alphabet of Western music: every melody, chord and scale is built from just these twelve.',
+    'learn.foundations.semitone.title': 'The semitone: the smallest step',
+    'learn.foundations.semitone.body':
+      'A semitone is the smallest distance between two pitch classes — one fret on a guitar, exactly. A sharp (♯) raises a note by one semitone; a flat (♭) lowers it by one semitone. Two semitones make a whole tone. That is the entire vocabulary needed to describe distance between any two notes.',
+    'learn.foundations.piano.eyebrow': 'Spelling',
+    'learn.foundations.piano.instruction':
+      'Press a key to see its name — and where that exact pitch lives on the guitar, below.',
+    'learn.foundations.selected.none': 'Press a key on the piano to begin.',
+    'learn.foundations.selected.summary': 'appears in {count} places within the first 12 frets.',
+    'learn.foundations.gap.title': 'A special gap: B–C and E–F',
+    'learn.foundations.gap.body':
+      'Look at the piano above: there is no black key between B and C, or between E and F. Every other pair of neighbouring white keys has one. That is not a design accident — the seven letter names come from a pattern that is a whole tone apart everywhere except those two pairs, which are already only a semitone apart. On the guitar this shows up exactly as you would expect: B to C, and E to F, are always a single fret apart, never two.',
+    'learn.foundations.fretboard.title': 'The same note, on the guitar',
+    'learn.foundations.enharmonic.title': 'Two names, one note',
+    'learn.foundations.enharmonic.hint':
+      'Switch between sharps and flats above and press the same key again — the pitch does not change, only what it is called. C♯ and D♭ are the exact same string, the exact same fret. Which name is "correct" depends on the musical context, not on the sound.',
+    'learn.foundations.next.title': 'Next step',
+    'learn.foundations.next.body':
+      'Once naming notes on sight feels natural, practise finding them on the neck from memory, with real scoring.',
+    'learn.foundations.next.cta': 'Go to Practice',
+
     'learn.module1.name': 'Music foundations',
     'learn.module1.summary': 'Note names, the twelve pitch classes, semitones, enharmonics.',
     'learn.module2.name': 'The guitar',
@@ -346,6 +376,36 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'learn.header.lead': 'El camino desde el nombre de las notas hasta la armonía funcional, cada paso anclado al mástil.',
     'learn.module': 'Módulo {n}: ',
     'learn.comingSoon': 'Próximamente',
+    'learn.startLesson': 'Empezar lección',
+
+    // ---------- Aprender — Lección 1: Fundamentos musicales ----------
+    'learn.foundations.header.eyebrow': 'Módulo 1',
+    'learn.foundations.header.title': 'Fundamentos musicales',
+    'learn.foundations.header.lead':
+      'Nombres de las notas, las doce clases de altura, semitonos y enarmonías — el vocabulario en el que está escrito todo lo demás en FretLab.',
+    'learn.foundations.intro.title': 'Doce notas, y luego se repite',
+    'learn.foundations.intro.body':
+      'La altura no sigue generando nombres nuevos para siempre — tras doce pasos vuelve a empezar, una octava más arriba, con el mismo nombre. Esos doce pasos se llaman clases de altura, y son todo el alfabeto de la música occidental: cualquier melodía, acorde o escala se construye solo con estas doce.',
+    'learn.foundations.semitone.title': 'El semitono: el paso más pequeño',
+    'learn.foundations.semitone.body':
+      'Un semitono es la distancia más pequeña entre dos clases de altura — exactamente un traste en la guitarra. Un sostenido (♯) sube una nota un semitono; un bemol (♭) la baja un semitono. Dos semitonos forman un tono entero. Ese es todo el vocabulario necesario para describir la distancia entre dos notas cualesquiera.',
+    'learn.foundations.piano.eyebrow': 'Escritura',
+    'learn.foundations.piano.instruction':
+      'Pulsa una tecla para ver su nombre — y dónde vive esa misma nota en la guitarra, justo debajo.',
+    'learn.foundations.selected.none': 'Pulsa una tecla del piano para empezar.',
+    'learn.foundations.selected.summary': 'aparece en {count} sitios dentro de los primeros 12 trastes.',
+    'learn.foundations.gap.title': 'Un hueco especial: Si-Do y Mi-Fa',
+    'learn.foundations.gap.body':
+      'Mira el piano de arriba: no hay ninguna tecla negra entre Si y Do, ni entre Mi y Fa. Cualquier otro par de teclas blancas vecinas sí la tiene. No es casualidad de diseño — los siete nombres de nota vienen de un patrón que está a un tono entero de distancia en todas partes excepto en esos dos pares, que ya están a solo un semitono. En la guitarra esto se nota exactamente como cabría esperar: de Si a Do, y de Mi a Fa, siempre hay un único traste de distancia, nunca dos.',
+    'learn.foundations.fretboard.title': 'Esa misma nota, en la guitarra',
+    'learn.foundations.enharmonic.title': 'Dos nombres, una sola nota',
+    'learn.foundations.enharmonic.hint':
+      'Cambia entre sostenidos y bemoles arriba y pulsa la misma tecla otra vez — la altura no cambia, solo cómo se llama. Do♯ y Re♭ son exactamente la misma cuerda, el mismo traste. Qué nombre es "correcto" depende del contexto musical, no del sonido.',
+    'learn.foundations.next.title': 'Siguiente paso',
+    'learn.foundations.next.body':
+      'Cuando nombrar las notas a simple vista te salga natural, practica encontrarlas en el mástil de memoria, con puntuación real.',
+    'learn.foundations.next.cta': 'Ir a Practicar',
+
     'learn.module1.name': 'Fundamentos musicales',
     'learn.module1.summary': 'Nombres de las notas, las doce clases de altura, semitonos, enarmonías.',
     'learn.module2.name': 'La guitarra',

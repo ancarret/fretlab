@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
 import { PageHeader } from '../../shared/page-header';
@@ -7,18 +8,19 @@ interface CurriculumModule {
   readonly order: number;
   readonly nameKey: string;
   readonly summaryKey: string;
+  /** Only a module with real content has a route; everything else is still "coming soon". */
+  readonly route?: string;
 }
 
 @Component({
   selector: 'app-learn',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [PageHeader, TranslatePipe],
+  imports: [PageHeader, TranslatePipe, RouterLink],
   template: `
     <app-page-header
       eyebrowKey="learn.header.eyebrow"
       titleKey="learn.header.title"
       leadKey="learn.header.lead"
-      [placeholder]="true"
     />
 
     <ol class="toc">
@@ -27,11 +29,22 @@ interface CurriculumModule {
           <span class="toc__order" aria-hidden="true">{{ module.order }}</span>
           <div class="toc__body">
             <h2 class="toc__name">
-              <span class="visually-hidden">{{ 'learn.module' | translate: { n: module.order } }}</span>{{ module.nameKey | translate }}
+              <span class="visually-hidden">{{ 'learn.module' | translate: { n: module.order } }}</span>
+              @if (module.route) {
+                <a [routerLink]="module.route">{{ module.nameKey | translate }}</a>
+              } @else {
+                {{ module.nameKey | translate }}
+              }
             </h2>
             <p class="fl-muted">{{ module.summaryKey | translate }}</p>
           </div>
-          <span class="toc__status">{{ 'learn.comingSoon' | translate }}</span>
+          @if (module.route) {
+            <a class="toc__status toc__status--ready" [routerLink]="module.route">
+              {{ 'learn.startLesson' | translate }}
+            </a>
+          } @else {
+            <span class="toc__status">{{ 'learn.comingSoon' | translate }}</span>
+          }
         </li>
       }
     </ol>
@@ -77,6 +90,11 @@ interface CurriculumModule {
       margin-bottom: var(--fl-space-1);
     }
 
+    .toc__name a {
+      color: inherit;
+      text-decoration-color: var(--fl-border-strong);
+    }
+
     .toc__status {
       color: var(--fl-text-faint);
       font-family: var(--fl-font-mono);
@@ -84,6 +102,12 @@ interface CurriculumModule {
       letter-spacing: 0.08em;
       text-transform: uppercase;
       white-space: nowrap;
+    }
+
+    .toc__status--ready {
+      color: var(--fl-accent);
+      font-weight: 700;
+      text-decoration: none;
     }
 
     .visually-hidden {
@@ -109,7 +133,12 @@ interface CurriculumModule {
 })
 export class Learn {
   protected readonly modules: readonly CurriculumModule[] = [
-    { order: 1, nameKey: 'learn.module1.name', summaryKey: 'learn.module1.summary' },
+    {
+      order: 1,
+      nameKey: 'learn.module1.name',
+      summaryKey: 'learn.module1.summary',
+      route: '/learn/foundations',
+    },
     { order: 2, nameKey: 'learn.module2.name', summaryKey: 'learn.module2.summary' },
     { order: 3, nameKey: 'learn.module3.name', summaryKey: 'learn.module3.summary' },
     { order: 4, nameKey: 'learn.module4.name', summaryKey: 'learn.module4.summary' },

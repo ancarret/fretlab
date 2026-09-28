@@ -1,0 +1,76 @@
+:host {
+  display: block;
+}
+
+.piano {
+  overflow-x: auto;
+  padding-bottom: var(--fl-space-2);
+  scrollbar-color: var(--fl-border-strong) transparent;
+}
+
+.piano__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.key {
+  stroke: var(--fl-rule);
+  stroke-width: 1.5;
+  cursor: pointer;
+  transition: fill 0.12s ease;
+}
+
+.key--white {
+  fill: var(--fl-surface-raised);
+  rx: 2;
+}
+
+.key--white:hover {
+  fill: var(--fl-surface-hover);
+}
+
+.key--black {
+  fill: var(--fl-rule);
+  stroke: var(--fl-rule);
+}
+
+.key--black:hover {
+  fill: var(--fl-text-muted);
+}
+
+.key:focus-visible {
+  outline: 2px solid var(--fl-accent);
+  outline-offset: -2px;
+}
+
+.key--role-root {
+  fill: var(--fl-role-root);
+}
+
+.key--role-third {
+  fill: var(--fl-role-third);
+}
+
+.key--role-fifth {
+  fill: var(--fl-role-fifth);
+}
+
+.key--role-seventh {
+  fill: var(--fl-role-seventh);
+}
+
+.key--role-other {
+  fill: var(--fl-role-other);
+}
+
+/* Labels only ever appear on a marked (pressed) key, which always has a role fill underneath. */
+.key__label {
+  pointer-events: none;
+  font-family: var(--fl-font-sans);
+  font-weight: 700;
+  font-size: 12px;
+  text-anchor: middle;
+  fill: var(--fl-on-role);
+}

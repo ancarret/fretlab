@@ -9,14 +9,13 @@
   <div class="resume__body">
     <div class="resume__meta">
       <span class="fl-eyebrow">{{ 'dashboard.resume.eyebrow' | translate }}</span>
-      <span class="fl-mock">{{ 'placeholder.badge' | translate }}</span>
     </div>
     <h2 class="resume__title">{{ 'dashboard.resume.title' | translate }}</h2>
     <p class="fl-muted">{{ 'dashboard.resume.body' | translate }}</p>
     <div class="resume__actions">
-      <button type="button" class="fl-button fl-button--primary" disabled>
+      <a class="fl-button fl-button--primary" routerLink="/learn/foundations">
         {{ 'dashboard.resume.resumeLesson' | translate }}
-      </button>
+      </a>
       <a class="fl-button" routerLink="/fretboard">{{ 'dashboard.resume.openLab' | translate }}</a>
     </div>
   </div>

@@ -1,0 +1,51 @@
+<div class="piano">
+  <svg
+    class="piano__svg"
+    [attr.viewBox]="viewBox"
+    [style.min-width.px]="width"
+    role="group"
+    aria-label="Piano keyboard, one octave from C"
+  >
+    @for (key of whiteKeys(); track key.pitchClass) {
+      <rect
+        [class]="key.role ? 'key key--white key--role-' + key.role : 'key key--white'"
+        [attr.x]="key.x"
+        [attr.y]="y"
+        [attr.width]="key.width"
+        [attr.height]="key.height"
+        [attr.tabindex]="interactive() ? 0 : null"
+        [attr.role]="interactive() ? 'button' : null"
+        [attr.aria-label]="interactive() ? 'Pitch class ' + key.pitchClass : null"
+        (click)="select(key.pitchClass)"
+        (keydown.enter)="select(key.pitchClass)"
+        (keydown.space)="select(key.pitchClass); $event.preventDefault()"
+      />
+      @if (key.label) {
+        <text class="key__label" [attr.x]="key.x + key.width / 2" [attr.y]="y + key.height - 14">
+          {{ key.label }}
+        </text>
+      }
+    }
+
+    @for (key of blackKeys(); track key.pitchClass) {
+      <rect
+        [class]="key.role ? 'key key--black key--role-' + key.role : 'key key--black'"
+        [attr.x]="key.x"
+        [attr.y]="y"
+        [attr.width]="key.width"
+        [attr.height]="key.height"
+        [attr.tabindex]="interactive() ? 0 : null"
+        [attr.role]="interactive() ? 'button' : null"
+        [attr.aria-label]="interactive() ? 'Pitch class ' + key.pitchClass : null"
+        (click)="select(key.pitchClass)"
+        (keydown.enter)="select(key.pitchClass)"
+        (keydown.space)="select(key.pitchClass); $event.preventDefault()"
+      />
+      @if (key.label) {
+        <text class="key__label" [attr.x]="key.x + key.width / 2" [attr.y]="y + key.height - 12">
+          {{ key.label }}
+        </text>
+      }
+    }
+  </svg>
+</div>

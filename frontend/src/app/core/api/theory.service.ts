@@ -123,6 +123,14 @@ export class TheoryService {
     }));
   }
 
+  /** The twelve pitch classes of one octave, spelled under the requested convention. */
+  notes(query: () => { readonly spelling: Spelling }) {
+    return httpResource<ApiNote[]>(() => ({
+      url: `${environment.apiBaseUrl}/theory/notes`,
+      params: { ...query() },
+    }));
+  }
+
   /**
    * Every chord formula FretLab knows. `enabled` lets a caller that only needs this in one UI mode
    * skip the request entirely the rest of the time, rather than fetching it on every page visit.

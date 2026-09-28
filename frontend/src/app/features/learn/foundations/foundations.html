@@ -1,0 +1,72 @@
+<app-page-header
+  eyebrowKey="learn.foundations.header.eyebrow"
+  titleKey="learn.foundations.header.title"
+  leadKey="learn.foundations.header.lead"
+/>
+
+<section class="block">
+  <h2>{{ 'learn.foundations.intro.title' | translate }}</h2>
+  <p class="fl-muted">{{ 'learn.foundations.intro.body' | translate }}</p>
+</section>
+
+<section class="block">
+  <h2>{{ 'learn.foundations.semitone.title' | translate }}</h2>
+  <p class="fl-muted">{{ 'learn.foundations.semitone.body' | translate }}</p>
+</section>
+
+<section class="stage" aria-label="Piano">
+  <div class="stage__header">
+    <span class="fl-eyebrow" id="piano-spelling-label">{{ 'learn.foundations.piano.eyebrow' | translate }}</span>
+    <div class="fl-segmented" role="group" aria-labelledby="piano-spelling-label">
+      @for (option of spellingOptions; track option.value) {
+        <button
+          type="button"
+          [attr.aria-pressed]="spelling() === option.value"
+          (click)="setSpelling(option.value)"
+        >{{ option.labelKey | translate }}</button>
+      }
+    </div>
+  </div>
+
+  <p class="fl-muted">{{ 'learn.foundations.piano.instruction' | translate }}</p>
+
+  <app-piano [markers]="pianoMarkers()" (keySelected)="selectPitchClass($event)" />
+
+  @if (selectedNote(); as note) {
+    <p class="summary" aria-live="polite">
+      <span class="summary__note">{{ note.name | noteName }}</span>
+      {{ 'learn.foundations.selected.summary' | translate: { count: matchCount() } }}
+    </p>
+  } @else {
+    <p class="summary summary--empty" aria-live="polite">{{ 'learn.foundations.selected.none' | translate }}</p>
+  }
+</section>
+
+<section class="block">
+  <h2>{{ 'learn.foundations.gap.title' | translate }}</h2>
+  <p class="fl-muted">{{ 'learn.foundations.gap.body' | translate }}</p>
+</section>
+
+@if (selectedPitchClass() !== null) {
+  <section class="stage" aria-label="Fretboard">
+    <h2>{{ 'learn.foundations.fretboard.title' | translate }}</h2>
+    @if (board.isLoading()) {
+      <p class="state">{{ 'fretboardLab.loading' | translate }}</p>
+    } @else {
+      <app-fretboard [fretCount]="12" [markers]="fretboardMarkers()" [interactive]="false" />
+    }
+  </section>
+}
+
+<section class="block">
+  <h2>{{ 'learn.foundations.enharmonic.title' | translate }}</h2>
+  <p class="fl-muted">{{ 'learn.foundations.enharmonic.hint' | translate }}</p>
+</section>
+
+<section class="next">
+  <span class="fl-eyebrow">{{ 'learn.foundations.next.title' | translate }}</span>
+  <p class="fl-muted">{{ 'learn.foundations.next.body' | translate }}</p>
+  <a class="fl-button fl-button--primary" routerLink="/practice/fretboard-trainer">
+    {{ 'learn.foundations.next.cta' | translate }}
+  </a>
+</section>
