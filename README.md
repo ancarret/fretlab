@@ -6,14 +6,15 @@ Learn music theory *through the guitar*. FretLab does not ask you to memorise th
 is "root, major third, perfect fifth" — it shows you where those three notes live on the neck,
 lets you build the chord yourself, and tells you whether you got it right.
 
-> **Status: the core learning loop is feature-complete and fully tested.** Music theory (notes,
-> intervals, chords with inversions, scales, diatonic harmony), two backend-generated practice
-> trainers with real scoring, JWT authentication, and progress tracking derived from real recorded
-> attempts all work end to end against a real PostgreSQL database, fully containerised and verified
-> locally. **It is not yet publicly deployed** — see [Try it online](#try-it-online) below for
-> exactly what's left, all of it free. See [docs/roadmap.md](docs/roadmap.md) for exactly what has
-> shipped, what was deliberately deferred and why, and what's next. Screens still showing hardcoded
-> content are labelled **Placeholder** in the UI, never silently.
+> **Status: the core learning loop is feature-complete, fully tested, and live.** Music theory
+> (notes, intervals, chords with inversions, scales, diatonic harmony), two backend-generated
+> practice trainers with real scoring, JWT authentication, and progress tracking derived from real
+> recorded attempts all work end to end against a real PostgreSQL database. See
+> [docs/roadmap.md](docs/roadmap.md) for exactly what has shipped, what was deliberately deferred
+> and why, and what's next. Screens still showing hardcoded content are labelled **Placeholder** in
+> the UI, never silently.
+
+**[fretlab-3jv.pages.dev →](https://fretlab-3jv.pages.dev)**
 
 ![Java](https://img.shields.io/badge/Java-25-e76f00)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.1-6db33f)
@@ -21,23 +22,31 @@ lets you build the chord yourself, and tells you whether you got it right.
 ![Angular](https://img.shields.io/badge/Angular-22-dd0031)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-18-336791)
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ed)
-![Tests](https://img.shields.io/badge/tests-190%2B%20backend%20%C2%B7%2039%20frontend-brightgreen)
+![Tests](https://img.shields.io/badge/tests-190%2B%20backend%20%C2%B7%2046%20frontend-brightgreen)
+
+<video src="docs/media/demo.webm" controls width="100%">
+  Your browser doesn't support inline video — the live app is linked above.
+</video>
+
+*Dashboard → Fretboard Lab (notes and chords, colour-coded by role) → Lesson 1's piano synced live
+to the neck → the Practice hub.*
 
 ---
 
 ## Try it online
 
-**Not live yet.** The code and deployment config are all ready and verified — what's left is three
-account-creation steps that only a human can do. Two need no card at all; Render (the backend) will
-likely ask for one as a fraud-verification hold, not an actual charge — that's an industry-wide
-pattern in 2026, not something specific to this project.
+**Live now: [fretlab-3jv.pages.dev](https://fretlab-3jv.pages.dev)** — frontend on Cloudflare Pages,
+backend on Render, PostgreSQL on Neon, all on free tiers:
 
-- [x] Code pushed to GitHub
-- [ ] Frontend deployed on [Cloudflare Pages](https://pages.cloudflare.com/) (connected directly to
-      this repo, no card)
-- [ ] Free PostgreSQL database created on [Neon](https://neon.tech/) (no card)
-- [ ] Backend deployed on [Render](https://render.com/) (free web service, built from
-      [`render.yaml`](render.yaml); likely asks for a card as a refundable verification hold)
+- [x] Frontend on [Cloudflare Pages](https://pages.cloudflare.com/) (connected directly to this
+      repo, no card)
+- [x] Database on [Neon](https://neon.tech/) (free Postgres, no card)
+- [x] Backend on [Render](https://render.com/) (free web service, built from
+      [`render.yaml`](render.yaml); this one did ask for a card as a refundable verification hold —
+      an industry-wide pattern in 2026, not something specific to this project)
+
+The backend sleeps after ~15 minutes without traffic — the first request afterward takes 30–50s
+while it wakes up. Everything below is how to reproduce this deployment from a fork.
 
 The reasoning behind this exact three-way split, and why Neon specifically rather than Supabase
 (Supabase's direct connection — which Flyway needs — is IPv6-only unless you pay; Render has no
@@ -59,12 +68,17 @@ outbound IPv6), is in
    `jdbc:postgresql://ep-xxxx.us-east-2.aws.neon.tech:5432/neondb?user=xxxx&password=xxxx`; split it
    into the URL (without the `user`/`password` query params), the username, and the password —
    you'll need those three separately in step 3.
-2. **Create a Cloudflare account → Workers & Pages → Create application → Pages → Connect to Git**,
-   authorize GitHub and pick this repository. Set the build command to
-   `npm run build:cloudflare-pages` (run from the `frontend` directory — set that as the root
-   directory in the project settings) and the build output directory to
-   `dist/fretlab-frontend/browser`. Cloudflare assigns a `https://fretlab.pages.dev`-style URL and
+2. **Create a Cloudflare account → "Ship something new" → "Continue to Pages" → "Import an existing
+   Git repository"** (Cloudflare's dashboard nav for this moves around — if that exact path is gone,
+   look for "Workers & Pages" under Build → Compute). Authorize GitHub, pick this repository, and
+   set: **Root directory** `frontend`, **Build command** `npm run build:cloudflare-pages`, **Build
+   output directory** `dist/fretlab-frontend/browser`. Then in the project's **Settings →
+   Environment variables**, add `NODE_VERSION` = `24.15.0` (Cloudflare's default Node is older than
+   Angular 22 requires — [`.node-version`](frontend/.node-version) documents this, but Cloudflare
+   still needs it set explicitly). Cloudflare assigns a `https://fretlab.pages.dev`-style URL and
    rebuilds automatically on every push — no GitHub Actions workflow needed for this part.
+   [`wrangler.jsonc`](frontend/wrangler.jsonc) handles SPA routing (a plain `_redirects` file gets
+   silently ignored on Cloudflare's current static-assets runtime).
 3. **Create a Render account → New → Blueprint**, point it at this repository. Render reads
    [`render.yaml`](render.yaml) and creates the backend web service. When prompted, fill in:
    - `FRETLAB_DB_URL` / `FRETLAB_DB_USERNAME` / `FRETLAB_DB_PASSWORD` — from step 1
