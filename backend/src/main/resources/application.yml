@@ -1,0 +1,41 @@
+server:
+  # Free-tier PaaS hosts (Render included) assign the port dynamically via $PORT; default to 8080
+  # for local runs and the Docker Compose deployment, where nothing sets that variable.
+  port: ${PORT:8080}
+
+spring:
+  application:
+    name: fretlab-backend
+
+  autoconfigure:
+    # Authentication is entirely custom (JWT, checked against the users table) and never goes
+    # through Spring's AuthenticationManager, so the default in-memory user this autoconfiguration
+    # creates is dead weight — without excluding it, Boot logs a generated password on every boot
+    # for a user nothing ever authenticates as.
+    exclude: org.springframework.boot.security.autoconfigure.UserDetailsServiceAutoConfiguration
+
+  datasource:
+    url: ${FRETLAB_DB_URL:jdbc:postgresql://localhost:5432/fretlab}
+    username: ${FRETLAB_DB_USERNAME:fretlab}
+    password: ${FRETLAB_DB_PASSWORD:fretlab}
+
+  jpa:
+    # Flyway owns the schema. Hibernate may only verify that entities match it.
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+fretlab:
+  # Filtered by Maven from the project version; quoted because `@` starts a reserved YAML token.
+  version: '@project.version@'
+  cors:
+    allowed-origins: ${FRETLAB_CORS_ALLOWED_ORIGINS:http://localhost:4200}
+  jwt:
+    # Local-development default only — see .env.example. Any deployed environment must override
+    # this with its own high-entropy secret via FRETLAB_JWT_SECRET.
+    secret: ${FRETLAB_JWT_SECRET:local-development-only-secret-change-me-before-deploying-anywhere}
+    expiration-minutes: ${FRETLAB_JWT_EXPIRATION_MINUTES:60}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
