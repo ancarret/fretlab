@@ -1,20 +1,12 @@
 # FretLab 🎸
 
-**Interactive Guitar Theory Learning Platform**
+**Interactive guitar theory learning platform.**
 
-Learn music theory *through the guitar*. FretLab does not ask you to memorise that a major chord
-is "root, major third, perfect fifth" — it shows you where those three notes live on the neck,
-lets you build the chord yourself, and tells you whether you got it right.
+FretLab doesn't ask you to memorise that a major chord is "root, major third, perfect fifth" — it
+shows you where those three notes live on the neck, lets you build the chord yourself, and tells
+you whether you got it right.
 
-> **Status: the core learning loop is feature-complete, fully tested, and live.** Music theory
-> (notes, intervals, chords with inversions, scales, diatonic harmony), two backend-generated
-> practice trainers with real scoring, JWT authentication, and progress tracking derived from real
-> recorded attempts all work end to end against a real PostgreSQL database. See
-> [docs/roadmap.md](docs/roadmap.md) for exactly what has shipped, what was deliberately deferred
-> and why, and what's next. Screens still showing hardcoded content are labelled **Placeholder** in
-> the UI, never silently.
-
-**[fretlab-3jv.pages.dev →](https://fretlab-3jv.pages.dev)**
+**[Try it live → fretlab-3jv.pages.dev](https://fretlab-3jv.pages.dev)**
 
 ![Java](https://img.shields.io/badge/Java-25-e76f00)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.1-6db33f)
@@ -24,243 +16,61 @@ lets you build the chord yourself, and tells you whether you got it right.
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ed)
 ![Tests](https://img.shields.io/badge/tests-190%2B%20backend%20%C2%B7%2046%20frontend-brightgreen)
 
-<video src="docs/media/demo.webm" controls width="100%">
-  Your browser doesn't support inline video — the live app is linked above.
-</video>
+<img src="docs/media/demo.gif" width="100%" alt="FretLab demo: Dashboard, Fretboard Lab, Lesson 1's piano, and the Practice hub">
 
 *Dashboard → Fretboard Lab (notes and chords, colour-coded by role) → Lesson 1's piano synced live
 to the neck → the Practice hub.*
 
----
+## What it does
 
-## Try it online
-
-**Live now: [fretlab-3jv.pages.dev](https://fretlab-3jv.pages.dev)** — frontend on Cloudflare Pages,
-backend on Render, PostgreSQL on Neon, all on free tiers:
-
-- [x] Frontend on [Cloudflare Pages](https://pages.cloudflare.com/) (connected directly to this
-      repo, no card)
-- [x] Database on [Neon](https://neon.tech/) (free Postgres, no card)
-- [x] Backend on [Render](https://render.com/) (free web service, built from
-      [`render.yaml`](render.yaml); this one did ask for a card as a refundable verification hold —
-      an industry-wide pattern in 2026, not something specific to this project)
-
-The backend sleeps after ~15 minutes without traffic — the first request afterward takes 30–50s
-while it wakes up. Everything below is how to reproduce this deployment from a fork.
-
-The reasoning behind this exact three-way split, and why Neon specifically rather than Supabase
-(Supabase's direct connection — which Flyway needs — is IPv6-only unless you pay; Render has no
-outbound IPv6), is in
-[docs/roadmap.md#phase-15](docs/roadmap.md#phase-15--prepared-awaiting-accounts-only-the-user-can-create).
-
-| Service | Host | Note |
-| --- | --- | --- |
-| Frontend | Cloudflare Pages | Free, unlimited bandwidth, no card, no cold start |
-| Backend | Render (free web service) | Sleeps after ~15 min idle; first request after that takes 30–50s |
-| Database | Neon | Free Postgres with an IPv4-reachable direct connection (needed for Flyway) |
-
-**Setup, in order:**
-
-1. **Create a free Postgres database on [Neon](https://neon.tech/).** Sign up (GitHub login works,
-   no card), create a project. Click **Connect**, choose **Java** from the connection-string
-   dropdown, and make sure **Connection pooling is OFF** — Flyway needs the direct connection, not
-   the pooled one. You'll get something like
-   `jdbc:postgresql://ep-xxxx.us-east-2.aws.neon.tech:5432/neondb?user=xxxx&password=xxxx`; split it
-   into the URL (without the `user`/`password` query params), the username, and the password —
-   you'll need those three separately in step 3.
-2. **Create a Cloudflare account → "Ship something new" → "Continue to Pages" → "Import an existing
-   Git repository"** (Cloudflare's dashboard nav for this moves around — if that exact path is gone,
-   look for "Workers & Pages" under Build → Compute). Authorize GitHub, pick this repository, and
-   set: **Root directory** `frontend`, **Build command** `npm run build:cloudflare-pages`, **Build
-   output directory** `dist/fretlab-frontend/browser`. Then in the project's **Settings →
-   Environment variables**, add `NODE_VERSION` = `24.15.0` (Cloudflare's default Node is older than
-   Angular 22 requires — [`.node-version`](frontend/.node-version) documents this, but Cloudflare
-   still needs it set explicitly). Cloudflare assigns a `https://fretlab.pages.dev`-style URL and
-   rebuilds automatically on every push — no GitHub Actions workflow needed for this part.
-   [`wrangler.jsonc`](frontend/wrangler.jsonc) handles SPA routing (a plain `_redirects` file gets
-   silently ignored on Cloudflare's current static-assets runtime).
-3. **Create a Render account → New → Blueprint**, point it at this repository. Render reads
-   [`render.yaml`](render.yaml) and creates the backend web service. When prompted, fill in:
-   - `FRETLAB_DB_URL` / `FRETLAB_DB_USERNAME` / `FRETLAB_DB_PASSWORD` — from step 1
-   - `FRETLAB_CORS_ALLOWED_ORIGINS` — the exact `https://fretlab.pages.dev`-style URL Cloudflare
-     assigned in step 2
-   - `FRETLAB_JWT_SECRET` — Render generates this automatically
-4. **If Render assigns a URL other than `fretlab-backend.onrender.com`** (that name is global and
-   may already be taken), update it in
-   [environment.cloudflare-pages.ts](frontend/src/environments/environment.cloudflare-pages.ts) and
-   push — Cloudflare rebuilds automatically.
-
-Once all three checkboxes above are ticked, the app is live at whatever `https://*.pages.dev` URL
-Cloudflare assigned in step 2.
-
-## The idea
-
-Most theory apps are digital textbooks. FretLab follows one loop instead:
-
-**concept → visual explanation → guitar application → exercise → feedback → progress**
-
-The neck is the centrepiece. Every concept — notes, intervals, chords, scales — is something you
-can see and click on a fretboard, coloured by musical role (root, third, fifth, seventh) rather
-than by arbitrary shape, using the same colour everywhere in the app.
-
-## What makes it interesting technically
-
-The backend is not a CRUD wrapper around a table of chords. Java owns a real **music theory
-domain** that *computes* theory rather than looking it up — there is no `chords` table, no
-`scales` table. `Chord`, `Scale` and `Interval` are formulas applied to a root, verified by unit
-tests against known-correct theory (`G major` spells its seventh **F♯**, never the enharmonically
-identical but wrong `G♭`).
-
-| Concern | Belongs to | Example |
-| --- | --- | --- |
-| Canonical musical rules | **Java** | `C major = C E G`; `Scale.harmonize()` derives `I ii iii IV V vi vii°` |
-| Persistent application state | **PostgreSQL** | accounts, and every recorded exercise attempt |
-| Presentation and interaction | **Angular** | drawing those notes at the right SVG coordinates |
-
-Two practice trainers are backend-generated exercise engines, not a fixed question bank: the
-server picks a target note or a root+interval pair and the difficulty rules, the client grades
-itself against theory data it fetches separately, and a signed-in attempt is recorded — mastery on
-the Progress page is a live query over those attempts, never a separately maintained number that
-could drift from what actually happened.
-
-## Features
+Every concept — notes, intervals, chords, scales — is something you can see and click on a
+fretboard, colour-coded by musical role (root, third, fifth, seventh) rather than by an arbitrary
+shape, using the same colour everywhere in the app:
 
 - **Theory engine** — notes with correct enharmonic spelling, intervals, chords (11 formulas, with
   inversions), scales (major, three minor variants, both pentatonics), diatonic harmony.
-- **Fretboard Lab** — one reusable fretboard component with a Notes / Chords / Scales explore mode,
-  root/third/fifth/seventh colour-coded consistently everywhere.
-- **Practice trainers** — "Find the Note" (five progressive difficulty levels, the last one timed)
-  and "Find the Interval", both backend-generated and scored live.
-- **Authentication** — registration, login, stateless JWT, BCrypt password hashing.
-- **Progress tracking** — real per-topic mastery, computed from recorded attempts, visible once
-  signed in.
-- **English/Spanish** — a runtime language switch, not a separate build per locale; every string in
-  the UI is a translation key, note names are never translated (that's notation, not UI copy).
-- **Fully Dockerised** — Angular behind nginx, Spring Boot, PostgreSQL, three containers, one
-  `docker compose up`.
+- **Fretboard Lab** — a reusable fretboard with Notes / Chords / Scales explore modes.
+- **Practice trainers** — "Find the Note" and "Find the Interval", backend-generated and scored
+  live, not a fixed question bank.
+- **Lessons** — guided theory lessons that build on the same fretboard and piano components used
+  everywhere else in the app.
+- **Accounts & progress** — JWT auth, and per-topic mastery computed live from recorded attempts.
+- **English/Spanish** — a runtime language switch; note names are never translated.
+
+## Why it's more than a CRUD app
+
+The backend owns a real **music theory domain** that *computes* theory rather than looking it up —
+there's no `chords` table or `scales` table. `Chord`, `Scale` and `Interval` are formulas applied
+to a root, verified by unit tests against known-correct theory (`G major`'s seventh is spelled
+**F♯**, never the enharmonically identical but wrong `G♭`). The two practice trainers are
+backend-generated exercise engines: the server picks a target and the difficulty rules, the client
+grades itself against theory data fetched separately, and every signed-in attempt is recorded —
+mastery on the Progress page is a live query over those attempts, never a number that could drift
+from what actually happened.
 
 ## Tech stack
 
-**Backend** — Java 25, Spring Boot 4.1, Maven, Spring Web MVC, Spring Security, JWT (jjwt), Spring
-Data JPA, Bean Validation, Flyway, PostgreSQL 18, springdoc OpenAPI, JUnit 5, AssertJ,
-Testcontainers.
+**Backend** — Java 25, Spring Boot 4.1, Spring Web MVC, Spring Security (JWT), Spring Data JPA,
+Flyway, PostgreSQL, springdoc OpenAPI, JUnit 5, AssertJ, Testcontainers.
 
-**Frontend** — Angular 22 (standalone, zoneless, signals), TypeScript, Reactive Forms, SCSS design
-tokens, Vitest.
+**Frontend** — Angular 22 (standalone, zoneless, signals), TypeScript, SCSS design tokens, Vitest.
 
-**Infrastructure** — Locally: Docker Compose (nginx serving the Angular build and reverse-proxying
-`/api`, Spring Boot, PostgreSQL). Live: Cloudflare Pages, Render and Neon (managed Postgres) instead
-of the container — see [Try it online](#try-it-online).
+**Infrastructure** — Docker Compose locally; Cloudflare Pages, Render and Neon in production.
 
-## Architecture
+Architecture notes (modular monolith, why theory is computed rather than stored, RFC 9457 errors,
+and six more ADRs) are in [docs/architecture.md](docs/architecture.md).
 
-A **modular monolith**: one deployable, organised by business capability rather than by technical
-layer. See [docs/architecture.md](docs/architecture.md) for the reasoning and eight ADRs (modular
-monolith vs. microservices, computed vs. stored theory, SVG fretboard, RFC 9457 errors, Flyway vs.
-Hibernate DDL, configuration-driven CORS, Testcontainers vs. H2, stateless JWT vs. server sessions).
-
-```
-com.fretlab
-├── system            Operational endpoints (health)
-├── shared            Cross-cutting concerns (configuration, error handling)
-├── theory            Note, interval, chord, scale, fretboard — the domain engine
-├── learning
-│   ├── practice      Backend-generated fretboard/interval challenges
-│   └── progress      Exercise attempts and mastery, derived by query
-├── auth              JWT issuing/verification, Spring Security config
-└── user              The User entity and its repository
-```
-
-## Project structure
-
-```
-fretlab/
-├── backend/            Spring Boot application (+ Dockerfile)
-├── frontend/           Angular application (+ Dockerfile, nginx.conf)
-├── docs/               Product spec, architecture, roadmap
-├── docker-compose.yml  Postgres + backend + frontend, wired together
-└── .env.example        Copy to .env; .env is never committed
-```
-
-## Running it locally (for development)
-
-This runs your own copy on your machine, against a local Postgres container — it's not how the live
-app (see [Try it online](#try-it-online) above) gets its data, and you don't need any of this just
-to use the app once it's deployed.
-
-### Option A — Docker Compose (the whole stack, one command)
+## Running it locally
 
 ```bash
-cp .env.example .env   # adjust if you want, defaults work for local use
+cp .env.example .env
 docker compose up --build
 ```
 
-| URL | What |
-| --- | --- |
-| <http://localhost:4200> | The app |
-| <http://localhost:8080/swagger-ui.html> | API documentation |
-
-The frontend container serves the compiled Angular build through nginx, which reverse-proxies
-`/api/*` to the backend container — the browser only ever talks to one origin, which is why the
-backend's CORS allow-list can (and in this deployment does) stay empty.
-
-### Option B — run each piece natively (faster edit/reload loop)
-
-**Prerequisites:** JDK 25 (the Maven Wrapper is included), Node.js ≥ 24.15, Docker Desktop (for
-PostgreSQL and for the Testcontainers-based integration tests).
-
-```bash
-# 1. Database
-docker compose up -d db
-
-# 2. Backend — serves http://localhost:8080
-cd backend
-./mvnw spring-boot:run
-# If your default JDK isn't 25: JAVA_HOME="/path/to/jdk-25" ./mvnw spring-boot:run
-
-# 3. Frontend — serves http://localhost:4200
-cd frontend
-npm start
-```
-
-| Endpoint | Purpose |
-| --- | --- |
-| `GET /api/health` | Reachability probe |
-| `GET/POST /api/auth/*` | Register, login, current session |
-| `GET /api/theory/*` | Notes, intervals, chords, scales, fretboard |
-| `GET /api/practice/*` | Backend-generated practice challenges |
-| `GET/POST /api/progress/*` | Recorded attempts and mastery (requires a session) |
-| `/swagger-ui.html` | Interactive API documentation |
-
-## Testing
+The app is then at <http://localhost:4200>, the API docs at
+<http://localhost:8080/swagger-ui.html>.
 
 ```bash
 cd backend  && ./mvnw verify   # unit + web-slice + Testcontainers integration tests
 cd frontend && npm test        # Vitest component tests
 ```
-
-Integration tests start a real PostgreSQL 18 container, so Docker must be running. They verify
-against the same engine as production rather than approximating it with an in-memory database —
-including a full register → login → protected-endpoint flow through the real Spring Security
-filter chain, not a mocked one.
-
-## Technical decisions
-
-Recorded as ADRs in [docs/architecture.md](docs/architecture.md) — each states the alternative
-considered and why it lost, not just the choice made:
-
-1. Modular monolith, not microservices
-2. Music theory computed in Java, never stored in PostgreSQL
-3. The fretboard is SVG
-4. Errors follow RFC 9457 Problem Details
-5. Flyway owns the schema; Hibernate only validates it
-6. CORS is configured, not wildcarded
-7. Integration tests use Testcontainers, not H2
-8. Stateless JWT sessions, kept in `localStorage` — and why not an httpOnly cookie
-
-## Roadmap
-
-Phase-by-phase plan and what actually shipped in each in [docs/roadmap.md](docs/roadmap.md),
-including two deliberate scope decisions worth reading if you're evaluating the judgment behind
-them: the CAGED system and adaptive practice were both deferred rather than shipped half-verified,
-with the reasoning written down at the point the call was made.
