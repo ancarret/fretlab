@@ -1,0 +1,105 @@
+<app-page-header
+  eyebrowKey="learn.guitar.header.eyebrow"
+  titleKey="learn.guitar.header.title"
+  leadKey="learn.guitar.header.lead"
+/>
+
+<section class="block">
+  <h2>{{ 'learn.guitar.strings.title' | translate }}</h2>
+  <p class="fl-muted">{{ 'learn.guitar.strings.body' | translate }}</p>
+
+  @if (openStrings().length > 0) {
+    <ol class="strings">
+      @for (open of openStrings(); track open.string) {
+        <li>
+          <button type="button" class="strings__row" (click)="selectPosition({ string: open.string, fret: 0 })">
+            <span class="strings__number">{{ 'learn.guitar.strings.stringLabel' | translate: { n: open.string } }}</span>
+            <span class="strings__note">{{ open.note.name | noteName }}</span>
+          </button>
+        </li>
+      }
+    </ol>
+  }
+</section>
+
+<section class="stage" aria-label="Fretboard">
+  <div class="stage__header">
+    <span class="fl-eyebrow" id="guitar-spelling-label">{{ 'fretboardLab.spelling' | translate }}</span>
+    <div class="fl-segmented" role="group" aria-labelledby="guitar-spelling-label">
+      <button type="button" [attr.aria-pressed]="spelling() === 'SHARPS'" (click)="setSpelling('SHARPS')">
+        {{ 'fretboardLab.sharps' | translate }}
+      </button>
+      <button type="button" [attr.aria-pressed]="spelling() === 'FLATS'" (click)="setSpelling('FLATS')">
+        {{ 'fretboardLab.flats' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <p class="fl-muted">{{ 'learn.guitar.stage.instruction' | translate }}</p>
+
+  @if (board.isLoading()) {
+    <p class="state">{{ 'fretboardLab.loading' | translate }}</p>
+  } @else {
+    <app-fretboard [fretCount]="12" [markers]="markers()" (positionSelected)="selectPosition($event)" />
+  }
+
+  @if (selectedNote(); as note) {
+    <p class="summary" aria-live="polite">
+      <span class="summary__note">{{ note.note.name | noteName }}</span>
+      {{ 'learn.guitar.stage.selected' | translate: { string: note.string, fret: note.fret } }}
+    </p>
+  }
+</section>
+
+<section class="block">
+  <h2>{{ 'learn.guitar.fret.title' | translate }}</h2>
+  <p class="fl-muted">{{ 'learn.guitar.fret.body' | translate }}</p>
+
+  @if (walkedPositions().length > 0) {
+    <p class="fl-muted walk-caption">
+      {{ 'learn.guitar.fret.walk' | translate: { n: walkedString() } }}
+    </p>
+    <ol class="walk">
+      @for (position of walkedPositions(); track position.fret) {
+        <li>
+          <button
+            type="button"
+            class="walk__chip"
+            [class.walk__chip--active]="selectedPosition()?.fret === position.fret && selectedPosition()?.string === position.string"
+            (click)="selectPosition({ string: position.string, fret: position.fret })"
+          >
+            <span class="walk__fret">{{ position.fret }}</span>
+            <span class="walk__note">{{ position.note.name | noteName }}</span>
+          </button>
+        </li>
+      }
+    </ol>
+  }
+</section>
+
+<section class="block">
+  <h2>{{ 'learn.guitar.octave.title' | translate }}</h2>
+  <p class="fl-muted">{{ 'learn.guitar.octave.body' | translate }}</p>
+
+  @if (octaveCheck(); as check) {
+    <p class="summary summary--proof" aria-live="polite">
+      {{ 'learn.guitar.octave.proof' | translate: {
+        open: (check.open.note.name | noteName),
+        openOctave: check.open.octave,
+        twelfth: (check.twelfth.note.name | noteName),
+        twelfthOctave: check.twelfth.octave,
+        string: check.twelfth.string
+      } }}
+    </p>
+  } @else {
+    <p class="summary summary--empty">{{ 'learn.guitar.octave.hint' | translate }}</p>
+  }
+</section>
+
+<section class="next">
+  <span class="fl-eyebrow">{{ 'learn.guitar.next.title' | translate }}</span>
+  <p class="fl-muted">{{ 'learn.guitar.next.body' | translate }}</p>
+  <a class="fl-button fl-button--primary" routerLink="/learn/fretboard-mastery">
+    {{ 'learn.guitar.next.cta' | translate }}
+  </a>
+</section>

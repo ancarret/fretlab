@@ -94,6 +94,28 @@ export interface FretboardQuery {
   readonly spelling: Spelling;
 }
 
+/** Mirrors the backend `IntervalResponse`. */
+export interface ApiInterval {
+  readonly id: string;
+  readonly name: string;
+  readonly shorthand: string;
+  readonly number: number;
+  readonly quality: string;
+  readonly semitones: number;
+}
+
+/** Mirrors the backend `IntervalBetweenResponse`. */
+export interface IntervalBetween {
+  readonly from: ApiNote;
+  readonly to: ApiNote;
+  readonly interval: ApiInterval;
+}
+
+export interface IntervalBetweenQuery {
+  readonly from: string;
+  readonly to: string;
+}
+
 /**
  * Access to the backend music theory engine.
  *
@@ -165,6 +187,25 @@ export class TheoryService {
     return httpResource<ApiScale>(() => {
       const q = query();
       return q && { url: `${environment.apiBaseUrl}/theory/scales`, params: { ...q } };
+    });
+  }
+
+  /** Every simple interval FretLab knows, with its number, quality and semitone distance. */
+  intervals(enabled: () => boolean = () => true) {
+    return httpResource<ApiInterval[]>(() =>
+      enabled() ? `${environment.apiBaseUrl}/theory/intervals` : undefined,
+    );
+  }
+
+  /**
+   * The interval spanning two notes, always computed by the backend rather than by counting
+   * semitones on the client — the same reasoning as {@link chord} and {@link scale}. See `chord`
+   * for the `undefined`-to-skip convention.
+   */
+  intervalBetween(query: () => IntervalBetweenQuery | undefined) {
+    return httpResource<IntervalBetween>(() => {
+      const q = query();
+      return q && { url: `${environment.apiBaseUrl}/theory/intervals/between`, params: { ...q } };
     });
   }
 }

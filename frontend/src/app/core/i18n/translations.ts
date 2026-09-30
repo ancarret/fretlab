@@ -101,8 +101,35 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
       'Switch between sharps and flats above and press the same key again — the pitch does not change, only what it is called. C♯ and D♭ are the exact same string, the exact same fret. Which name is "correct" depends on the musical context, not on the sound.',
     'learn.foundations.next.title': 'Next step',
     'learn.foundations.next.body':
-      'Once naming notes on sight feels natural, practise finding them on the neck from memory, with real scoring.',
-    'learn.foundations.next.cta': 'Go to Practice',
+      'Once naming notes on sight feels natural, the next lesson puts them on the instrument itself.',
+    'learn.foundations.next.cta': 'Next: the guitar',
+
+    // ---------- Learn — Lesson 2: The guitar ----------
+    'learn.guitar.header.eyebrow': 'Module 2',
+    'learn.guitar.header.title': 'The guitar',
+    'learn.guitar.header.lead':
+      'Six strings, standard tuning, and what moving one fret actually does to the pitch.',
+    'learn.guitar.strings.title': 'Six strings, six starting notes',
+    'learn.guitar.strings.body':
+      'Strings are numbered from the floor up when you hold the guitar to play it: string 1 is the thinnest, highest-pitched string; string 6 is the thickest and lowest. Standard tuning, low to high, is E A D G B E — the same letter, E, at both ends, two octaves apart. Pick a string below to see it land on the neck.',
+    'learn.guitar.strings.stringLabel': 'String {n}',
+    'learn.guitar.stage.instruction':
+      'Click anywhere on the neck. The dim dots are the six open strings, fret 0 — press one of them, or any fretted note, to select it.',
+    'learn.guitar.stage.selected': 'is string {string}, fret {fret}.',
+    'learn.guitar.fret.title': 'What a fret does',
+    'learn.guitar.fret.body':
+      'Every fret you move up raises the pitch by exactly one semitone — the same smallest step from Lesson 1, just produced by shortening the string instead of pressing a different piano key. Walk one string below, fret by fret, and the note name advances by one semitone each time, exactly like the piano did.',
+    'learn.guitar.fret.walk': 'String {n}, open to fret 12:',
+    'learn.guitar.octave.title': 'The octave at fret 12',
+    'learn.guitar.octave.body':
+      'Twelve frets is twelve semitones, and twelve semitones is one full octave — so fret 12 always sounds the same note as the open string, just higher. This is why the neck has a double inlay at fret 12: it marks the point where the pattern of the open string starts repeating.',
+    'learn.guitar.octave.hint': 'Select fret 12 on any string above to see the proof.',
+    'learn.guitar.octave.proof':
+      'String {string}, open, is {open} (octave {openOctave}). Fret 12 on that same string is {twelfth} (octave {twelfthOctave}) — the same letter and accidental, one octave higher.',
+    'learn.guitar.next.title': 'Next step',
+    'learn.guitar.next.body':
+      'With the strings and the frets in hand, the next lesson is a method for finding any note, anywhere on the neck, without counting frets one by one.',
+    'learn.guitar.next.cta': 'Next: fretboard mastery',
 
     'learn.module1.name': 'Music foundations',
     'learn.module1.summary': 'Note names, the twelve pitch classes, semitones, enharmonics.',
@@ -403,8 +430,35 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
       'Cambia entre sostenidos y bemoles arriba y pulsa la misma tecla otra vez — la altura no cambia, solo cómo se llama. Do♯ y Re♭ son exactamente la misma cuerda, el mismo traste. Qué nombre es "correcto" depende del contexto musical, no del sonido.',
     'learn.foundations.next.title': 'Siguiente paso',
     'learn.foundations.next.body':
-      'Cuando nombrar las notas a simple vista te salga natural, practica encontrarlas en el mástil de memoria, con puntuación real.',
-    'learn.foundations.next.cta': 'Ir a Practicar',
+      'Cuando nombrar las notas a simple vista te salga natural, la siguiente lección las lleva al propio instrumento.',
+    'learn.foundations.next.cta': 'Siguiente: la guitarra',
+
+    // ---------- Aprender — Lección 2: La guitarra ----------
+    'learn.guitar.header.eyebrow': 'Módulo 2',
+    'learn.guitar.header.title': 'La guitarra',
+    'learn.guitar.header.lead':
+      'Seis cuerdas, afinación estándar, y qué le hace realmente un traste a la altura de una nota.',
+    'learn.guitar.strings.title': 'Seis cuerdas, seis notas de partida',
+    'learn.guitar.strings.body':
+      'Las cuerdas se numeran de abajo hacia arriba cuando sostienes la guitarra para tocarla: la cuerda 1 es la más fina y aguda; la cuerda 6 es la más gruesa y grave. La afinación estándar, de grave a agudo, es Mi La Re Sol Si Mi — la misma nota, Mi, en ambos extremos, con dos octavas de diferencia. Elige una cuerda abajo para verla en el mástil.',
+    'learn.guitar.strings.stringLabel': 'Cuerda {n}',
+    'learn.guitar.stage.instruction':
+      'Haz clic en cualquier punto del mástil. Los puntos tenues son las seis cuerdas al aire, traste 0 — pulsa uno de ellos, o cualquier nota trasteada, para seleccionarla.',
+    'learn.guitar.stage.selected': 'es la cuerda {string}, traste {fret}.',
+    'learn.guitar.fret.title': 'Qué hace un traste',
+    'learn.guitar.fret.body':
+      'Cada traste que subes eleva la altura exactamente un semitono — el mismo paso mínimo de la Lección 1, solo que ahora se produce acortando la cuerda en vez de pulsar otra tecla del piano. Recorre una cuerda abajo, traste a traste, y el nombre de la nota avanza un semitono cada vez, igual que en el piano.',
+    'learn.guitar.fret.walk': 'Cuerda {n}, del aire al traste 12:',
+    'learn.guitar.octave.title': 'La octava en el traste 12',
+    'learn.guitar.octave.body':
+      'Doce trastes son doce semitonos, y doce semitonos son una octava completa — así que el traste 12 siempre suena a la misma nota que la cuerda al aire, solo que más aguda. Por eso el mástil tiene un doble inlay en el traste 12: marca el punto donde el patrón de la cuerda al aire empieza a repetirse.',
+    'learn.guitar.octave.hint': 'Selecciona el traste 12 en cualquier cuerda de arriba para ver la prueba.',
+    'learn.guitar.octave.proof':
+      'La cuerda {string} al aire es {open} (octava {openOctave}). El traste 12 de esa misma cuerda es {twelfth} (octava {twelfthOctave}) — la misma letra y el mismo accidente, una octava más arriba.',
+    'learn.guitar.next.title': 'Siguiente paso',
+    'learn.guitar.next.body':
+      'Con las cuerdas y los trastes ya claros, la siguiente lección es un método para encontrar cualquier nota, en cualquier parte del mástil, sin contar trastes uno a uno.',
+    'learn.guitar.next.cta': 'Siguiente: dominio del mástil',
 
     'learn.module1.name': 'Fundamentos musicales',
     'learn.module1.summary': 'Nombres de las notas, las doce clases de altura, semitonos, enarmonías.',

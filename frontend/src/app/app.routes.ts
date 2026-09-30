@@ -24,6 +24,12 @@ export const routes: Routes = [
       import('./features/learn/foundations/foundations').then((m) => m.LessonFoundations),
   },
   {
+    path: 'learn/guitar-basics',
+    title: 'The Guitar · FretLab',
+    loadComponent: () =>
+      import('./features/learn/guitar-basics/guitar-basics').then((m) => m.GuitarBasics),
+  },
+  {
     path: 'fretboard',
     title: 'Fretboard Lab · FretLab',
     loadComponent: () => import('./features/fretboard/fretboard-lab').then((m) => m.FretboardLab),

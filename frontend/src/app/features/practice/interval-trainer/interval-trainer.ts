@@ -5,9 +5,10 @@ import { ProgressService } from '../../../core/api/progress.service';
 import { TheoryService } from '../../../core/api/theory.service';
 import { TranslatePipe } from '../../../core/i18n/translate.pipe';
 import { TranslationService } from '../../../core/i18n/translation.service';
-import { FretMarker, FretPosition, Fretboard, NoteRole } from '../../../shared/fretboard/fretboard';
+import { FretMarker, FretPosition, Fretboard } from '../../../shared/fretboard/fretboard';
 import { typesetNoteName } from '../../../shared/note-name.pipe';
 import { PageHeader } from '../../../shared/page-header';
+import { roleForIntervalNumber } from '../../../shared/theory-roles';
 
 interface Feedback {
   readonly kind: 'correct' | 'wrong';
@@ -179,11 +180,4 @@ export class IntervalTrainer {
 
 function positionId(position: { string: number; fret: number }): string {
   return `s${position.string}f${position.fret}`;
-}
-
-function roleForIntervalNumber(number: number): NoteRole {
-  if (number === 3) return 'third';
-  if (number === 5) return 'fifth';
-  if (number === 7) return 'seventh';
-  return 'other';
 }

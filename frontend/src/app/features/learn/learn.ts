@@ -139,7 +139,12 @@ export class Learn {
       summaryKey: 'learn.module1.summary',
       route: '/learn/foundations',
     },
-    { order: 2, nameKey: 'learn.module2.name', summaryKey: 'learn.module2.summary' },
+    {
+      order: 2,
+      nameKey: 'learn.module2.name',
+      summaryKey: 'learn.module2.summary',
+      route: '/learn/guitar-basics',
+    },
     { order: 3, nameKey: 'learn.module3.name', summaryKey: 'learn.module3.summary' },
     { order: 4, nameKey: 'learn.module4.name', summaryKey: 'learn.module4.summary' },
     { order: 5, nameKey: 'learn.module5.name', summaryKey: 'learn.module5.summary' },
