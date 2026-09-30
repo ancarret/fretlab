@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { RouterLink } from '@angular/router';
 
 import { HarmonizableScale, TheoryService } from '../../core/api/theory.service';
+import { LessonProgressService } from '../../core/learn/lesson-progress.service';
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
 import { NoteNamePipe } from '../../shared/note-name.pipe';
 import { PageHeader } from '../../shared/page-header';
@@ -33,6 +34,11 @@ interface ScaleOption {
 })
 export class Dashboard {
   private readonly theory = inject(TheoryService);
+  private readonly lessonProgress = inject(LessonProgressService);
+
+  /** The lesson to offer next; `null` once every lesson has been opened. */
+  protected readonly nextLesson = this.lessonProgress.next;
+  protected readonly hasStarted = computed(() => this.lessonProgress.visited().size > 0);
 
   protected readonly tonicOptions = ['C', 'G', 'D', 'A', 'E', 'F', 'Bb', 'Eb'] as const;
   protected readonly scaleOptions: readonly ScaleOption[] = [

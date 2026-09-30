@@ -1,3 +1,4 @@
+import { LessonProgressService } from './core/learn/lesson-progress.service';
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
@@ -21,6 +22,8 @@ interface NavItem {
 })
 export class App implements OnInit {
   private readonly health = inject(HealthService);
+  /** Injected only so it starts listening to navigation from the first page load. */
+  protected readonly lessonProgress = inject(LessonProgressService);
   protected readonly auth = inject(AuthService);
 
   protected readonly navItems: readonly NavItem[] = [

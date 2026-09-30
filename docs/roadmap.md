@@ -23,6 +23,7 @@ can be demonstrated by hand, and the documentation still matches the code.
 | 15 | Public deployment and live demo | ✅ Prepared — see note; awaits accounts only the user can create |
 | 16 | Portfolio polish: README, screenshots, architecture diagram | |
 | 17 | Learn curriculum: nine guided lessons from pitch classes to harmony | ✅ Done |
+| 18 | Security audit and hardening | ✅ Done |
 
 ## Phase 1 — delivered
 
@@ -376,6 +377,35 @@ done correctly, not the part that was deferred.
 tone would need sampled audio per string/fret/pitch, sourced or recorded, not synthesised
 plausibly; a synthesiser tone would teach a false timbre. That is listed below, not shipped as a
 lesser version.
+
+## Phase 18 — delivered
+
+A review of the auth and transport surface, with fixes where something real turned up.
+
+**Found and fixed.** Login and registration had no brute-force protection — now a per-client
+fixed-window limiter (`RateLimitFilter`: 10 logins/minute, 5 registrations/10 minutes, 120 attempt
+writes/minute), returning RFC 9457 `429` with `Retry-After`. Login returned faster for unknown
+emails than for wrong passwords (BCrypt was skipped), revealing which emails have accounts — an
+unknown email now pays for a decoy hash comparison. Emails were case-sensitive, so `A@x.com` and
+`a@x.com` were two accounts — now normalised to lowercase (migration V4 folds existing rows).
+Behind Render's proxy every request would have looked like the same client, so
+`forward-headers-strategy: framework` now resolves the real address. The frontend now ships a
+strict CSP and standard headers via `frontend/public/_headers`; Angular's default critical-CSS
+inlining uses an inline `onload` handler that such a CSP blocks (leaving the site unstyled), so it
+is disabled in the production build. The resulting headers were checked in a real browser: styles
+apply, API data loads, no console errors.
+
+**Checked and fine.** BCrypt with a capped input length; JWTs signed with HMAC and verified with
+expiry; stateless, so no CSRF surface; no stack traces in error bodies; parameterised queries only
+(Spring Data, no string-built SQL); fretboard size bounded server-side; `npm audit` clean for
+production dependencies; secrets only via environment variables.
+
+**Known, accepted trade-offs.** Registration still answers "email already registered" — the
+alternative (silently pretending it worked) breaks real users' expectations and needs email
+delivery to do properly. The JWT lives in `localStorage` (ADR 8), which is why the CSP matters: it
+is the main defence against script injection reading it. The limiter is per instance, in memory —
+correct for one Render instance, to be replaced if the API is ever scaled out. Swagger UI is
+public by design, as portfolio documentation; it exposes no more than the API already does.
 
 ## Later, and deliberately not yet
 

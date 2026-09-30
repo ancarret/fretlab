@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
+import { LessonProgressService } from '../../core/learn/lesson-progress.service';
 import { TranslatePipe } from '../../core/i18n/translate.pipe';
 import { PageHeader } from '../../shared/page-header';
 
@@ -40,7 +41,7 @@ interface CurriculumModule {
           </div>
           @if (module.route) {
             <a class="toc__status toc__status--ready" [routerLink]="module.route">
-              {{ 'learn.startLesson' | translate }}
+              {{ (progress.visited().has(module.route) ? 'learn.reviewLesson' : 'learn.startLesson') | translate }}
             </a>
           } @else {
             <span class="toc__status">{{ 'learn.comingSoon' | translate }}</span>
@@ -132,6 +133,8 @@ interface CurriculumModule {
   `,
 })
 export class Learn {
+  protected readonly progress = inject(LessonProgressService);
+
   protected readonly modules: readonly CurriculumModule[] = [
     {
       order: 1,

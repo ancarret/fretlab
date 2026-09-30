@@ -5,17 +5,28 @@
 />
 
 <section class="resume">
-  <div class="resume__number" aria-hidden="true">01</div>
+  <div class="resume__number" aria-hidden="true">{{ nextLesson() ? '0' + nextLesson()!.order : '✓' }}</div>
   <div class="resume__body">
     <div class="resume__meta">
       <span class="fl-eyebrow">{{ 'dashboard.resume.eyebrow' | translate }}</span>
     </div>
-    <h2 class="resume__title">{{ 'dashboard.resume.title' | translate }}</h2>
-    <p class="fl-muted">{{ 'dashboard.resume.body' | translate }}</p>
+    @if (nextLesson(); as lesson) {
+      <h2 class="resume__title">{{ 'learn.module' + lesson.order + '.name' | translate }}</h2>
+      <p class="fl-muted">{{ 'learn.module' + lesson.order + '.summary' | translate }}</p>
+    } @else {
+      <h2 class="resume__title">{{ 'dashboard.resume.doneTitle' | translate }}</h2>
+      <p class="fl-muted">{{ 'dashboard.resume.doneBody' | translate }}</p>
+    }
     <div class="resume__actions">
-      <a class="fl-button fl-button--primary" routerLink="/learn/foundations">
-        {{ 'dashboard.resume.resumeLesson' | translate }}
-      </a>
+      @if (nextLesson(); as lesson) {
+        <a class="fl-button fl-button--primary" [routerLink]="lesson.route">
+          {{ (hasStarted() ? 'dashboard.resume.resumeLesson' : 'learn.startLesson') | translate }}
+        </a>
+      } @else {
+        <a class="fl-button fl-button--primary" routerLink="/practice">
+          {{ 'dashboard.resume.doneCta' | translate }}
+        </a>
+      }
       <a class="fl-button" routerLink="/fretboard">{{ 'dashboard.resume.openLab' | translate }}</a>
     </div>
   </div>
