@@ -193,6 +193,25 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'learn.intervals.next.cta': 'Next: triads',
     'learn.intervals.next.secondary': 'Or practise identifying intervals under scoring →',
 
+    // ---------- Learn — Lesson 5: Triads ----------
+    'learn.triads.header.eyebrow': 'Module 5',
+    'learn.triads.header.title': 'Triads',
+    'learn.triads.header.lead': 'Every basic chord is a root with two thirds stacked on top of it — only the size of each third changes.',
+    'learn.triads.intro.title': 'One root, two stacked thirds',
+    'learn.triads.intro.body':
+      'A triad has three notes: a root, a third above it, and a fifth above the root — which is also a third above the third. Which of the four triads you get depends only on whether each of those two stacked thirds is major (4 semitones) or minor (3 semitones). Nothing else changes.',
+    'learn.triads.type': 'Triad',
+    'learn.triads.inversionLabel': 'Inversion',
+    'learn.triads.why':
+      '{symbol} is built as root, then a {rootThird} above it, then a {thirdFifth} above that — verified live from the notes this exact chord returned, not asserted.',
+    'learn.triads.bonus.title': 'A chord that borrows a different degree',
+    'learn.triads.bonus.body':
+      'Two more common shapes, sus2 and sus4, are not really triads by this definition — they replace the third with a second or a fourth, so there is no third to stack at all. That is why they are drawn in a different colour everywhere in FretLab: they are not "a third that happens to be suspended", they are a genuinely different degree. The next lesson covers them alongside sevenths.',
+    'learn.triads.next.title': 'Next step',
+    'learn.triads.next.body': 'With triads built, the next lesson adds a fourth note on top — a seventh — and the suspended chords that skip the third entirely.',
+    'learn.triads.next.cta': 'Next: chords',
+    'learn.triads.next.secondary': 'Or explore every chord shape in the Fretboard Lab →',
+
     'learn.module1.name': 'Music foundations',
     'learn.module1.summary': 'Note names, the twelve pitch classes, semitones, enharmonics.',
     'learn.module2.name': 'The guitar',
@@ -583,6 +602,25 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'learn.intervals.next.body': 'Con los intervalos ya dominados, la siguiente lección apila dos de ellos para construir los primeros acordes.',
     'learn.intervals.next.cta': 'Siguiente: tríadas',
     'learn.intervals.next.secondary': 'O practica identificar intervalos con puntuación →',
+
+    // ---------- Aprender — Lección 5: Tríadas ----------
+    'learn.triads.header.eyebrow': 'Módulo 5',
+    'learn.triads.header.title': 'Tríadas',
+    'learn.triads.header.lead': 'Todo acorde básico es una fundamental con dos terceras apiladas encima — solo cambia el tamaño de cada tercera.',
+    'learn.triads.intro.title': 'Una fundamental, dos terceras apiladas',
+    'learn.triads.intro.body':
+      'Una tríada tiene tres notas: una fundamental, una tercera por encima, y una quinta por encima de la fundamental — que también es una tercera por encima de la tercera. Cuál de las cuatro tríadas obtienes depende solo de si cada una de esas dos terceras apiladas es mayor (4 semitonos) o menor (3 semitonos). Nada más cambia.',
+    'learn.triads.type': 'Tríada',
+    'learn.triads.inversionLabel': 'Inversión',
+    'learn.triads.why':
+      '{symbol} se construye como fundamental, luego una {rootThird} por encima, y luego una {thirdFifth} por encima de esa — comprobado en vivo con las notas que ha devuelto este acorde exacto, no afirmado sin más.',
+    'learn.triads.bonus.title': 'Un acorde que toma prestado otro grado',
+    'learn.triads.bonus.body':
+      'Otras dos formas habituales, sus2 y sus4, no son tríadas según esta definición — sustituyen la tercera por una segunda o una cuarta, así que no hay ninguna tercera que apilar. Por eso se dibujan de otro color en toda la aplicación: no son "una tercera que resulta estar suspendida", son un grado genuinamente distinto. La siguiente lección las trata junto con las séptimas.',
+    'learn.triads.next.title': 'Siguiente paso',
+    'learn.triads.next.body': 'Con las tríadas ya construidas, la siguiente lección añade una cuarta nota encima — una séptima — y los acordes suspendidos que se saltan la tercera por completo.',
+    'learn.triads.next.cta': 'Siguiente: acordes',
+    'learn.triads.next.secondary': 'O explora todas las formas de acorde en el Laboratorio de Mástil →',
 
     'learn.module1.name': 'Fundamentos musicales',
     'learn.module1.summary': 'Nombres de las notas, las doce clases de altura, semitonos, enarmonías.',

@@ -157,7 +157,12 @@ export class Learn {
       summaryKey: 'learn.module4.summary',
       route: '/learn/intervals',
     },
-    { order: 5, nameKey: 'learn.module5.name', summaryKey: 'learn.module5.summary' },
+    {
+      order: 5,
+      nameKey: 'learn.module5.name',
+      summaryKey: 'learn.module5.summary',
+      route: '/learn/triads',
+    },
     { order: 6, nameKey: 'learn.module6.name', summaryKey: 'learn.module6.summary' },
     { order: 7, nameKey: 'learn.module7.name', summaryKey: 'learn.module7.summary' },
     { order: 8, nameKey: 'learn.module8.name', summaryKey: 'learn.module8.summary' },

@@ -1,0 +1,109 @@
+<app-page-header
+  eyebrowKey="learn.triads.header.eyebrow"
+  titleKey="learn.triads.header.title"
+  leadKey="learn.triads.header.lead"
+/>
+
+<section class="block">
+  <h2>{{ 'learn.triads.intro.title' | translate }}</h2>
+  <p class="fl-muted">{{ 'learn.triads.intro.body' | translate }}</p>
+</section>
+
+<section class="stage" aria-label="Triad builder">
+  <div class="stage__header">
+    <span class="fl-eyebrow" id="triad-spelling-label">{{ 'fretboardLab.spelling' | translate }}</span>
+    <div class="fl-segmented" role="group" aria-labelledby="triad-spelling-label">
+      <button type="button" [attr.aria-pressed]="spelling() === 'SHARPS'" (click)="setSpelling('SHARPS')">
+        {{ 'fretboardLab.sharps' | translate }}
+      </button>
+      <button type="button" [attr.aria-pressed]="spelling() === 'FLATS'" (click)="setSpelling('FLATS')">
+        {{ 'fretboardLab.flats' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <div class="two-pickers">
+    <div class="two-pickers__group">
+      <span class="fl-eyebrow" id="triad-root-label">{{ 'fretboardLab.root' | translate }}</span>
+      <div class="picker" role="group" aria-labelledby="triad-root-label">
+        @for (note of notes.value(); track note.pitchClass) {
+          <button
+            type="button"
+            class="picker__note"
+            [attr.aria-pressed]="root() === note.name"
+            (click)="setRoot(note.name)"
+          >{{ note.name | noteName }}</button>
+        }
+      </div>
+    </div>
+
+    <div class="two-pickers__group">
+      <span class="fl-eyebrow" id="triad-type-label">{{ 'learn.triads.type' | translate }}</span>
+      <div class="picker" role="group" aria-labelledby="triad-type-label">
+        @for (id of triadTypeIds; track id) {
+          <button
+            type="button"
+            class="picker__note"
+            [attr.aria-pressed]="typeId() === id"
+            (click)="setTypeId(id)"
+          >{{ 'chordType.' + id | translate }}</button>
+        }
+      </div>
+    </div>
+  </div>
+
+  @if (board.isLoading() || chord.isLoading()) {
+    <p class="state">{{ 'fretboardLab.loading' | translate }}</p>
+  } @else {
+    <app-fretboard [fretCount]="12" [markers]="markers()" [interactive]="false" />
+  }
+
+  @if (chord.value(); as active) {
+    <div class="tones">
+      @for (note of notesInInversion(); track note.name + $index) {
+        <span class="tones__chip">{{ note.name | noteName }}</span>
+      }
+    </div>
+
+    <div class="inversions">
+      <span class="fl-eyebrow" id="triad-inversion-label">{{ 'learn.triads.inversionLabel' | translate }}</span>
+      <div class="fl-segmented" role="group" aria-labelledby="triad-inversion-label">
+        @for (option of inversionOptions(); track option.value) {
+          <button
+            type="button"
+            [attr.aria-pressed]="inversion() === option.value"
+            (click)="setInversion(option.value)"
+          >{{ option.labelKey | translate }}</button>
+        }
+      </div>
+    </div>
+
+    @if (rootToThird.value(); as rt) {
+      @if (thirdToFifth.value(); as tf) {
+        <p class="summary summary--proof" aria-live="polite">
+          {{ 'learn.triads.why' | translate: {
+            symbol: active.symbol,
+            rootThird: rt.interval.shorthand,
+            thirdFifth: tf.interval.shorthand
+          } }}
+        </p>
+      }
+    }
+  }
+</section>
+
+<section class="block">
+  <h2>{{ 'learn.triads.bonus.title' | translate }}</h2>
+  <p class="fl-muted">{{ 'learn.triads.bonus.body' | translate }}</p>
+</section>
+
+<section class="next">
+  <span class="fl-eyebrow">{{ 'learn.triads.next.title' | translate }}</span>
+  <p class="fl-muted">{{ 'learn.triads.next.body' | translate }}</p>
+  <a class="fl-button fl-button--primary" routerLink="/learn/chords">
+    {{ 'learn.triads.next.cta' | translate }}
+  </a>
+  <a class="next__secondary" routerLink="/fretboard">
+    {{ 'learn.triads.next.secondary' | translate }}
+  </a>
+</section>
