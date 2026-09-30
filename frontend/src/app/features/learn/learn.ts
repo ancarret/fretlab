@@ -151,7 +151,12 @@ export class Learn {
       summaryKey: 'learn.module3.summary',
       route: '/learn/fretboard-mastery',
     },
-    { order: 4, nameKey: 'learn.module4.name', summaryKey: 'learn.module4.summary' },
+    {
+      order: 4,
+      nameKey: 'learn.module4.name',
+      summaryKey: 'learn.module4.summary',
+      route: '/learn/intervals',
+    },
     { order: 5, nameKey: 'learn.module5.name', summaryKey: 'learn.module5.summary' },
     { order: 6, nameKey: 'learn.module6.name', summaryKey: 'learn.module6.summary' },
     { order: 7, nameKey: 'learn.module7.name', summaryKey: 'learn.module7.summary' },

@@ -1,0 +1,143 @@
+<app-page-header
+  eyebrowKey="learn.intervals.header.eyebrow"
+  titleKey="learn.intervals.header.title"
+  leadKey="learn.intervals.header.lead"
+/>
+
+<section class="block">
+  <h2>{{ 'learn.intervals.intro.title' | translate }}</h2>
+  <p class="fl-muted">{{ 'learn.intervals.intro.body' | translate }}</p>
+
+  @if (intervals.value(); as list) {
+    <ol class="catalog">
+      @for (interval of list; track interval.id) {
+        <li class="catalog__row">
+          <span class="catalog__shorthand">{{ interval.shorthand }}</span>
+          <span class="catalog__name">{{ 'interval.' + interval.id | translate }}</span>
+          <span class="catalog__semitones">{{ 'learn.intervals.catalog.semitones' | translate: { n: interval.semitones } }}</span>
+        </li>
+      }
+    </ol>
+  }
+</section>
+
+<section class="stage" aria-label="Interval between two notes">
+  <div class="stage__header">
+    <span class="fl-eyebrow" id="interval-spelling-label">{{ 'fretboardLab.spelling' | translate }}</span>
+    <div class="fl-segmented" role="group" aria-labelledby="interval-spelling-label">
+      <button type="button" [attr.aria-pressed]="spelling() === 'SHARPS'" (click)="setSpelling('SHARPS')">
+        {{ 'fretboardLab.sharps' | translate }}
+      </button>
+      <button type="button" [attr.aria-pressed]="spelling() === 'FLATS'" (click)="setSpelling('FLATS')">
+        {{ 'fretboardLab.flats' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <h2>{{ 'learn.intervals.between.title' | translate }}</h2>
+  <p class="fl-muted">{{ 'learn.intervals.between.instruction' | translate }}</p>
+
+  <div class="two-pickers">
+    <div class="two-pickers__group">
+      <span class="fl-eyebrow" id="from-note-label">{{ 'learn.intervals.between.from' | translate }}</span>
+      <div class="picker" role="group" aria-labelledby="from-note-label">
+        @for (note of notes.value(); track note.pitchClass) {
+          <button
+            type="button"
+            class="picker__note"
+            [attr.aria-pressed]="fromNote() === note.name"
+            (click)="selectFromNote(note.name)"
+          >{{ note.name | noteName }}</button>
+        }
+      </div>
+    </div>
+
+    <div class="two-pickers__group">
+      <span class="fl-eyebrow" id="to-note-label">{{ 'learn.intervals.between.to' | translate }}</span>
+      <div class="picker" role="group" aria-labelledby="to-note-label">
+        @for (note of notes.value(); track note.pitchClass) {
+          <button
+            type="button"
+            class="picker__note"
+            [attr.aria-pressed]="toNote() === note.name"
+            (click)="selectToNote(note.name)"
+          >{{ note.name | noteName }}</button>
+        }
+      </div>
+    </div>
+  </div>
+
+  @if (between.value(); as result) {
+    <p class="summary" aria-live="polite">
+      {{ 'learn.intervals.between.result' | translate: {
+        from: (result.from.name | noteName),
+        to: (result.to.name | noteName),
+        interval: ('interval.' + result.interval.id | translate),
+        shorthand: result.interval.shorthand
+      } }}
+    </p>
+  } @else {
+    <p class="summary summary--empty">{{ 'learn.intervals.between.hint' | translate }}</p>
+  }
+</section>
+
+<section class="stage" aria-label="Find an interval on the neck">
+  <h2>{{ 'learn.intervals.find.title' | translate }}</h2>
+  <p class="fl-muted">{{ 'learn.intervals.find.instruction' | translate }}</p>
+
+  <div class="two-pickers">
+    <div class="two-pickers__group">
+      <span class="fl-eyebrow" id="explorer-root-label">{{ 'fretboardLab.root' | translate }}</span>
+      <div class="picker" role="group" aria-labelledby="explorer-root-label">
+        @for (note of notes.value(); track note.pitchClass) {
+          <button
+            type="button"
+            class="picker__note"
+            [attr.aria-pressed]="rootNote() === note.name"
+            (click)="setExplorerRoot(note.name)"
+          >{{ note.name | noteName }}</button>
+        }
+      </div>
+    </div>
+
+    <div class="two-pickers__group">
+      <span class="fl-eyebrow" id="explorer-interval-label">{{ 'learn.intervals.find.interval' | translate }}</span>
+      <div class="picker" role="group" aria-labelledby="explorer-interval-label">
+        @for (interval of intervals.value(); track interval.id) {
+          <button
+            type="button"
+            class="picker__note"
+            [attr.aria-pressed]="intervalId() === interval.id"
+            (click)="setIntervalId(interval.id)"
+          >{{ interval.shorthand }}</button>
+        }
+      </div>
+    </div>
+  </div>
+
+  @if (board.isLoading()) {
+    <p class="state">{{ 'fretboardLab.loading' | translate }}</p>
+  } @else {
+    <app-fretboard [fretCount]="12" [markers]="explorerMarkers()" [interactive]="false" />
+  }
+
+  <p class="summary" aria-live="polite">
+    {{ 'learn.intervals.find.summary' | translate: { count: explorerMatchCount() } }}
+  </p>
+</section>
+
+<section class="block">
+  <h2>{{ 'learn.intervals.bridge.title' | translate }}</h2>
+  <p class="fl-muted">{{ 'learn.intervals.bridge.body' | translate }}</p>
+</section>
+
+<section class="next">
+  <span class="fl-eyebrow">{{ 'learn.intervals.next.title' | translate }}</span>
+  <p class="fl-muted">{{ 'learn.intervals.next.body' | translate }}</p>
+  <a class="fl-button fl-button--primary" routerLink="/learn/triads">
+    {{ 'learn.intervals.next.cta' | translate }}
+  </a>
+  <a class="next__secondary" routerLink="/practice/interval-trainer">
+    {{ 'learn.intervals.next.secondary' | translate }}
+  </a>
+</section>

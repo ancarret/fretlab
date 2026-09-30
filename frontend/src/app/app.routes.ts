@@ -36,6 +36,11 @@ export const routes: Routes = [
       import('./features/learn/fretboard-mastery/fretboard-mastery').then((m) => m.FretboardMastery),
   },
   {
+    path: 'learn/intervals',
+    title: 'Intervals · FretLab',
+    loadComponent: () => import('./features/learn/intervals/intervals').then((m) => m.Intervals),
+  },
+  {
     path: 'fretboard',
     title: 'Fretboard Lab · FretLab',
     loadComponent: () => import('./features/fretboard/fretboard-lab').then((m) => m.FretboardLab),

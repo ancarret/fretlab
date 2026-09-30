@@ -165,6 +165,34 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'learn.fretboardMastery.next.cta': 'Go to the Fretboard Trainer',
     'learn.fretboardMastery.next.secondary': 'Or continue the curriculum: Intervals →',
 
+    // ---------- Learn — Lesson 4: Intervals ----------
+    'learn.intervals.header.eyebrow': 'Module 4',
+    'learn.intervals.header.title': 'Intervals',
+    'learn.intervals.header.lead':
+      'The distance between two notes, named precisely enough that two intervals which sound almost alike are never confused with each other.',
+    'learn.intervals.intro.title': 'Two facts, not one',
+    'learn.intervals.intro.body':
+      "An interval has a number — how many letter names it spans, counting both ends, so C up to E is a third because C, D, E is three letters — and a quality, which pins down the exact semitone distance. Both matter: an augmented fourth and a diminished fifth are the same six semitones apart, but they are spelled, and named, differently. Every simple interval FretLab knows:",
+    'learn.intervals.catalog.semitones': '{n} semitones',
+    'learn.intervals.between.title': 'Name the distance',
+    'learn.intervals.between.instruction': 'Pick two notes and the backend will name the interval between them — always measured upward, from the first to the second.',
+    'learn.intervals.between.from': 'From',
+    'learn.intervals.between.to': 'To',
+    'learn.intervals.between.hint': 'Pick a note in each row above.',
+    'learn.intervals.between.result': 'From {from} up to {to} is a {interval} ({shorthand}).',
+    'learn.intervals.find.title': 'Find it on the neck',
+    'learn.intervals.find.instruction':
+      'Pick a root and an interval above it, and every place that exact interval lands lights up — coloured the same way a third, fifth or seventh is coloured everywhere else in FretLab.',
+    'learn.intervals.find.interval': 'Interval above the root',
+    'learn.intervals.find.summary': 'Found in {count} places within the first 12 frets.',
+    'learn.intervals.bridge.title': 'Where this is going',
+    'learn.intervals.bridge.body':
+      'Stacking two thirds on top of a root — one interval, then another — is exactly how the next lesson builds a chord. A major chord is nothing more than a root, a major third above it, and a minor third above that.',
+    'learn.intervals.next.title': 'Next step',
+    'learn.intervals.next.body': 'With intervals in hand, the next lesson stacks two of them to build the first chords.',
+    'learn.intervals.next.cta': 'Next: triads',
+    'learn.intervals.next.secondary': 'Or practise identifying intervals under scoring →',
+
     'learn.module1.name': 'Music foundations',
     'learn.module1.summary': 'Note names, the twelve pitch classes, semitones, enharmonics.',
     'learn.module2.name': 'The guitar',
@@ -527,6 +555,34 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
       'Este método solo se vuelve rápido con repetición bajo algo de presión — para eso está el entrenador.',
     'learn.fretboardMastery.next.cta': 'Ir al entrenador de mástil',
     'learn.fretboardMastery.next.secondary': 'O continúa el temario: Intervalos →',
+
+    // ---------- Aprender — Lección 4: Intervalos ----------
+    'learn.intervals.header.eyebrow': 'Módulo 4',
+    'learn.intervals.header.title': 'Intervalos',
+    'learn.intervals.header.lead':
+      'La distancia entre dos notas, nombrada con la precisión suficiente para que dos intervalos que suenan casi igual nunca se confundan entre sí.',
+    'learn.intervals.intro.title': 'Dos datos, no uno',
+    'learn.intervals.intro.body':
+      'Un intervalo tiene un número — cuántos nombres de nota abarca, contando ambos extremos, así que de Do a Mi es una tercera porque Do, Re, Mi son tres letras — y una calidad, que fija la distancia exacta en semitonos. Los dos importan: una cuarta aumentada y una quinta disminuida están a la misma distancia, seis semitonos, pero se escriben y se llaman de forma distinta. Todos los intervalos simples que conoce FretLab:',
+    'learn.intervals.catalog.semitones': '{n} semitonos',
+    'learn.intervals.between.title': 'Nombra la distancia',
+    'learn.intervals.between.instruction': 'Elige dos notas y el backend nombrará el intervalo entre ellas — siempre medido hacia arriba, de la primera a la segunda.',
+    'learn.intervals.between.from': 'Desde',
+    'learn.intervals.between.to': 'Hasta',
+    'learn.intervals.between.hint': 'Elige una nota en cada fila de arriba.',
+    'learn.intervals.between.result': 'De {from} a {to} hay una {interval} ({shorthand}).',
+    'learn.intervals.find.title': 'Encuéntralo en el mástil',
+    'learn.intervals.find.instruction':
+      'Elige una fundamental y un intervalo por encima, y cada sitio donde cae exactamente ese intervalo se ilumina — con el mismo color que una tercera, quinta o séptima en cualquier otra parte de FretLab.',
+    'learn.intervals.find.interval': 'Intervalo sobre la fundamental',
+    'learn.intervals.find.summary': 'Aparece en {count} sitios dentro de los primeros 12 trastes.',
+    'learn.intervals.bridge.title': 'Hacia dónde va esto',
+    'learn.intervals.bridge.body':
+      'Apilar dos terceras sobre una fundamental — un intervalo, y luego otro — es exactamente cómo la siguiente lección construye un acorde. Un acorde mayor no es más que una fundamental, una tercera mayor por encima, y una tercera menor por encima de esa.',
+    'learn.intervals.next.title': 'Siguiente paso',
+    'learn.intervals.next.body': 'Con los intervalos ya dominados, la siguiente lección apila dos de ellos para construir los primeros acordes.',
+    'learn.intervals.next.cta': 'Siguiente: tríadas',
+    'learn.intervals.next.secondary': 'O practica identificar intervalos con puntuación →',
 
     'learn.module1.name': 'Fundamentos musicales',
     'learn.module1.summary': 'Nombres de las notas, las doce clases de altura, semitonos, enarmonías.',
