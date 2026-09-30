@@ -175,7 +175,12 @@ export class Learn {
       summaryKey: 'learn.module7.summary',
       route: '/learn/scales-and-keys',
     },
-    { order: 8, nameKey: 'learn.module8.name', summaryKey: 'learn.module8.summary' },
+    {
+      order: 8,
+      nameKey: 'learn.module8.name',
+      summaryKey: 'learn.module8.summary',
+      route: '/learn/harmony',
+    },
     { order: 9, nameKey: 'learn.module9.name', summaryKey: 'learn.module9.summary' },
   ];
 }

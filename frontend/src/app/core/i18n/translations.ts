@@ -253,6 +253,31 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'learn.scalesAndKeys.next.cta': 'Next: harmony',
     'learn.scalesAndKeys.next.secondary': 'Or explore scales across the whole neck in the Fretboard Lab →',
 
+    // ---------- Learn — Lesson 8: Harmony ----------
+    'learn.harmony.header.eyebrow': 'Module 8',
+    'learn.harmony.header.title': 'Harmony',
+    'learn.harmony.header.lead':
+      'Build a chord on every degree of a scale at once, and a key stops being seven separate notes — it becomes seven chords that pull towards one of them.',
+    'learn.harmony.intro.title': 'A chord on every degree',
+    'learn.harmony.intro.body':
+      'Take any note of a scale as a root, stack a third and a fifth from the rest of the scale, and you get a chord — do this for all seven degrees and every one turns out major, minor or diminished in a fixed, predictable order. Roman numerals name the degree: capitals for major (I, IV, V), lowercase for minor (ii, iii, vi), and a ° for the one diminished chord (vii°).',
+    'learn.harmony.degrees': 'The seven degrees',
+    'learn.harmony.resolve.title': 'Why V wants to resolve to I',
+    'learn.harmony.resolve.body':
+      'The V chord contains the scale\'s 7th degree, and how close that note sits to the tonic determines how strongly it pulls towards it. Here is the actual distance, for whichever key and scale you picked above:',
+    'learn.harmony.resolve.leadingTone':
+      '{note} is a half step below {tonic} — a genuine leading tone, which is exactly why V so strongly wants to resolve to I in this scale.',
+    'learn.harmony.resolve.subtonic':
+      '{note} is a whole step below {tonic} — natural minor has no leading tone, only this softer "subtonic", which is why V does not pull towards i nearly as strongly here as it does in a major key.',
+    'learn.harmony.progression.title': 'Try it',
+    'learn.harmony.progression.body':
+      'The most common progression in Western music is I–IV–V–I. In this key, that is {one} → {four} → {five} → {one}.',
+    'learn.harmony.next.title': 'Next step',
+    'learn.harmony.next.body':
+      'The last lesson in this curriculum steps back from harmony to melody: the five-note scales built for soloing.',
+    'learn.harmony.next.cta': 'Next: pentatonic scales',
+    'learn.harmony.next.secondary': 'Or practise interval recognition under scoring →',
+
     'learn.module1.name': 'Music foundations',
     'learn.module1.summary': 'Note names, the twelve pitch classes, semitones, enharmonics.',
     'learn.module2.name': 'The guitar',
@@ -703,6 +728,31 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
       'Con una escala completa ya en la mano, la siguiente lección construye un acorde sobre cada uno de sus siete grados a la vez, y explica por qué algunos quieren resolver en otros.',
     'learn.scalesAndKeys.next.cta': 'Siguiente: armonía',
     'learn.scalesAndKeys.next.secondary': 'O explora escalas por todo el mástil en el Laboratorio de Mástil →',
+
+    // ---------- Aprender — Lección 8: Armonía ----------
+    'learn.harmony.header.eyebrow': 'Módulo 8',
+    'learn.harmony.header.title': 'Armonía',
+    'learn.harmony.header.lead':
+      'Construye un acorde sobre cada grado de una escala a la vez, y una tonalidad deja de ser siete notas sueltas — se convierte en siete acordes que tiran hacia uno de ellos.',
+    'learn.harmony.intro.title': 'Un acorde sobre cada grado',
+    'learn.harmony.intro.body':
+      'Toma cualquier nota de una escala como fundamental, apila una tercera y una quinta con el resto de la escala, y obtienes un acorde — haz esto para los siete grados y cada uno resulta mayor, menor o disminuido en un orden fijo y predecible. Los números romanos nombran el grado: mayúsculas para mayor (I, IV, V), minúsculas para menor (ii, iii, vi), y un ° para el único acorde disminuido (vii°).',
+    'learn.harmony.degrees': 'Los siete grados',
+    'learn.harmony.resolve.title': 'Por qué V quiere resolver en I',
+    'learn.harmony.resolve.body':
+      'El acorde V contiene el 7º grado de la escala, y lo cerca que esté esa nota de la tónica determina con cuánta fuerza tira hacia ella. Esta es la distancia real, para la tonalidad y escala que has elegido arriba:',
+    'learn.harmony.resolve.leadingTone':
+      '{note} está a un semitono por debajo de {tonic} — una auténtica sensible, que es justo por lo que V quiere resolver con tanta fuerza en I en esta escala.',
+    'learn.harmony.resolve.subtonic':
+      '{note} está a un tono entero por debajo de {tonic} — la menor natural no tiene sensible, solo esta "subtónica" más suave, por lo que V no tira hacia i con tanta fuerza aquí como en una tonalidad mayor.',
+    'learn.harmony.progression.title': 'Pruébalo',
+    'learn.harmony.progression.body':
+      'La progresión más común de la música occidental es I–IV–V–I. En esta tonalidad, es {one} → {four} → {five} → {one}.',
+    'learn.harmony.next.title': 'Siguiente paso',
+    'learn.harmony.next.body':
+      'La última lección de este temario se aleja de la armonía para volver a la melodía: las escalas de cinco notas hechas para improvisar.',
+    'learn.harmony.next.cta': 'Siguiente: escalas pentatónicas',
+    'learn.harmony.next.secondary': 'O practica el reconocimiento de intervalos con puntuación →',
 
     'learn.module1.name': 'Fundamentos musicales',
     'learn.module1.summary': 'Nombres de las notas, las doce clases de altura, semitonos, enarmonías.',

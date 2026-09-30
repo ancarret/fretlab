@@ -1,0 +1,131 @@
+<app-page-header
+  eyebrowKey="learn.harmony.header.eyebrow"
+  titleKey="learn.harmony.header.title"
+  leadKey="learn.harmony.header.lead"
+/>
+
+<section class="block">
+  <h2>{{ 'learn.harmony.intro.title' | translate }}</h2>
+  <p class="fl-muted">{{ 'learn.harmony.intro.body' | translate }}</p>
+</section>
+
+<section class="stage" aria-label="Harmonised scale">
+  <div class="stage__header">
+    <span class="fl-eyebrow" id="harmony-spelling-label">{{ 'fretboardLab.spelling' | translate }}</span>
+    <div class="fl-segmented" role="group" aria-labelledby="harmony-spelling-label">
+      <button type="button" [attr.aria-pressed]="spelling() === 'SHARPS'" (click)="setSpelling('SHARPS')">
+        {{ 'fretboardLab.sharps' | translate }}
+      </button>
+      <button type="button" [attr.aria-pressed]="spelling() === 'FLATS'" (click)="setSpelling('FLATS')">
+        {{ 'fretboardLab.flats' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <div class="two-pickers">
+    <div class="two-pickers__group">
+      <span class="fl-eyebrow" id="harmony-tonic-label">{{ 'fretboardLab.tonic' | translate }}</span>
+      <div class="picker" role="group" aria-labelledby="harmony-tonic-label">
+        @for (note of notes.value(); track note.pitchClass) {
+          <button
+            type="button"
+            class="picker__note"
+            [attr.aria-pressed]="tonic() === note.name"
+            (click)="setTonic(note.name)"
+          >{{ note.name | noteName }}</button>
+        }
+      </div>
+    </div>
+
+    <div class="two-pickers__group">
+      <span class="fl-eyebrow" id="harmony-type-label">{{ 'fretboardLab.scale' | translate }}</span>
+      <div class="picker" role="group" aria-labelledby="harmony-type-label">
+        @for (id of scaleTypeIds; track id) {
+          <button
+            type="button"
+            class="picker__note"
+            [attr.aria-pressed]="typeId() === id"
+            (click)="setTypeId(id)"
+          >{{ 'scaleType.' + id | translate }}</button>
+        }
+      </div>
+    </div>
+  </div>
+
+  @if (harmony.value(); as active) {
+    <div class="degrees" role="group" [attr.aria-label]="'learn.harmony.degrees' | translate">
+      @for (degree of active.degrees; track degree.degree) {
+        <button
+          type="button"
+          class="degrees__chip"
+          [attr.aria-pressed]="selectedDegree() === degree.degree"
+          (click)="selectDegree(degree.degree)"
+        >
+          <span class="degrees__roman">{{ degree.romanNumeral }}</span>
+          <span class="degrees__symbol">{{ degree.chord.symbol }}</span>
+        </button>
+      }
+    </div>
+  }
+
+  @if (board.isLoading()) {
+    <p class="state">{{ 'fretboardLab.loading' | translate }}</p>
+  } @else {
+    <app-fretboard [fretCount]="12" [markers]="markers()" [interactive]="false" />
+  }
+
+  @if (selected(); as active) {
+    <div class="tones">
+      @for (note of active.chord.notes; track note.pitchClass) {
+        <span class="tones__chip">{{ note.name | noteName }}</span>
+      }
+    </div>
+  }
+</section>
+
+<section class="block">
+  <h2>{{ 'learn.harmony.resolve.title' | translate }}</h2>
+  <p class="fl-muted">{{ 'learn.harmony.resolve.body' | translate }}</p>
+
+  @if (resolution.value(); as r) {
+    @if (isLeadingTone()) {
+      <p class="summary summary--proof" aria-live="polite">
+        {{ 'learn.harmony.resolve.leadingTone' | translate: {
+          note: (r.from.name | noteName),
+          tonic: (r.to.name | noteName)
+        } }}
+      </p>
+    } @else {
+      <p class="summary summary--proof" aria-live="polite">
+        {{ 'learn.harmony.resolve.subtonic' | translate: {
+          note: (r.from.name | noteName),
+          tonic: (r.to.name | noteName)
+        } }}
+      </p>
+    }
+  }
+</section>
+
+@if (harmony.value(); as active) {
+  <section class="block">
+    <h2>{{ 'learn.harmony.progression.title' | translate }}</h2>
+    <p class="fl-muted progression">
+      {{ 'learn.harmony.progression.body' | translate: {
+        one: active.degrees[0].chord.symbol,
+        four: active.degrees[3].chord.symbol,
+        five: active.degrees[4].chord.symbol
+      } }}
+    </p>
+  </section>
+}
+
+<section class="next">
+  <span class="fl-eyebrow">{{ 'learn.harmony.next.title' | translate }}</span>
+  <p class="fl-muted">{{ 'learn.harmony.next.body' | translate }}</p>
+  <a class="fl-button fl-button--primary" routerLink="/learn/pentatonic-scales">
+    {{ 'learn.harmony.next.cta' | translate }}
+  </a>
+  <a class="next__secondary" routerLink="/practice/interval-trainer">
+    {{ 'learn.harmony.next.secondary' | translate }}
+  </a>
+</section>
