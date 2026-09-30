@@ -1,0 +1,94 @@
+<app-page-header
+  eyebrowKey="learn.fretboardMastery.header.eyebrow"
+  titleKey="learn.fretboardMastery.header.title"
+  leadKey="learn.fretboardMastery.header.lead"
+/>
+
+<section class="block">
+  <h2>{{ 'learn.fretboardMastery.anchors.title' | translate }}</h2>
+  <p class="fl-muted">{{ 'learn.fretboardMastery.anchors.body' | translate }}</p>
+</section>
+
+<section class="stage" aria-label="Fretboard">
+  <div class="stage__header">
+    <span class="fl-eyebrow" id="mastery-spelling-label">{{ 'fretboardLab.spelling' | translate }}</span>
+    <div class="fl-segmented" role="group" aria-labelledby="mastery-spelling-label">
+      <button type="button" [attr.aria-pressed]="spelling() === 'SHARPS'" (click)="setSpelling('SHARPS')">
+        {{ 'fretboardLab.sharps' | translate }}
+      </button>
+      <button type="button" [attr.aria-pressed]="spelling() === 'FLATS'" (click)="setSpelling('FLATS')">
+        {{ 'fretboardLab.flats' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <p class="fl-muted">{{ 'learn.fretboardMastery.stage.instruction' | translate }}</p>
+
+  <div class="picker" role="group" aria-label="Pick a note">
+    @for (option of noteOptions(); track option.pitchClass) {
+      <button
+        type="button"
+        class="picker__note"
+        [attr.aria-pressed]="selectedPitchClass() === option.pitchClass"
+        (click)="selectPitchClass(option.pitchClass)"
+      >{{ option.name | noteName }}</button>
+    }
+  </div>
+
+  @if (board.isLoading()) {
+    <p class="state">{{ 'fretboardLab.loading' | translate }}</p>
+  } @else {
+    <app-fretboard [fretCount]="12" [markers]="markers()" [interactive]="false" />
+  }
+
+  @if (selectedPitchClass() === null) {
+    <p class="summary summary--empty">{{ 'learn.fretboardMastery.selected.none' | translate }}</p>
+  } @else {
+    <p class="summary" aria-live="polite">
+      {{ 'learn.fretboardMastery.selected.summary' | translate: { count: matchCount() } }}
+    </p>
+
+    <ol class="matches">
+      @for (match of matches(); track match.string + '-' + match.fret) {
+        <li class="matches__row">
+          <span class="matches__position">
+            {{ 'learn.fretboardMastery.matches.position' | translate: { string: match.string, fret: match.fret } }}
+          </span>
+          @if (match.nearerAnchor === 'open') {
+            <span class="matches__reason matches__reason--open">
+              {{ 'learn.fretboardMastery.matches.viaOpen' | translate: { n: match.upFromOpen } }}
+            </span>
+          } @else {
+            <span class="matches__reason matches__reason--twelfth">
+              {{ 'learn.fretboardMastery.matches.viaTwelfth' | translate: { n: match.downFrom12 } }}
+            </span>
+          }
+        </li>
+      }
+    </ol>
+  }
+</section>
+
+<section class="block">
+  <h2>{{ 'learn.fretboardMastery.levels.title' | translate }}</h2>
+  <p class="fl-muted">{{ 'learn.fretboardMastery.levels.body' | translate }}</p>
+
+  <ol class="levels">
+    <li><strong>{{ 'learn.fretboardMastery.levels.l1.label' | translate }}</strong> — {{ 'learn.fretboardMastery.levels.l1.body' | translate }}</li>
+    <li><strong>{{ 'learn.fretboardMastery.levels.l2.label' | translate }}</strong> — {{ 'learn.fretboardMastery.levels.l2.body' | translate }}</li>
+    <li><strong>{{ 'learn.fretboardMastery.levels.l3.label' | translate }}</strong> — {{ 'learn.fretboardMastery.levels.l3.body' | translate }}</li>
+    <li><strong>{{ 'learn.fretboardMastery.levels.l4.label' | translate }}</strong> — {{ 'learn.fretboardMastery.levels.l4.body' | translate }}</li>
+    <li><strong>{{ 'learn.fretboardMastery.levels.l5.label' | translate }}</strong> — {{ 'learn.fretboardMastery.levels.l5.body' | translate }}</li>
+  </ol>
+</section>
+
+<section class="next">
+  <span class="fl-eyebrow">{{ 'learn.fretboardMastery.next.title' | translate }}</span>
+  <p class="fl-muted">{{ 'learn.fretboardMastery.next.body' | translate }}</p>
+  <a class="fl-button fl-button--primary" routerLink="/practice/fretboard-trainer">
+    {{ 'learn.fretboardMastery.next.cta' | translate }}
+  </a>
+  <a class="next__secondary" routerLink="/learn/intervals">
+    {{ 'learn.fretboardMastery.next.secondary' | translate }}
+  </a>
+</section>

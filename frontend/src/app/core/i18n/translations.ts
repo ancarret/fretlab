@@ -131,6 +131,40 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
       'With the strings and the frets in hand, the next lesson is a method for finding any note, anywhere on the neck, without counting frets one by one.',
     'learn.guitar.next.cta': 'Next: fretboard mastery',
 
+    // ---------- Learn — Lesson 3: Fretboard mastery ----------
+    'learn.fretboardMastery.header.eyebrow': 'Module 3',
+    'learn.fretboardMastery.header.title': 'Fretboard mastery',
+    'learn.fretboardMastery.header.lead':
+      'A method for finding any note anywhere on the neck, built from the two anchors you already know.',
+    'learn.fretboardMastery.anchors.title': 'Two anchors you already have',
+    'learn.fretboardMastery.anchors.body':
+      "Every fretted note is some number of semitones from one of two landmarks on its own string: the open string, or the octave at fret 12. There is no need to count from fret 1 every time — count up from whichever anchor is closer. The dots inlaid into the neck at frets 3, 5, 7, 9 and 12 exist for exactly this: quick visual waypoints so you rarely have to count more than two or three frets by eye.",
+    'learn.fretboardMastery.stage.instruction':
+      'Pick a note. Every place it lives within the first 12 frets lights up, each one labelled with the shorter route to it.',
+    'learn.fretboardMastery.selected.none': 'Pick a note above to see the method in action.',
+    'learn.fretboardMastery.selected.summary': 'Found in {count} places — here is the closest anchor for each:',
+    'learn.fretboardMastery.matches.position': 'String {string}, fret {fret}',
+    'learn.fretboardMastery.matches.viaOpen': '{n} up from the open string',
+    'learn.fretboardMastery.matches.viaTwelfth': '{n} down from the fret-12 octave',
+    'learn.fretboardMastery.levels.title': 'A five-level path to fluency',
+    'learn.fretboardMastery.levels.body':
+      "The Fretboard Trainer widens the challenge one axis at a time, so you are never learning two new things at once. This is the same progression it actually uses:",
+    'learn.fretboardMastery.levels.l1.label': 'Level 1',
+    'learn.fretboardMastery.levels.l1.body': 'natural notes only, on the two lowest strings (5 and 6).',
+    'learn.fretboardMastery.levels.l2.label': 'Level 2',
+    'learn.fretboardMastery.levels.l2.body': 'natural notes, adding string 4.',
+    'learn.fretboardMastery.levels.l3.label': 'Level 3',
+    'learn.fretboardMastery.levels.l3.body': 'natural notes, across all six strings.',
+    'learn.fretboardMastery.levels.l4.label': 'Level 4',
+    'learn.fretboardMastery.levels.l4.body': 'all six strings, now including sharps and flats.',
+    'learn.fretboardMastery.levels.l5.label': 'Level 5',
+    'learn.fretboardMastery.levels.l5.body': 'the same as level 4, timed.',
+    'learn.fretboardMastery.next.title': 'Next step',
+    'learn.fretboardMastery.next.body':
+      'This method only becomes fast with repetition under a little pressure — that is exactly what the trainer is for.',
+    'learn.fretboardMastery.next.cta': 'Go to the Fretboard Trainer',
+    'learn.fretboardMastery.next.secondary': 'Or continue the curriculum: Intervals →',
+
     'learn.module1.name': 'Music foundations',
     'learn.module1.summary': 'Note names, the twelve pitch classes, semitones, enharmonics.',
     'learn.module2.name': 'The guitar',
@@ -459,6 +493,40 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'learn.guitar.next.body':
       'Con las cuerdas y los trastes ya claros, la siguiente lección es un método para encontrar cualquier nota, en cualquier parte del mástil, sin contar trastes uno a uno.',
     'learn.guitar.next.cta': 'Siguiente: dominio del mástil',
+
+    // ---------- Aprender — Lección 3: Dominio del mástil ----------
+    'learn.fretboardMastery.header.eyebrow': 'Módulo 3',
+    'learn.fretboardMastery.header.title': 'Dominio del mástil',
+    'learn.fretboardMastery.header.lead':
+      'Un método para encontrar cualquier nota en cualquier parte del mástil, construido con los dos anclajes que ya conoces.',
+    'learn.fretboardMastery.anchors.title': 'Dos anclajes que ya tienes',
+    'learn.fretboardMastery.anchors.body':
+      'Cada nota trasteada está a un número de semitonos de uno de dos puntos de referencia en su propia cuerda: la cuerda al aire, o la octava en el traste 12. No hace falta contar desde el traste 1 cada vez — cuenta desde el anclaje que quede más cerca. Los puntos incrustados en el mástil en los trastes 3, 5, 7, 9 y 12 existen justo para esto: referencias visuales rápidas para no tener que contar más de dos o tres trastes a ojo.',
+    'learn.fretboardMastery.stage.instruction':
+      'Elige una nota. Cada sitio donde vive dentro de los primeros 12 trastes se ilumina, con la ruta más corta hasta ella.',
+    'learn.fretboardMastery.selected.none': 'Elige una nota arriba para ver el método en acción.',
+    'learn.fretboardMastery.selected.summary': 'Aparece en {count} sitios — este es el anclaje más cercano para cada uno:',
+    'learn.fretboardMastery.matches.position': 'Cuerda {string}, traste {fret}',
+    'learn.fretboardMastery.matches.viaOpen': '{n} hacia arriba desde la cuerda al aire',
+    'learn.fretboardMastery.matches.viaTwelfth': '{n} hacia abajo desde la octava del traste 12',
+    'learn.fretboardMastery.levels.title': 'Un camino de cinco niveles hacia la fluidez',
+    'learn.fretboardMastery.levels.body':
+      'El entrenador de mástil amplía el reto un eje cada vez, para que nunca estés aprendiendo dos cosas nuevas a la vez. Esta es la progresión real que usa:',
+    'learn.fretboardMastery.levels.l1.label': 'Nivel 1',
+    'learn.fretboardMastery.levels.l1.body': 'solo notas naturales, en las dos cuerdas más graves (5 y 6).',
+    'learn.fretboardMastery.levels.l2.label': 'Nivel 2',
+    'learn.fretboardMastery.levels.l2.body': 'notas naturales, añadiendo la cuerda 4.',
+    'learn.fretboardMastery.levels.l3.label': 'Nivel 3',
+    'learn.fretboardMastery.levels.l3.body': 'notas naturales, en las seis cuerdas.',
+    'learn.fretboardMastery.levels.l4.label': 'Nivel 4',
+    'learn.fretboardMastery.levels.l4.body': 'las seis cuerdas, ahora con sostenidos y bemoles.',
+    'learn.fretboardMastery.levels.l5.label': 'Nivel 5',
+    'learn.fretboardMastery.levels.l5.body': 'igual que el nivel 4, con tiempo limitado.',
+    'learn.fretboardMastery.next.title': 'Siguiente paso',
+    'learn.fretboardMastery.next.body':
+      'Este método solo se vuelve rápido con repetición bajo algo de presión — para eso está el entrenador.',
+    'learn.fretboardMastery.next.cta': 'Ir al entrenador de mástil',
+    'learn.fretboardMastery.next.secondary': 'O continúa el temario: Intervalos →',
 
     'learn.module1.name': 'Fundamentos musicales',
     'learn.module1.summary': 'Nombres de las notas, las doce clases de altura, semitonos, enarmonías.',

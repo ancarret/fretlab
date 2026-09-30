@@ -145,7 +145,12 @@ export class Learn {
       summaryKey: 'learn.module2.summary',
       route: '/learn/guitar-basics',
     },
-    { order: 3, nameKey: 'learn.module3.name', summaryKey: 'learn.module3.summary' },
+    {
+      order: 3,
+      nameKey: 'learn.module3.name',
+      summaryKey: 'learn.module3.summary',
+      route: '/learn/fretboard-mastery',
+    },
     { order: 4, nameKey: 'learn.module4.name', summaryKey: 'learn.module4.summary' },
     { order: 5, nameKey: 'learn.module5.name', summaryKey: 'learn.module5.summary' },
     { order: 6, nameKey: 'learn.module6.name', summaryKey: 'learn.module6.summary' },
