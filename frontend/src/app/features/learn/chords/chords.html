@@ -1,0 +1,134 @@
+<app-page-header
+  eyebrowKey="learn.chords.header.eyebrow"
+  titleKey="learn.chords.header.title"
+  leadKey="learn.chords.header.lead"
+/>
+
+<section class="block">
+  <h2>{{ 'learn.chords.seventh.title' | translate }}</h2>
+  <p class="fl-muted">{{ 'learn.chords.seventh.body' | translate }}</p>
+
+  <ol class="formula">
+    <li class="formula__row">
+      <span>{{ 'chordType.MAJOR' | translate }}</span> +
+      <span>{{ 'interval.MINOR_SEVENTH' | translate }}</span> =
+      <strong>{{ 'chordType.DOMINANT_SEVENTH' | translate }}</strong>
+    </li>
+    <li class="formula__row">
+      <span>{{ 'chordType.MAJOR' | translate }}</span> +
+      <span>{{ 'interval.MAJOR_SEVENTH' | translate }}</span> =
+      <strong>{{ 'chordType.MAJOR_SEVENTH_CHORD' | translate }}</strong>
+    </li>
+    <li class="formula__row">
+      <span>{{ 'chordType.MINOR' | translate }}</span> +
+      <span>{{ 'interval.MINOR_SEVENTH' | translate }}</span> =
+      <strong>{{ 'chordType.MINOR_SEVENTH_CHORD' | translate }}</strong>
+    </li>
+    <li class="formula__row">
+      <span>{{ 'chordType.DIMINISHED' | translate }}</span> +
+      <span>{{ 'interval.MINOR_SEVENTH' | translate }}</span> =
+      <strong>{{ 'chordType.HALF_DIMINISHED_SEVENTH' | translate }}</strong>
+    </li>
+    <li class="formula__row">
+      <span>{{ 'chordType.DIMINISHED' | translate }}</span> +
+      <span>{{ 'interval.DIMINISHED_SEVENTH' | translate }}</span> =
+      <strong>{{ 'chordType.DIMINISHED_SEVENTH_CHORD' | translate }}</strong>
+    </li>
+  </ol>
+</section>
+
+<section class="block">
+  <h2>{{ 'learn.chords.suspended.title' | translate }}</h2>
+  <p class="fl-muted">{{ 'learn.chords.suspended.body' | translate }}</p>
+</section>
+
+<section class="stage" aria-label="Chord builder">
+  <div class="stage__header">
+    <span class="fl-eyebrow" id="chord-spelling-label">{{ 'fretboardLab.spelling' | translate }}</span>
+    <div class="fl-segmented" role="group" aria-labelledby="chord-spelling-label">
+      <button type="button" [attr.aria-pressed]="spelling() === 'SHARPS'" (click)="setSpelling('SHARPS')">
+        {{ 'fretboardLab.sharps' | translate }}
+      </button>
+      <button type="button" [attr.aria-pressed]="spelling() === 'FLATS'" (click)="setSpelling('FLATS')">
+        {{ 'fretboardLab.flats' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <div class="two-pickers">
+    <div class="two-pickers__group">
+      <span class="fl-eyebrow" id="chord-root-label">{{ 'fretboardLab.root' | translate }}</span>
+      <div class="picker" role="group" aria-labelledby="chord-root-label">
+        @for (note of notes.value(); track note.pitchClass) {
+          <button
+            type="button"
+            class="picker__note"
+            [attr.aria-pressed]="root() === note.name"
+            (click)="setRoot(note.name)"
+          >{{ note.name | noteName }}</button>
+        }
+      </div>
+    </div>
+
+    <div class="two-pickers__group">
+      <span class="fl-eyebrow" id="chord-type-label">{{ 'fretboardLab.chord' | translate }}</span>
+      <div class="picker" role="group" aria-labelledby="chord-type-label">
+        @for (type of chordTypes.value(); track type.id) {
+          <button
+            type="button"
+            class="picker__note"
+            [attr.aria-pressed]="typeId() === type.id"
+            (click)="setTypeId(type.id)"
+          >{{ 'chordType.' + type.id | translate }}</button>
+        }
+      </div>
+    </div>
+  </div>
+
+  @if (board.isLoading() || chord.isLoading()) {
+    <p class="state">{{ 'fretboardLab.loading' | translate }}</p>
+  } @else {
+    <app-fretboard [fretCount]="12" [markers]="markers()" [interactive]="false" />
+  }
+
+  @if (chord.value(); as active) {
+    <p class="symbol">{{ active.symbol }}</p>
+
+    <div class="tones">
+      @for (note of notesInInversion(); track note.name + $index) {
+        <span class="tones__chip">{{ note.name | noteName }}</span>
+      }
+    </div>
+
+    @if (inversionOptions().length > 1) {
+      <div class="inversions">
+        <span class="fl-eyebrow" id="chord-inversion-label">{{ 'learn.triads.inversionLabel' | translate }}</span>
+        <div class="fl-segmented" role="group" aria-labelledby="chord-inversion-label">
+          @for (option of inversionOptions(); track option.value) {
+            <button
+              type="button"
+              [attr.aria-pressed]="inversion() === option.value"
+              (click)="setInversion(option.value)"
+            >{{ option.labelKey | translate }}</button>
+          }
+        </div>
+      </div>
+    }
+  }
+</section>
+
+<section class="block">
+  <h2>{{ 'learn.chords.bridge.title' | translate }}</h2>
+  <p class="fl-muted">{{ 'learn.chords.bridge.body' | translate }}</p>
+</section>
+
+<section class="next">
+  <span class="fl-eyebrow">{{ 'learn.chords.next.title' | translate }}</span>
+  <p class="fl-muted">{{ 'learn.chords.next.body' | translate }}</p>
+  <a class="fl-button fl-button--primary" routerLink="/learn/scales-and-keys">
+    {{ 'learn.chords.next.cta' | translate }}
+  </a>
+  <a class="next__secondary" routerLink="/fretboard">
+    {{ 'learn.chords.next.secondary' | translate }}
+  </a>
+</section>

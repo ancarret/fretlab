@@ -212,6 +212,24 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'learn.triads.next.cta': 'Next: chords',
     'learn.triads.next.secondary': 'Or explore every chord shape in the Fretboard Lab →',
 
+    // ---------- Learn — Lesson 6: Chords ----------
+    'learn.chords.header.eyebrow': 'Module 6',
+    'learn.chords.header.title': 'Chords',
+    'learn.chords.header.lead': 'Two ways a triad grows into something else: one more third on top, or a different third altogether.',
+    'learn.chords.seventh.title': 'A seventh is one more third',
+    'learn.chords.seventh.body':
+      'Stack one more third-like interval on top of a triad you already know, and its name changes predictably. All five seventh chords FretLab knows are just this, applied to a major or a diminished triad:',
+    'learn.chords.suspended.title': 'Suspended: a different third entirely',
+    'learn.chords.suspended.body':
+      'Sus2 and sus4 do not add a note — they replace the third with a major second or a perfect fourth, so the chord is neither major nor minor; it has no third at all. That ambiguity, waiting to resolve back to a third, is exactly why they are called "suspended".',
+    'learn.chords.bridge.title': 'Where these notes come from',
+    'learn.chords.bridge.body':
+      'Every chord tone shown here is also a note in some scale. The next lesson builds full seven-note scales, and the one after that shows how a chord falls naturally out of every single scale degree.',
+    'learn.chords.next.title': 'Next step',
+    'learn.chords.next.body': 'With chords covered, the next lesson zooms out from three or four notes to a full seven-note scale.',
+    'learn.chords.next.cta': 'Next: scales and keys',
+    'learn.chords.next.secondary': 'Or explore every chord shape in the Fretboard Lab →',
+
     'learn.module1.name': 'Music foundations',
     'learn.module1.summary': 'Note names, the twelve pitch classes, semitones, enharmonics.',
     'learn.module2.name': 'The guitar',
@@ -223,7 +241,7 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'learn.module5.name': 'Triads',
     'learn.module5.summary': 'Building major, minor, diminished and augmented from a root.',
     'learn.module6.name': 'Chords',
-    'learn.module6.summary': 'Sevenths, suspensions and extensions, mapped to real voicings.',
+    'learn.module6.summary': 'Sevenths and suspensions, built as one more third or a different one.',
     'learn.module7.name': 'Scales and keys',
     'learn.module7.summary': 'Major and minor formulas, scale degrees, relative keys.',
     'learn.module8.name': 'Harmony',
@@ -622,6 +640,24 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'learn.triads.next.cta': 'Siguiente: acordes',
     'learn.triads.next.secondary': 'O explora todas las formas de acorde en el Laboratorio de Mástil →',
 
+    // ---------- Aprender — Lección 6: Acordes ----------
+    'learn.chords.header.eyebrow': 'Módulo 6',
+    'learn.chords.header.title': 'Acordes',
+    'learn.chords.header.lead': 'Dos formas en que una tríada se convierte en otra cosa: una tercera más encima, o una tercera distinta por completo.',
+    'learn.chords.seventh.title': 'Una séptima es una tercera más',
+    'learn.chords.seventh.body':
+      'Apila un intervalo más, parecido a una tercera, encima de una tríada que ya conoces, y su nombre cambia de forma predecible. Los cinco acordes de séptima que conoce FretLab son exactamente esto, aplicado a una tríada mayor o disminuida:',
+    'learn.chords.suspended.title': 'Suspendidos: una tercera totalmente distinta',
+    'learn.chords.suspended.body':
+      'Sus2 y sus4 no añaden ninguna nota — sustituyen la tercera por una segunda mayor o una cuarta justa, así que el acorde no es ni mayor ni menor; no tiene tercera en absoluto. Esa ambigüedad, a la espera de resolver de vuelta a una tercera, es justo por lo que se llaman "suspendidos".',
+    'learn.chords.bridge.title': 'De dónde salen estas notas',
+    'learn.chords.bridge.body':
+      'Cada nota de acorde que se muestra aquí es también una nota de alguna escala. La siguiente lección construye escalas completas de siete notas, y la de después muestra cómo un acorde surge de forma natural de cada grado de la escala.',
+    'learn.chords.next.title': 'Siguiente paso',
+    'learn.chords.next.body': 'Con los acordes ya cubiertos, la siguiente lección amplía el foco de tres o cuatro notas a una escala completa de siete.',
+    'learn.chords.next.cta': 'Siguiente: escalas y tonalidades',
+    'learn.chords.next.secondary': 'O explora todas las formas de acorde en el Laboratorio de Mástil →',
+
     'learn.module1.name': 'Fundamentos musicales',
     'learn.module1.summary': 'Nombres de las notas, las doce clases de altura, semitonos, enarmonías.',
     'learn.module2.name': 'La guitarra',
@@ -633,7 +669,7 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'learn.module5.name': 'Tríadas',
     'learn.module5.summary': 'Construir acordes mayores, menores, disminuidos y aumentados desde una fundamental.',
     'learn.module6.name': 'Acordes',
-    'learn.module6.summary': 'Séptimas, suspensiones y extensiones, aplicadas a digitaciones reales.',
+    'learn.module6.summary': 'Séptimas y suspensiones, construidas como una tercera más o una distinta.',
     'learn.module7.name': 'Escalas y tonalidades',
     'learn.module7.summary': 'Fórmulas mayores y menores, grados de la escala, tonalidades relativas.',
     'learn.module8.name': 'Armonía',

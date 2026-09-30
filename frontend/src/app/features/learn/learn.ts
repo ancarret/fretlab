@@ -163,7 +163,12 @@ export class Learn {
       summaryKey: 'learn.module5.summary',
       route: '/learn/triads',
     },
-    { order: 6, nameKey: 'learn.module6.name', summaryKey: 'learn.module6.summary' },
+    {
+      order: 6,
+      nameKey: 'learn.module6.name',
+      summaryKey: 'learn.module6.summary',
+      route: '/learn/chords',
+    },
     { order: 7, nameKey: 'learn.module7.name', summaryKey: 'learn.module7.summary' },
     { order: 8, nameKey: 'learn.module8.name', summaryKey: 'learn.module8.summary' },
     { order: 9, nameKey: 'learn.module9.name', summaryKey: 'learn.module9.summary' },
