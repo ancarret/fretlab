@@ -22,6 +22,7 @@ can be demonstrated by hand, and the documentation still matches the code.
 | 14 | CI/CD with GitHub Actions | ✅ Written, unverified on GitHub — see note |
 | 15 | Public deployment and live demo | ✅ Prepared — see note; awaits accounts only the user can create |
 | 16 | Portfolio polish: README, screenshots, architecture diagram | |
+| 17 | Learn curriculum: nine guided lessons from pitch classes to harmony | ✅ Done |
 
 ## Phase 1 — delivered
 
@@ -343,6 +344,38 @@ account and connecting it to the repository via the Blueprint. Everything on the
 environment split, the build configuration, and the Render Blueprint — was prepared and
 build-verified locally ahead of that, the same way Phase 14's CI workflow was written and
 individually verified before ever running on real GitHub infrastructure.
+
+## Phase 17 — delivered
+
+Nine lessons under `/learn`, each its own routed page: Music foundations, The guitar, Fretboard
+mastery, Intervals, Triads, Chords, Scales and keys, Harmony, Pentatonic scales. Every lesson reuses
+the same theory API, the same `Fretboard`/`Piano` components and the same role-colour tokens as the
+rest of the app — there is no separate "lesson content" data source, so a lesson can never show a
+note or a chord the theory engine itself disagrees with.
+
+Several lessons go further than displaying fetched data: they ask the backend to *prove* a claim
+live rather than asserting it in prose. Scales and keys fetches a major scale and its computed
+relative minor and checks, in the browser, that the two seven-note sets are identical before
+claiming they are. Harmony asks `/theory/intervals/between` for the actual distance from the 7th
+degree to the tonic and reports "leading tone" or "subtonic" depending on what comes back, rather
+than assuming every scale has a leading tone (natural minor does not). Triads does the same for the
+stacked-thirds formula behind each chord quality. This was a deliberate choice: a lesson claiming
+"these are the same notes" is itself a theory statement, and the project's own rule against
+asserting unverified theory applies to lesson copy exactly as much as it applies to backend code.
+
+**Pentatonic scales and Phase 8, reconciled.** Lesson 9 covers both pentatonic scales as five-note
+subsets of a scale already taught, including a live subset proof — but it deliberately does not
+introduce named "box" positions or the CAGED system, for the same reason Phase 8 originally deferred
+them: a specific fingering is a claim about hand geometry this project has no authoritative source
+to check, not a fact the theory engine can prove. The lesson says this to the learner directly
+instead of silently stopping short, matching the placeholder convention used everywhere else in the
+UI. Phase 8's status above stays "partial, by design" — this phase completed the part that could be
+done correctly, not the part that was deferred.
+
+**What is intentionally not here.** Audio (clicking a note or chord makes no sound) — real guitar
+tone would need sampled audio per string/fret/pitch, sourced or recorded, not synthesised
+plausibly; a synthesiser tone would teach a false timbre. That is listed below, not shipped as a
+lesser version.
 
 ## Later, and deliberately not yet
 

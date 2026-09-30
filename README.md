@@ -14,7 +14,7 @@ you whether you got it right.
 ![Angular](https://img.shields.io/badge/Angular-22-dd0031)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-18-336791)
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ed)
-![Tests](https://img.shields.io/badge/tests-190%2B%20backend%20%C2%B7%2046%20frontend-brightgreen)
+![Tests](https://img.shields.io/badge/tests-190%2B%20backend%20%C2%B7%2068%20frontend-brightgreen)
 
 <img src="docs/media/demo.gif" width="100%" alt="FretLab demo: Dashboard, Fretboard Lab, Lesson 1's piano, and the Practice hub">
 
