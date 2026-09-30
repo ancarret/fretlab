@@ -27,21 +27,30 @@ class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
+    private final String timingDecoyHash;
+
     AuthController(UserRepository users, PasswordEncoder passwordEncoder, JwtService jwtService) {
         this.users = users;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
+        this.timingDecoyHash = passwordEncoder.encode("decoy-password-never-matches");
+    }
+
+    /** Emails are case-insensitive in practice; one canonical form stops duplicate lookalike accounts. */
+    private static String normalize(String email) {
+        return email.trim().toLowerCase(java.util.Locale.ROOT);
     }
 
     @Operation(summary = "Create an account and return a session token")
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     AuthResponse register(@Valid @RequestBody RegisterRequest request) {
-        if (users.existsByEmail(request.email())) {
+        String email = normalize(request.email());
+        if (users.existsByEmail(email)) {
             throw new ApiException(HttpStatus.CONFLICT, ErrorCode.EMAIL_ALREADY_REGISTERED,
                     "An account with this email already exists.");
         }
-        User user = new User(request.email(), passwordEncoder.encode(request.password()));
+        User user = new User(email, passwordEncoder.encode(request.password()));
         users.save(user);
         return new AuthResponse(jwtService.issue(user.email()), user.email());
     }
@@ -49,10 +58,16 @@ class AuthController {
     @Operation(summary = "Exchange credentials for a session token")
     @PostMapping("/login")
     AuthResponse login(@Valid @RequestBody LoginRequest request) {
-        User user = users.findByEmail(request.email())
-                .filter(candidate -> passwordEncoder.matches(request.password(), candidate.passwordHash()))
-                .orElseThrow(() -> new ApiException(HttpStatus.UNAUTHORIZED, ErrorCode.INVALID_CREDENTIALS,
-                        "Email or password is incorrect."));
+        User found = users.findByEmail(normalize(request.email())).orElse(null);
+        // An unknown email must cost as much as a wrong password, or response time reveals which
+        // emails have accounts.
+        boolean matches = passwordEncoder.matches(request.password(),
+                found != null ? found.passwordHash() : timingDecoyHash);
+        User user = found != null && matches ? found : null;
+        if (user == null) {
+            throw new ApiException(HttpStatus.UNAUTHORIZED, ErrorCode.INVALID_CREDENTIALS,
+                    "Email or password is incorrect.");
+        }
         return new AuthResponse(jwtService.issue(user.email()), user.email());
     }
 

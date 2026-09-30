@@ -2,6 +2,7 @@ package com.fretlab.auth;
 
 import com.fretlab.shared.error.ApiException;
 import com.fretlab.shared.error.ErrorCode;
+import java.time.Clock;
 import java.time.Duration;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -29,6 +30,16 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 @EnableConfigurationProperties(JwtProperties.class)
 class SecurityConfig {
 
+    /**
+     * Login and registration are the brute-force targets; attempt recording is the only
+     * authenticated write an account can repeat endlessly, so it is capped to keep a single
+     * account from filling the database.
+     */
+    private static final java.util.List<RateLimitFilter.Rule> RATE_LIMITS = java.util.List.of(
+            new RateLimitFilter.Rule("POST", "/api/auth/login", 10, Duration.ofMinutes(1)),
+            new RateLimitFilter.Rule("POST", "/api/auth/register", 5, Duration.ofMinutes(10)),
+            new RateLimitFilter.Rule("POST", "/api/progress/attempts", 120, Duration.ofMinutes(1)));
+
     @Bean
     PasswordEncoder passwordEncoder() {
         // BCrypt: a slow, salted hash purpose-built for passwords, unlike a fast general-purpose
@@ -46,7 +57,9 @@ class SecurityConfig {
             HttpSecurity http,
             JwtService jwtService,
             CorsConfigurationSource corsConfigurationSource,
-            @Qualifier("handlerExceptionResolver") HandlerExceptionResolver exceptionResolver)
+            @Qualifier("handlerExceptionResolver") HandlerExceptionResolver exceptionResolver,
+            @org.springframework.beans.factory.annotation.Value("${fretlab.rate-limit.enabled:true}")
+                    boolean rateLimitEnabled)
             throws Exception {
         http
                 // Without this, Spring Security's filter chain runs before Spring MVC's own CORS
@@ -69,7 +82,14 @@ class SecurityConfig {
                         .anyRequest().authenticated())
                 .exceptionHandling(exceptions -> exceptions
                         .authenticationEntryPoint(problemDetailEntryPoint(exceptionResolver)))
-                .addFilterBefore(new JwtAuthenticationFilter(jwtService), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new RateLimitFilter(Clock.systemUTC(), exceptionResolver,
+                        rateLimitEnabled ? RATE_LIMITS : java.util.List.of()),
+                        UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthenticationFilter(jwtService), UsernamePasswordAuthenticationFilter.class)
+                .headers(headers -> headers
+                        .referrerPolicy(referrer -> referrer.policy(
+                                org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter
+                                        .ReferrerPolicy.NO_REFERRER)));
 
         return http.build();
     }

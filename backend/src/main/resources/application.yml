@@ -2,6 +2,9 @@ server:
   # Free-tier PaaS hosts (Render included) assign the port dynamically via $PORT; default to 8080
   # for local runs and the Docker Compose deployment, where nothing sets that variable.
   port: ${PORT:8080}
+  # Behind Render's proxy the TCP peer is the proxy; this resolves the real client address (and
+  # https scheme, so HSTS applies) from X-Forwarded-* — the rate limiter keys on it.
+  forward-headers-strategy: framework
 
 spring:
   application:

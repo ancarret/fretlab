@@ -18,6 +18,7 @@ public enum ErrorCode {
     // Auth / user domain
     EMAIL_ALREADY_REGISTERED,
     INVALID_CREDENTIALS,
+    RATE_LIMITED,
 
     // Music theory domain
     INVALID_NOTE,
