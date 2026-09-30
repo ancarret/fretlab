@@ -181,6 +181,11 @@ export class Learn {
       summaryKey: 'learn.module8.summary',
       route: '/learn/harmony',
     },
-    { order: 9, nameKey: 'learn.module9.name', summaryKey: 'learn.module9.summary' },
+    {
+      order: 9,
+      nameKey: 'learn.module9.name',
+      summaryKey: 'learn.module9.summary',
+      route: '/learn/pentatonic-scales',
+    },
   ];
 }

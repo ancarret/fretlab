@@ -278,6 +278,34 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'learn.harmony.next.cta': 'Next: pentatonic scales',
     'learn.harmony.next.secondary': 'Or practise interval recognition under scoring →',
 
+    // ---------- Learn — Lesson 9: Pentatonic scales ----------
+    'learn.pentatonic.header.eyebrow': 'Module 9',
+    'learn.pentatonic.header.title': 'Pentatonic scales',
+    'learn.pentatonic.header.lead':
+      'Two five-note scales, each one a subset of a seven-note scale already covered — shown across more of the neck, since a five-note pattern only starts to look like one with room to repeat.',
+    'learn.pentatonic.intro.title': 'Five notes, not seven',
+    'learn.pentatonic.intro.body':
+      'A pentatonic scale removes exactly two degrees from its seven-note parent — the two most likely to sound unstable against a held chord — and keeps the rest in the same order.',
+    'learn.pentatonic.intro.dropped': 'This one drops degrees {a} and {b} from its parent scale.',
+    'learn.pentatonic.subset.title': 'Proof: a real subset, not just five similar notes',
+    'learn.pentatonic.subset.body':
+      'Below are both scales for the same tonic. Every pentatonic note is highlighted in the parent row too — nothing in the five-note scale is a note the seven-note scale did not already have.',
+    'learn.pentatonic.subset.proof': 'Confirmed: all five notes appear in the parent scale above. This is a subset, not a coincidence.',
+    'learn.pentatonic.relative.title': 'Relative pentatonics',
+    'learn.pentatonic.relative.body':
+      'The same relative-key relationship from Lesson 7 holds here too: a major pentatonic and the minor pentatonic built on its 6th degree are, again, the exact same notes.',
+    'learn.pentatonic.relative.needsMajor': 'Pick "Major pentatonic" above to see the proof.',
+    'learn.pentatonic.relative.proof':
+      'Same five notes, confirmed — {major} major pentatonic and {minor} minor pentatonic are one shape, viewed from two different tonics.',
+    'learn.pentatonic.honesty.title': 'What this lesson does not teach',
+    'learn.pentatonic.honesty.body':
+      'Guitarists commonly learn the pentatonic scale as five fixed "box" shapes, often named after the CAGED chord system. FretLab does not teach named box positions — a specific fingering is a claim about hand geometry, and this project only teaches what its own backend can prove correct. What you have seen above is every occurrence of the scale, unfiltered; grouping that into five shapes is a genuinely useful memorisation step you can now take with a real teacher, a book, or your own eyes on the neck, on top of a foundation that is already accurate.',
+    'learn.pentatonic.next.title': 'That is the curriculum',
+    'learn.pentatonic.next.body':
+      'Nine lessons, from twelve pitch classes to functional harmony, all anchored to the same fretboard. The rest is repetition — the practice trainers are exactly that, with real scoring.',
+    'learn.pentatonic.next.cta': 'Go to Practice',
+    'learn.pentatonic.next.secondary': '← Back to the curriculum',
+
     'learn.module1.name': 'Music foundations',
     'learn.module1.summary': 'Note names, the twelve pitch classes, semitones, enharmonics.',
     'learn.module2.name': 'The guitar',
@@ -294,8 +322,8 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'learn.module7.summary': 'Major and minor formulas, scale degrees, relative keys.',
     'learn.module8.name': 'Harmony',
     'learn.module8.summary': 'Harmonising the scale and why common progressions resolve.',
-    'learn.module9.name': 'Pentatonic and CAGED',
-    'learn.module9.summary': 'Five positions each, understood as intervals rather than shapes.',
+    'learn.module9.name': 'Pentatonic scales',
+    'learn.module9.summary': 'Two five-note scales, and how each one is a subset of a scale you already know.',
 
     // ---------- Practice ----------
     'practice.header.eyebrow': 'Exercises',
@@ -754,6 +782,34 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'learn.harmony.next.cta': 'Siguiente: escalas pentatónicas',
     'learn.harmony.next.secondary': 'O practica el reconocimiento de intervalos con puntuación →',
 
+    // ---------- Aprender — Lección 9: Escalas pentatónicas ----------
+    'learn.pentatonic.header.eyebrow': 'Módulo 9',
+    'learn.pentatonic.header.title': 'Escalas pentatónicas',
+    'learn.pentatonic.header.lead':
+      'Dos escalas de cinco notas, cada una un subconjunto de una escala de siete notas ya vista — mostradas en más mástil, porque un patrón de cinco notas solo empieza a parecer un patrón cuando hay sitio para que se repita.',
+    'learn.pentatonic.intro.title': 'Cinco notas, no siete',
+    'learn.pentatonic.intro.body':
+      'Una escala pentatónica elimina exactamente dos grados de su escala madre de siete notas — los dos con más probabilidad de sonar inestables contra un acorde sostenido — y conserva el resto en el mismo orden.',
+    'learn.pentatonic.intro.dropped': 'Esta elimina los grados {a} y {b} de su escala madre.',
+    'learn.pentatonic.subset.title': 'Prueba: un subconjunto real, no solo cinco notas parecidas',
+    'learn.pentatonic.subset.body':
+      'Abajo están ambas escalas para la misma tónica. Cada nota de la pentatónica se resalta también en la fila madre — nada en la escala de cinco notas es una nota que la de siete no tuviera ya.',
+    'learn.pentatonic.subset.proof': 'Confirmado: las cinco notas aparecen en la escala madre de arriba. Esto es un subconjunto, no una coincidencia.',
+    'learn.pentatonic.relative.title': 'Pentatónicas relativas',
+    'learn.pentatonic.relative.body':
+      'La misma relación de tonalidades relativas de la Lección 7 se cumple también aquí: una pentatónica mayor y la pentatónica menor construida sobre su 6º grado son, otra vez, exactamente las mismas notas.',
+    'learn.pentatonic.relative.needsMajor': 'Elige "Pentatónica mayor" arriba para ver la prueba.',
+    'learn.pentatonic.relative.proof':
+      'Las mismas cinco notas, confirmado — la pentatónica mayor de {major} y la pentatónica menor de {minor} son una sola forma, vista desde dos tónicas distintas.',
+    'learn.pentatonic.honesty.title': 'Lo que esta lección no enseña',
+    'learn.pentatonic.honesty.body':
+      'Es habitual que los guitarristas aprendan la escala pentatónica como cinco formas fijas de "caja", a menudo llamadas por el sistema de acordes CAGED. FretLab no enseña posiciones de caja con nombre — una digitación concreta es una afirmación sobre geometría de la mano, y este proyecto solo enseña lo que su propio backend puede demostrar correcto. Lo que has visto arriba es cada aparición de la escala, sin filtrar; agruparla en cinco formas es un paso de memorización genuinamente útil que ahora puedes dar con un profesor de verdad, un libro, o tus propios ojos sobre el mástil, encima de una base que ya es correcta.',
+    'learn.pentatonic.next.title': 'Ese es todo el temario',
+    'learn.pentatonic.next.body':
+      'Nueve lecciones, desde las doce clases de altura hasta la armonía funcional, todas ancladas al mismo mástil. El resto es repetición — los entrenadores de práctica son exactamente eso, con puntuación real.',
+    'learn.pentatonic.next.cta': 'Ir a Practicar',
+    'learn.pentatonic.next.secondary': '← Volver al temario',
+
     'learn.module1.name': 'Fundamentos musicales',
     'learn.module1.summary': 'Nombres de las notas, las doce clases de altura, semitonos, enarmonías.',
     'learn.module2.name': 'La guitarra',
@@ -770,8 +826,8 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'learn.module7.summary': 'Fórmulas mayores y menores, grados de la escala, tonalidades relativas.',
     'learn.module8.name': 'Armonía',
     'learn.module8.summary': 'Armonizar la escala y por qué resuelven las progresiones habituales.',
-    'learn.module9.name': 'Pentatónica y CAGED',
-    'learn.module9.summary': 'Cinco posiciones cada una, entendidas como intervalos y no como formas.',
+    'learn.module9.name': 'Escalas pentatónicas',
+    'learn.module9.summary': 'Dos escalas de cinco notas, y cómo cada una es un subconjunto de una que ya conoces.',
 
     // ---------- Practice ----------
     'practice.header.eyebrow': 'Ejercicios',

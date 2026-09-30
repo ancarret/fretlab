@@ -62,6 +62,12 @@ export const routes: Routes = [
     loadComponent: () => import('./features/learn/harmony/harmony').then((m) => m.Harmony),
   },
   {
+    path: 'learn/pentatonic-scales',
+    title: 'Pentatonic Scales · FretLab',
+    loadComponent: () =>
+      import('./features/learn/pentatonic-scales/pentatonic-scales').then((m) => m.PentatonicScales),
+  },
+  {
     path: 'fretboard',
     title: 'Fretboard Lab · FretLab',
     loadComponent: () => import('./features/fretboard/fretboard-lab').then((m) => m.FretboardLab),
