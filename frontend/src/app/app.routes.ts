@@ -51,6 +51,12 @@ export const routes: Routes = [
     loadComponent: () => import('./features/learn/chords/chords').then((m) => m.Chords),
   },
   {
+    path: 'learn/scales-and-keys',
+    title: 'Scales and Keys · FretLab',
+    loadComponent: () =>
+      import('./features/learn/scales-and-keys/scales-and-keys').then((m) => m.ScalesAndKeys),
+  },
+  {
     path: 'fretboard',
     title: 'Fretboard Lab · FretLab',
     loadComponent: () => import('./features/fretboard/fretboard-lab').then((m) => m.FretboardLab),

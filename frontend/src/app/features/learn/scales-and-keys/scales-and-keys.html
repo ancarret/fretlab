@@ -1,0 +1,130 @@
+<app-page-header
+  eyebrowKey="learn.scalesAndKeys.header.eyebrow"
+  titleKey="learn.scalesAndKeys.header.title"
+  leadKey="learn.scalesAndKeys.header.lead"
+/>
+
+<section class="block">
+  <h2>{{ 'learn.scalesAndKeys.intro.title' | translate }}</h2>
+  <p class="fl-muted">{{ 'learn.scalesAndKeys.intro.body' | translate }}</p>
+</section>
+
+<section class="stage" aria-label="Scale builder">
+  <div class="stage__header">
+    <span class="fl-eyebrow" id="scale-spelling-label">{{ 'fretboardLab.spelling' | translate }}</span>
+    <div class="fl-segmented" role="group" aria-labelledby="scale-spelling-label">
+      <button type="button" [attr.aria-pressed]="spelling() === 'SHARPS'" (click)="setSpelling('SHARPS')">
+        {{ 'fretboardLab.sharps' | translate }}
+      </button>
+      <button type="button" [attr.aria-pressed]="spelling() === 'FLATS'" (click)="setSpelling('FLATS')">
+        {{ 'fretboardLab.flats' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <div class="two-pickers">
+    <div class="two-pickers__group">
+      <span class="fl-eyebrow" id="scale-tonic-label">{{ 'fretboardLab.tonic' | translate }}</span>
+      <div class="picker" role="group" aria-labelledby="scale-tonic-label">
+        @for (note of notes.value(); track note.pitchClass) {
+          <button
+            type="button"
+            class="picker__note"
+            [attr.aria-pressed]="tonic() === note.name"
+            (click)="setTonic(note.name)"
+          >{{ note.name | noteName }}</button>
+        }
+      </div>
+    </div>
+
+    <div class="two-pickers__group">
+      <span class="fl-eyebrow" id="scale-type-label">{{ 'fretboardLab.scale' | translate }}</span>
+      <div class="picker" role="group" aria-labelledby="scale-type-label">
+        @for (id of scaleTypeIds; track id) {
+          <button
+            type="button"
+            class="picker__note"
+            [attr.aria-pressed]="typeId() === id"
+            (click)="setTypeId(id)"
+          >{{ 'scaleType.' + id | translate }}</button>
+        }
+      </div>
+    </div>
+  </div>
+
+  @if (steps().length > 0) {
+    <div class="steps" aria-label="Whole and half steps">
+      @for (step of steps(); track $index) {
+        @if (step === 1) {
+          <span class="steps__chip steps__chip--half">{{ 'learn.scalesAndKeys.steps.half' | translate }}</span>
+        } @else if (step === 2) {
+          <span class="steps__chip">{{ 'learn.scalesAndKeys.steps.whole' | translate }}</span>
+        } @else {
+          <span class="steps__chip steps__chip--other">+{{ step }}</span>
+        }
+      }
+    </div>
+    <p class="fl-muted steps__caption">{{ 'learn.scalesAndKeys.steps.caption' | translate }}</p>
+  }
+
+  <app-piano [markers]="pianoMarkers()" [interactive]="false" />
+
+  @if (board.isLoading()) {
+    <p class="state">{{ 'fretboardLab.loading' | translate }}</p>
+  } @else {
+    <app-fretboard [fretCount]="12" [markers]="fretboardMarkers()" [interactive]="false" />
+  }
+</section>
+
+<section class="stage" aria-label="Relative keys">
+  <h2>{{ 'learn.scalesAndKeys.relative.title' | translate }}</h2>
+  <p class="fl-muted">{{ 'learn.scalesAndKeys.relative.body' | translate }}</p>
+
+  @if (typeId() !== 'MAJOR') {
+    <p class="summary summary--empty">{{ 'learn.scalesAndKeys.relative.needsMajor' | translate }}</p>
+  } @else if (scale.value(); as major) {
+    <div class="compare">
+      <div class="compare__row">
+        <span class="compare__label">{{ tonic() | noteName }} {{ 'scaleType.MAJOR' | translate }}</span>
+        <div class="compare__notes">
+          @for (note of major.notes; track note.pitchClass) {
+            <span class="compare__chip">{{ note.name | noteName }}</span>
+          }
+        </div>
+      </div>
+
+      @if (relativeMinorScale.value(); as minor) {
+        <div class="compare__row">
+          <span class="compare__label">
+            {{ relativeMinorTonic() | noteName }} {{ 'scaleType.NATURAL_MINOR' | translate }}
+          </span>
+          <div class="compare__notes">
+            @for (note of minor.notes; track note.pitchClass) {
+              <span class="compare__chip">{{ note.name | noteName }}</span>
+            }
+          </div>
+        </div>
+
+        @if (sameNotes()) {
+          <p class="summary summary--proof" aria-live="polite">
+            {{ 'learn.scalesAndKeys.relative.proof' | translate: {
+              major: (tonic() | noteName),
+              minor: (relativeMinorTonic() | noteName)
+            } }}
+          </p>
+        }
+      }
+    </div>
+  }
+</section>
+
+<section class="next">
+  <span class="fl-eyebrow">{{ 'learn.scalesAndKeys.next.title' | translate }}</span>
+  <p class="fl-muted">{{ 'learn.scalesAndKeys.next.body' | translate }}</p>
+  <a class="fl-button fl-button--primary" routerLink="/learn/harmony">
+    {{ 'learn.scalesAndKeys.next.cta' | translate }}
+  </a>
+  <a class="next__secondary" routerLink="/fretboard">
+    {{ 'learn.scalesAndKeys.next.secondary' | translate }}
+  </a>
+</section>

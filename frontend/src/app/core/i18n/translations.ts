@@ -230,6 +230,29 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'learn.chords.next.cta': 'Next: scales and keys',
     'learn.chords.next.secondary': 'Or explore every chord shape in the Fretboard Lab →',
 
+    // ---------- Learn — Lesson 7: Scales and keys ----------
+    'learn.scalesAndKeys.header.eyebrow': 'Module 7',
+    'learn.scalesAndKeys.header.title': 'Scales and keys',
+    'learn.scalesAndKeys.header.lead':
+      'A scale is a tonic plus a fixed sequence of whole and half steps — and a major key and its relative minor are the exact same seven notes, just starting in a different place.',
+    'learn.scalesAndKeys.intro.title': 'A formula of steps, not a list of notes',
+    'learn.scalesAndKeys.intro.body':
+      'Build any scale below and its own step pattern is read straight off its notes underneath the keyboard — W for a whole step (2 semitones), H for a half step (1 semitone). The major scale is W-W-H-W-W-W-H in every key; the natural minor rearranges the same two step sizes into a different order; harmonic minor sharpens one degree enough to create a three-semitone gap, marked "+3" below.',
+    'learn.scalesAndKeys.steps.half': 'H',
+    'learn.scalesAndKeys.steps.whole': 'W',
+    'learn.scalesAndKeys.steps.caption': 'Read left to right, starting from the tonic.',
+    'learn.scalesAndKeys.relative.title': 'Relative keys',
+    'learn.scalesAndKeys.relative.body':
+      'Every major scale has a relative minor built on its 6th degree — and despite starting on a different note, it is not a new set of notes at all. Pick Major above to see the proof for any key.',
+    'learn.scalesAndKeys.relative.needsMajor': 'Pick "Major" above to compare it with its relative minor.',
+    'learn.scalesAndKeys.relative.proof':
+      'Same seven notes, confirmed — {major} major and {minor} natural minor are one key signature, viewed from two different tonics.',
+    'learn.scalesAndKeys.next.title': 'Next step',
+    'learn.scalesAndKeys.next.body':
+      'With a full scale in hand, the next lesson builds a chord on every one of its seven degrees at once, and explains why some want to resolve into others.',
+    'learn.scalesAndKeys.next.cta': 'Next: harmony',
+    'learn.scalesAndKeys.next.secondary': 'Or explore scales across the whole neck in the Fretboard Lab →',
+
     'learn.module1.name': 'Music foundations',
     'learn.module1.summary': 'Note names, the twelve pitch classes, semitones, enharmonics.',
     'learn.module2.name': 'The guitar',
@@ -657,6 +680,29 @@ export const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     'learn.chords.next.body': 'Con los acordes ya cubiertos, la siguiente lección amplía el foco de tres o cuatro notas a una escala completa de siete.',
     'learn.chords.next.cta': 'Siguiente: escalas y tonalidades',
     'learn.chords.next.secondary': 'O explora todas las formas de acorde en el Laboratorio de Mástil →',
+
+    // ---------- Aprender — Lección 7: Escalas y tonalidades ----------
+    'learn.scalesAndKeys.header.eyebrow': 'Módulo 7',
+    'learn.scalesAndKeys.header.title': 'Escalas y tonalidades',
+    'learn.scalesAndKeys.header.lead':
+      'Una escala es una tónica más una secuencia fija de tonos y semitonos — y una tonalidad mayor y su relativa menor son exactamente las mismas siete notas, solo que empezando en un sitio distinto.',
+    'learn.scalesAndKeys.intro.title': 'Una fórmula de pasos, no una lista de notas',
+    'learn.scalesAndKeys.intro.body':
+      'Construye cualquier escala abajo y su propio patrón de pasos se lee directamente de sus notas, debajo del teclado — T para un tono entero (2 semitonos), S para un semitono (1 semitono). La escala mayor es T-T-S-T-T-T-S en cualquier tonalidad; la menor natural reordena los mismos dos tamaños de paso de otra forma; la menor armónica sostiene un grado lo suficiente como para crear un hueco de tres semitonos, marcado "+3" abajo.',
+    'learn.scalesAndKeys.steps.half': 'S',
+    'learn.scalesAndKeys.steps.whole': 'T',
+    'learn.scalesAndKeys.steps.caption': 'Se lee de izquierda a derecha, empezando en la tónica.',
+    'learn.scalesAndKeys.relative.title': 'Tonalidades relativas',
+    'learn.scalesAndKeys.relative.body':
+      'Toda escala mayor tiene una relativa menor construida sobre su 6º grado — y a pesar de empezar en una nota distinta, no es en absoluto un conjunto de notas nuevo. Elige "Mayor" arriba para ver la prueba en cualquier tonalidad.',
+    'learn.scalesAndKeys.relative.needsMajor': 'Elige "Mayor" arriba para compararla con su relativa menor.',
+    'learn.scalesAndKeys.relative.proof':
+      'Las mismas siete notas, confirmado — {major} mayor y {minor} menor natural son una sola armadura, vista desde dos tónicas distintas.',
+    'learn.scalesAndKeys.next.title': 'Siguiente paso',
+    'learn.scalesAndKeys.next.body':
+      'Con una escala completa ya en la mano, la siguiente lección construye un acorde sobre cada uno de sus siete grados a la vez, y explica por qué algunos quieren resolver en otros.',
+    'learn.scalesAndKeys.next.cta': 'Siguiente: armonía',
+    'learn.scalesAndKeys.next.secondary': 'O explora escalas por todo el mástil en el Laboratorio de Mástil →',
 
     'learn.module1.name': 'Fundamentos musicales',
     'learn.module1.summary': 'Nombres de las notas, las doce clases de altura, semitonos, enarmonías.',
